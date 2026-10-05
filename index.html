@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1d6bff">
 <meta name="description" content="Portal layanan sekolah: legalisir, pelacakan, buku tamu, prestasi, program, dan karya siswa.">
-<title>CALM School Hub · Layanan Sekolah Digital · v2.1</title>
+<title>CALM School Hub · Layanan Sekolah Digital · v2.3.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -110,10 +110,10 @@ input:hover,select:hover,textarea:hover{border-color:#b9d0f5}input:focus,select:
 <section class="s" id="ekspresi"><div class="wrap"><div class="hd"><h2>Ekspresi siswa</h2><p>Tulisan dan karya siswa yang sudah dimoderasi sekolah.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
 </main>
 <footer><div class="wrap"><span>© <span id="yr"></span> CALM School Hub</span><span style="display:flex;gap:20px;flex-wrap:wrap"><span>Legalisir, pelacakan, dan buku tamu</span><a href="#admin" id="adm" style="color:inherit;opacity:.75">Masuk admin</a></span></div></footer>
-<div class="ov" id="ov" onclick="if(event.target===this)closeM()"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
+<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbwLKSwf_U0F0TAmT6afNhRzt5SBTRwt4mZgoS6V2P_oHTbvdrBxojUk1p7AlXwXVvy6ig/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbySW1--9EISAq6ODtu-JzsFQxi4_k_hdoNN3mb0IX5oPNfyLJY4qAm-iGGvcIjYO1pgmQ/exec';
 /* Petunjuk saat situs memanggil deployment Apps Script yang usang. */
 const apiHint=j=>j&&j.code==='ACTION_NOT_FOUND'?' [Situs memanggil …'+API_URL.slice(-34)+' — samakan dengan URL /exec terbaru Anda]':'';
 const STEPS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai'];
@@ -233,9 +233,15 @@ mading:a=>`<div class="lst">${a.map(x=>`<details><summary>${esc(x.judul)}</summa
 karya:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.judul)}</b><div class="m">${x.jenis?`<span class="tag">${esc(x.jenis)}</span>`:''}<span>${esc([x.pembuat,x.tanggal].filter(Boolean).join(' – '))}</span></div><div style="margin-top:8px">${lnk(x.url)}</div></li>`).join('')}</ul>`};
 const INFO={statistik:['Sekolah dalam angka','Ringkasan data sekolah yang sudah diverifikasi.'],prestasi:['Prestasi & lomba','Capaian siswa dan sekolah.'],program:['Program sekolah','Kegiatan sekolah dan tingkat keterlaksanaannya.'],organisasi:['Organisasi siswa','Organisasi dan ekstrakurikuler yang aktif.'],mading:['Mading digital','Tulisan siswa yang sudah dimoderasi.'],karya:['Karya siswa','Karya kreatif dari siswa.']};
 const cache={};let tok=0,lastFocus;
+const DRAFT_PREFIX='calm_service_draft_';
+function draftKey(sid){return DRAFT_PREFIX+sid}
+function saveServiceDraft(f,sid){try{const o={};[...f.elements].forEach(e=>{if(e.name&&e.type!=='submit'&&e.type!=='button')o[e.name]=e.value});sessionStorage.setItem(draftKey(sid),JSON.stringify(o))}catch(e){}}
+function restoreServiceDraft(f,sid){try{const o=JSON.parse(sessionStorage.getItem(draftKey(sid))||'{}');Object.entries(o).forEach(([k,v])=>{if(f.elements[k])f.elements[k].value=v})}catch(e){}}
+function clearServiceDraft(sid){try{sessionStorage.removeItem(draftKey(sid))}catch(e){}}
+function wireServiceDraft(f,sid){restoreServiceDraft(f,sid);f.addEventListener('input',()=>saveServiceDraft(f,sid));f.addEventListener('change',()=>saveServiceDraft(f,sid))}
 
 function openM(k,pre,kode){lastFocus=document.activeElement;const t=++tok;
- if(k==='service'||SERVICE_UI.some(a=>a[0]===k)){const sid=k==='service'?(pre||'surat_aktif'):k,x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];$('mt').textContent=x[2];$('md').textContent=x[3];$('mb').innerHTML=serviceForm(sid);const d=document.querySelector('[name=tanggalDiperlukan]');if(d)d.min=tglIni();$('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>document.querySelector('#mb input:not([type=hidden])')?.focus(),50);return}
+ if(k==='service'||SERVICE_UI.some(a=>a[0]===k)){const sid=k==='service'?(pre||'surat_aktif'):k,x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];$('mt').textContent=x[2];$('md').textContent=x[3];$('mb').innerHTML=serviceForm(sid);const f=document.querySelector('#mb form');if(f)wireServiceDraft(f,sid);const d=document.querySelector('[name=tanggalDiperlukan]');if(d)d.min=tglIni();$('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>document.querySelector('#mb input:not([type=hidden])')?.focus(),50);return}
  const base={legal:['Pengajuan legalisir','Isi data berikut agar dokumen bisa disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor pengajuan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya butuh satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau ceritamu untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatifmu untuk ditampilkan di sekolah.',kKarya]}[k];
  if(base){$('mt').textContent=base[0];$('md').textContent=base[1];$('mb').innerHTML=base[2];
   const d=document.querySelector('[name=tanggalAmbil]');if(d)d.min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
@@ -279,7 +285,7 @@ async function submitForm(e,action,label){e.preventDefault();const f=e.target,b=
  try{const d=new URLSearchParams(new FormData(f));d.append('action',action);
   const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error((j.message||'Data belum dapat diproses. Periksa kembali isian Anda.')+apiHint(j));
   show(action==='submitTamu'?'<h4>Kunjungan Anda tercatat</h4>Terima kasih sudah berkunjung ke sekolah kami.':action==='submitEkspresi'?'<h4>Terima kasih!</h4>Kiriman Anda sudah diterima dan akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan <b>nomor dan kode pelacakan</b> untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin nomor</button></div><div class="nomor"><span id="kc">${esc(j.kodeLacak||'-')}</span><button type="button" class="btn s" onclick="copyCode(this)">Salin kode</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
-  f.reset();if(f.jumlah)f.jumlah.value=1}
+  if(action==='submitLayanan')clearServiceDraft(f.jenisLayanan.value);f.reset();if(f.jumlah)f.jumlah.value=1}
  catch(err){show('<h4>Data belum terkirim</h4>'+esc(err.message),'err')}finally{b.disabled=false;b.textContent=label}}
 function copyCode(b){const t=$('kc').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>b.textContent='Tersalin').catch(()=>b.textContent='Salin manual');else b.textContent='Salin manual'}
 function copyNo(b){const t=$('nm').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Tersalin').catch(()=>{const r=document.createRange();r.selectNodeContents($('nm'));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent='Pilih & salin'})}
