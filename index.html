@@ -138,10 +138,10 @@ for(const [s,items] of Object.entries(SECTIONS))$('g-'+s).innerHTML=items.map(([
 /* Formulir */
 const legal=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan')" novalidate>
 <label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
-<label>NIS / NISN<input name="nis" required maxlength="30" inputmode="numeric"></label>
+<label>NISN<input name="nis" required maxlength="10" minlength="10" pattern="[0-9]{10}" title="NISN terdiri dari 10 angka" inputmode="numeric" placeholder="10 angka" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></label>
 <label>Tahun lulus<input name="tahunLulus" required type="number" min="2000" max="2100" placeholder="2024"></label>
 <label>Jurusan<input name="jurusan" required maxlength="100"></label>
-<label>Nomor WhatsApp<input name="whatsapp" required maxlength="30" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
+<label>Nomor WhatsApp<input name="whatsapp" required maxlength="16" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
 <label>Jenis dokumen<select name="jenisDokumen" required><option value="">Pilih dokumen</option><option>Ijazah</option><option>SKL</option><option>Rapor</option><option>Dokumen lainnya</option></select></label>
 <label>Jumlah rangkap<input name="jumlah" required type="number" min="1" max="20" value="1"></label>
 <label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
@@ -161,9 +161,9 @@ const trackF=`<form onsubmit="track(event)" novalidate><label class="full">Nomor
 const surat=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan')" novalidate>
 <input type="hidden" name="tahunLulus" value="${new Date().getFullYear()}"><input type="hidden" name="jumlah" value="1">
 <label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
-<label>NIS / NISN<input name="nis" required maxlength="30" inputmode="numeric"></label>
+<label>NISN<input name="nis" required maxlength="10" minlength="10" pattern="[0-9]{10}" title="NISN terdiri dari 10 angka" inputmode="numeric" placeholder="10 angka" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></label>
 <label>Kelas / jurusan<input name="jurusan" required maxlength="100" placeholder="XII TKJ 1"></label>
-<label>Nomor WhatsApp<input name="whatsapp" required maxlength="30" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
+<label>Nomor WhatsApp<input name="whatsapp" required maxlength="16" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
 <label>Jenis surat<select name="jenisDokumen" required><option value="">Pilih surat</option><option>Surat Keterangan Siswa Aktif</option><option>Surat Keterangan Alumni</option><option>Surat Rekomendasi</option><option>Surat Pindah / Mutasi</option><option>Surat Izin / Dispensasi</option><option>Surat lainnya</option></select></label>
 <label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
 <label class="full">Keperluan surat<textarea name="catatan" required maxlength="300" placeholder="Contoh: persyaratan beasiswa, melamar kerja…"></textarea></label>
@@ -217,9 +217,25 @@ async function call(url,opt){const c=new AbortController(),t=setTimeout(()=>c.ab
  try{return await(await fetch(url,{...opt,signal:c.signal})).json()}
  catch(e){throw Error(e.name==='AbortError'?'Server tidak merespons. Coba lagi sebentar lagi.':'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')}finally{clearTimeout(t)}}
 
+/* Validasi formulir */
+const NAME_RE=/^[\p{L}][\p{L} .,'’-]{2,99}$/u;
+const normWA=v=>{let d=String(v||'').replace(/[\s().-]/g,'');if(d.startsWith('+62'))d='0'+d.slice(3);else if(d.startsWith('62'))d='0'+d.slice(2);return d};
+const tglIni=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+function vForm(f){
+ const g=n=>f[n]?f[n].value.trim():'',E=(a,b)=>[a,b];
+ if(f.nama&&!NAME_RE.test(g('nama')))return E('Nama belum sesuai','Gunakan huruf saja (minimal 3 karakter), tanpa angka atau simbol.');
+ if(f.nis&&!/^[0-9]{10}$/.test(g('nis')))return E('NISN belum sesuai','NISN harus tepat 10 angka (tanpa spasi atau huruf).');
+ if(f.whatsapp&&(f.whatsapp.required||g('whatsapp'))){const w=normWA(g('whatsapp'));if(!/^08[0-9]{8,11}$/.test(w))return E('Nomor WhatsApp belum sesuai','Gunakan nomor Indonesia berawalan 08 atau +62, 10–13 angka. Contoh: 081234567890.');f.whatsapp.value=w}
+ if(f.jurusan&&g('jurusan').length<2)return E('Kelas/jurusan belum sesuai','Isi minimal 2 karakter.');
+ if(f.asal&&g('asal').length<2)return E('Asal/instansi belum sesuai','Isi minimal 2 karakter.');
+ if(f.tahunLulus){const y=+g('tahunLulus'),c=new Date().getFullYear();if(!Number.isInteger(y)||y<2000||y>c+1)return E('Tahun lulus belum sesuai','Isi 4 digit tahun antara 2000 dan '+(c+1)+'.')}
+ if(f.tanggalAmbil){const t=g('tanggalAmbil'),mx=new Date(Date.now()+366*864e5).toISOString().slice(0,10);if(t<tglIni()||t>mx)return E('Tanggal pengambilan belum sesuai','Pilih tanggal mulai hari ini, maksimal 1 tahun ke depan.')}
+ if(f.judul&&g('judul').length<3)return E('Judul terlalu pendek','Isi minimal 3 karakter.');
+ if(f.isi&&g('isi').length<20)return E('Isi tulisan terlalu pendek','Tulis minimal 20 karakter.');
+ return null}
 async function submitForm(e,action,label){e.preventDefault();const f=e.target,b=$('sb');
  const bad=[...f.elements].find(x=>x.name&&!x.checkValidity());if(bad)return bad.reportValidity();
- const w=f.whatsapp?f.whatsapp.value.trim():'';if(f.whatsapp&&(action==='submitLegalisir'||w)&&!/^\+?[0-9 ()-]{8,20}$/.test(w))return show('<h4>Nomor WhatsApp belum sesuai</h4>Gunakan 8–20 angka, contoh 081234567890.','err');
+ const ve=vForm(f);if(ve)return show('<h4>'+ve[0]+'</h4>'+ve[1],'err');
  b.disabled=true;b.textContent='Mengirim…';$('res').className='res';
  try{const d=new URLSearchParams(new FormData(f));d.append('action',action);
   const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error(j.message||'Data belum dapat diproses. Periksa kembali isian Anda.');
