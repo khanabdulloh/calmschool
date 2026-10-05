@@ -202,7 +202,7 @@ function openM(k,pre){lastFocus=document.activeElement;const t=++tok;
   const d=document.querySelector('[name=tanggalAmbil]');if(d)d.min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
   if(pre){const n=document.querySelector('[name=nomor]');if(n)n.value=pre}}
  else{$('mt').textContent=INFO[k][0];$('md').textContent=INFO[k][1];load(k,t)}
- $('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{const i=document.querySelector('#mb input,#mb button');i&&i.focus()},50)}
+ $('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{const i=document.querySelector('#mb input:not([type=hidden]),#mb textarea,#mb select,#mb button');i&&i.focus()},50)}
 function closeM(){tok++;$('ov').classList.remove('show');document.body.style.overflow='';lastFocus&&lastFocus.focus&&lastFocus.focus()}
 
 async function load(k,t){
@@ -215,7 +215,7 @@ async function load(k,t){
 function show(html,type){const r=$('res');r.className='res show '+(type||'');r.innerHTML=html;r.scrollIntoView({behavior:'smooth',block:'nearest'})}
 async function call(url,opt){const c=new AbortController(),t=setTimeout(()=>c.abort(),20000);
  try{return await(await fetch(url,{...opt,signal:c.signal})).json()}
- catch(e){throw Error(e.name==='AbortError'?'Server tidak merespons. Coba lagi sebentar lagi.':'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')}finally{clearTimeout(t)}}
+ catch(e){throw Error(e.name==='AbortError'?'Server tidak merespons. Coba lagi sebentar lagi.':e instanceof SyntaxError?'Respons server tidak valid. Hubungi petugas sekolah.':'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')}finally{clearTimeout(t)}}
 
 /* Validasi formulir */
 const NAME_RE=/^[\p{L}][\p{L} .,'’-]{2,99}$/u;
@@ -285,6 +285,7 @@ function igReveal(el){el.classList.add('on');el.querySelectorAll('[data-n]').for
  if(reduced)return b.textContent=fmt(to);const f=t=>{const p=Math.min(1,(t-t0)/1100);b.textContent=fmt(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 async function loadIG(){const box=$('ig'),demo=/[?&]demo=1(&|$)/.test(location.search),ks=['statistik','prestasi','program','organisasi'];
  const get=async k=>{if(demo)return DEMO[k];if(cache[k])return cache[k];const j=await call(API_URL+'?action=list&modul='+k);if(!j.ok)throw Error(j.message);return cache[k]=j.items||[]};
+ if(!demo){try{const j=await call(API_URL+'?action=bulk&modul='+ks.join(','));if(j.ok&&j.data)ks.forEach(k=>{if(Array.isArray(j.data[k]))cache[k]=j.data[k]})}catch(e){}}
  const r=await Promise.allSettled(ks.map(get));
  if(r.every(x=>x.status==='rejected'))return box.innerHTML='<div class="empty"><b>Infografis belum dapat dimuat</b>Coba muat ulang halaman beberapa saat lagi.</div>';
  const D={};ks.forEach((k,i)=>D[k]=r[i].status==='fulfilled'?r[i].value:[]);
@@ -294,7 +295,7 @@ async function loadIG(){const box=$('ig'),demo=/[?&]demo=1(&|$)/.test(location.s
 loadIG();
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
-const q=new URLSearchParams(location.search).get('nomor');if(q)openM('track',q);
+const q=new URLSearchParams(location.search).get('nomor');if(q){openM('track',q);const tf=document.querySelector('#mb form');if(tf)track({preventDefault(){},target:tf})}
 </script>
 
 <script>
@@ -332,11 +333,11 @@ $('lo').onclick=()=>logout();$('rf').onclick=()=>loadTab(true);
 
 /* tab & data */
 root.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;tab=b.dataset.t;filter='Semua';q='';day='';
- root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));loadTab()});
-async function loadTab(force){if(data[tab]&&!force)return render();
- $('ct').innerHTML='<div class="empty">Memuat data…</div>';
- try{data[tab]=(await api('adminList',{modul:tab})).items;render()}
- catch(e){if(token)$('ct').innerHTML=`<div class="empty"><b>Data belum dapat dimuat</b>${esc(e.message)}<br><br><button class="btn s" data-retry="1">Coba lagi</button></div>`}}
+ root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));if(data[tab]){render();loadTab(true,true)}else loadTab()});
+async function loadTab(force,silent){const t=tab;if(data[t]&&!force)return render();
+ if(!silent)$('ct').innerHTML='<div class="empty">Memuat data…</div>';
+ try{const items=(await api('adminList',{modul:t})).items;data[t]=items;if(t===tab)render()}
+ catch(e){if(token&&t===tab&&!silent)$('ct').innerHTML=`<div class="empty"><b>Data belum dapat dimuat</b>${esc(e.message)}<br><br><button class="btn s" data-retry="1">Coba lagi</button></div>`}}
 
 function render(){tab==='legalisir'?rLegal():tab==='tamu'?rTamu():rData()}
 function keepFocus(fn){const a=root.activeElement,id=a&&a.id,pos=a&&a.selectionStart;fn();if(id){const n=$(id);if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(e){}}}}
@@ -408,7 +409,7 @@ function openDetail(nomor){const x=data.legalisir.find(r=>r.nomor===nomor);if(!x
  const upd=()=>$('wl').href=waLink(x,$('st').value,$('cn').value.trim());upd();$('st').onchange=upd;$('cn').oninput=upd;
  $('sv').onclick=async()=>{const b=$('sv');b.disabled=true;b.textContent='Menyimpan…';
   try{const st=$('st').value,cn=$('cn').value.trim();await api('adminUpdateLegalisir',{nomor:x.nomor,status:st,catatanAdmin:cn});
-   x.status=st;x.catatanAdmin=cn;x.diperbarui=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16).replace('T',' ');render();toast('Perubahan disimpan')}
+   x.status=st;x.catatanAdmin=cn;x.diperbarui=(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes())})();render();toast('Perubahan disimpan')}
   catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Simpan perubahan'}};
  $('ov').classList.add('show');void 0}
 function closeM(){$('ov').classList.remove('show');void 0}
