@@ -108,7 +108,9 @@ input:hover,select:hover,textarea:hover{border-color:#b9d0f5}input:focus,select:
 <div class="ov" id="ov" onclick="if(event.target===this)closeM()"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbwLKSwf_U0F0TAmT6afNhRzt5SBTRwt4mZgoS6V2P_oHTbvdrBxojUk1p7AlXwXVvy6ig/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbySW1--9EISAq6ODtu-JzsFQxi4_k_hdoNN3mb0IX5oPNfyLJY4qAm-iGGvcIjYO1pgmQ/exec';
+/* Petunjuk saat situs memanggil deployment Apps Script yang usang. */
+const apiHint=j=>j&&j.code==='ACTION_NOT_FOUND'?' [Situs memanggil …'+API_URL.slice(-34)+' — samakan dengan URL /exec terbaru Anda]':'';
 const STEPS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai'];
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -238,7 +240,7 @@ async function submitForm(e,action,label){e.preventDefault();const f=e.target,b=
  const ve=vForm(f);if(ve)return show('<h4>'+ve[0]+'</h4>'+ve[1],'err');
  b.disabled=true;b.textContent='Mengirim…';$('res').className='res';
  try{const d=new URLSearchParams(new FormData(f));d.append('action',action);
-  const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error(j.message||'Data belum dapat diproses. Periksa kembali isian Anda.');
+  const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error((j.message||'Data belum dapat diproses. Periksa kembali isian Anda.')+apiHint(j));
   show(action==='submitTamu'?'<h4>Kunjungan Anda tercatat</h4>Terima kasih sudah berkunjung ke sekolah kami.':action==='submitEkspresi'?'<h4>Terima kasih!</h4>Kiriman Anda sudah diterima dan akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan nomor ini untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
   f.reset();if(f.jumlah)f.jumlah.value=1}
  catch(err){show('<h4>Data belum terkirim</h4>'+esc(err.message),'err')}finally{b.disabled=false;b.textContent=label}}
@@ -316,7 +318,7 @@ async function api(action,extra={}){
  const c=new AbortController(),t=setTimeout(()=>c.abort(),25000);
  try{const j=await(await fetch(API_URL,{method:'POST',body:d,signal:c.signal})).json();
   if(!j.ok&&j.code==='UNAUTHORIZED'){logout(j.message);throw Error(j.message)}
-  if(!j.ok)throw Error(j.message||'Permintaan gagal.');return j}
+  if(!j.ok)throw Error((j.message||'Permintaan gagal.')+apiHint(j));return j}
  catch(e){if(e.name==='AbortError')throw Error('Server tidak merespons. Coba lagi.');if(e instanceof TypeError)throw Error('Tidak dapat terhubung ke server.');if(e instanceof SyntaxError)throw Error('Respons server tidak valid. Pastikan Web App sudah di-deploy versi terbaru.');throw e}
  finally{clearTimeout(t)}}
 function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;root.appendChild(e);setTimeout(()=>e.remove(),2600)}
