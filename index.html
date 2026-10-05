@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1d6bff">
 <meta name="description" content="Portal layanan sekolah: legalisir, pelacakan, buku tamu, prestasi, program, dan karya siswa.">
-<title>CALM School Hub · Layanan Sekolah Digital · v2.3.2</title>
+<title>CALM School Hub · Layanan Sekolah Digital · v2.3.3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -357,7 +357,7 @@ root.innerHTML='<style>'+CSS+'</style><div class="adm">'+HTML+'</div>';document.
 const STATUS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai','Perlu Perbaikan'];
 const $=id=>root.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let token=null,tab='dashboard',data={},filter='Semua',q='',day='',svcFilter='Semua',prioFilter='Semua',lateOnly=false,unassignedOnly=false,dash=null;
+let token=null,role='',me={},tab='dashboard',data={},filter='Semua',q='',day='',svcFilter='Semua',prioFilter='Semua',lateOnly=false,unassignedOnly=false,dash=null;
 try{token=sessionStorage.getItem('calm_adm')}catch(e){}
 
 async function api(action,extra={}){
@@ -375,10 +375,10 @@ $('peek').onclick=()=>{const p=$('pw'),on=p.type==='password';p.type=on?'text':'
 $('lf').addEventListener('submit',async e=>{e.preventDefault();const b=$('lb'),er=$('le');er.hidden=true;
  if(!$('usr').value.trim()||!$('pw').value){er.textContent='Masukkan username dan password.';er.hidden=false;return}
  b.disabled=true;b.textContent='Memeriksa…';token=null;
- try{const j=await api('adminLogin',{user:$('usr').value.trim(),password:$('pw').value});token=j.token;try{sessionStorage.setItem('calm_adm',token)}catch(x){}$('pw').value='';start()}
+ try{const j=await api('adminLogin',{user:$('usr').value.trim(),password:$('pw').value});token=j.token;role=j.role||'';me=j;try{sessionStorage.setItem('calm_adm',token);sessionStorage.setItem('calm_adm_role',role);sessionStorage.setItem('calm_adm_name',j.nama||'')}catch(x){}$('pw').value='';start()}
  catch(err){er.textContent=err.message;er.hidden=false;$('pw').select()}finally{b.disabled=false;b.textContent='Masuk'}});
-async function start(){$('login').hidden=true;$('app').hidden=false;tab='dashboard';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));await Promise.all([loadDashboard(),...['layanan','petugas','legalisir','statistik','prestasi','program','organisasi','mading','karya'].map(loadSpecific)]);render()}
-function logout(msg){if(token)api('adminLogout').catch(()=>{});token=null;data={};try{sessionStorage.removeItem('calm_adm')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
+async function start(){if(!role&&token){try{const j=await api('adminSession');role=j.role||'';me=j}catch(e){logout(e.message);return}}$('login').hidden=true;$('app').hidden=false;tab='dashboard';const akun=root.querySelector('[data-t=akun]');if(akun)akun.hidden=role!=='SUPER_ADMIN';if($('roleLabel'))$('roleLabel').textContent=role==='SUPER_ADMIN'?'Super Admin':'Admin / Petugas';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));await Promise.all([loadDashboard(),...['layanan','petugas','legalisir','statistik','prestasi','program','organisasi','mading','karya'].map(loadSpecific),role==='SUPER_ADMIN'?loadSpecific('akun'):Promise.resolve()]);render()}
+function logout(msg){if(token)api('adminLogout').catch(()=>{});token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
 $('lo').onclick=()=>logout();$('rf').onclick=()=>tab==='dashboard'?Promise.all([loadDashboard(),...['layanan','petugas','legalisir','statistik','prestasi','program','organisasi','mading','karya'].map(loadSpecific)]).then(()=>render()):loadTab(true);
 
 /* tab & data */
@@ -391,7 +391,7 @@ async function loadTab(force,silent){const t=tab;if(data[t]&&!force)return rende
  try{const items=(await api('adminList',{modul:t})).items;data[t]=items;if(t===tab)render()}
  catch(e){if(token&&t===tab&&!silent)$('ct').innerHTML=`<div class="empty"><b>Data belum dapat dimuat</b>${esc(e.message)}<br><br><button class="btn s" data-retry="1">Coba lagi</button></div>`}}
 
-function render(){tab==='dashboard'?rDashboard():tab==='layanan'?rLayanan():tab==='petugas'?rPetugas():tab==='legalisir'?rLegal():tab==='tamu'?rTamu():rData()}
+function render(){tab==='dashboard'?rDashboard():tab==='layanan'?rLayanan():tab==='petugas'?rPetugas():tab==='akun'?rAkun():tab==='legalisir'?rLegal():tab==='tamu'?rTamu():rData()}
 function rDashboard(){
  const d=dash||{metrics:{total:(data.layanan||[]).length,done:0,active:0,late:0,dueToday:0,urgent:0,unassigned:0,completedMonth:0,avgCompletionDays:0,slaCompletionRate:100},byStatus:{},byPriority:{},services:[],recent:[]};
  const m=d.metrics||{}, total=m.total||0, rows=Object.entries(d.byStatus||{}); const max=Math.max(...rows.map(x=>x[1]),1);
@@ -405,12 +405,28 @@ function rDashboard(){
 function keepFocus(fn){const a=root.activeElement,id=a&&a.id,pos=a&&a.selectionStart;fn();if(id){const n=$(id);if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(e){}}}}
 const tagCls=s=>s==='Selesai'||s==='Siap Diambil'?'ok':s==='Perlu Perbaikan'?'wn':'';
 
+function rAkun(){
+ const all=data.akun||[],qq=q.toLowerCase(),list=all.filter(x=>!qq||[x.username,x.nama,x.role,x.petugasId,x.status].join(' ').toLowerCase().includes(qq));
+ $('ct').innerHTML=`<div class="hd"><h2>Akun admin</h2><p>Super Admin mengelola akun operasional Admin / Petugas. Password tidak ditampilkan kembali.</p></div><div class="toolbar"><input id="sq" placeholder="Cari username / nama / petugas…" value="${esc(q)}"><button class="btn p" data-add-akun>+ Tambah akun</button></div><div class="list">${list.length?list.map(x=>`<button class="row" data-arow="${esc(x._row)}"><div><b>${esc(x.nama)}</b><small>@${esc(x.username)} · ${esc(x.petugasId||'Tanpa tautan petugas')}</small></div><div><b style="font-size:13px">Admin / Petugas</b><small>${esc(x.diperbarui||x.dibuat||'')}</small></div><span class="tag ${x.status==='Aktif'?'ok':'wn'}">${esc(x.status||'Aktif')}</span></button>`).join(''):'<div class="empty"><b>Belum ada akun operasional</b>Buat akun pertama untuk Admin / Petugas.</div>'}</div>`;
+ const sq=$('sq');if(sq)sq.oninput=e=>{q=e.target.value;render()};
+}
+function openAccountDetail(row){
+ if(role!=='SUPER_ADMIN'){toast('Hanya Super Admin yang dapat mengelola akun.');return}
+ const x=row?(data.akun||[]).find(r=>String(r._row)===String(row)):null,isNew=!x;
+ $('mt').textContent=isNew?'Tambah akun Admin / Petugas':'Edit akun Admin / Petugas';$('ms').textContent=isNew?'Buat akses operasional baru.':'Perbarui identitas atau status akun.';
+ const staff=(data.petugas||[]).filter(p=>p.status==='Aktif');
+ $('mb').innerHTML=`<div class="fm"><label>Username<input id="an" value="${esc(x?.username||'')}" maxlength="50" ${isNew?'':'readonly'} placeholder="contoh: operator.tu"></label><label>Nama pengguna<input id="anm" value="${esc(x?.nama||'')}" maxlength="100"></label><label>Petugas terkait <span>(opsional)</span><select id="apt"><option value="">— Tidak ditautkan —</option>${staff.map(p=>`<option value="${esc(p.id)}"${p.id===x?.petugasId?' selected':''}>${esc(p.nama)} · ${esc(p.id)}</option>`).join('')}</select></label><label>Status<select id="ast"><option${x?.status!=='Nonaktif'?' selected':''}>Aktif</option><option${x?.status==='Nonaktif'?' selected':''}>Nonaktif</option></select></label><label>Password ${isNew?'':'baru '}<span>${isNew?'(minimal 8 karakter)':'(kosongkan jika tidak diganti)'}</span><input id="apw" type="password" minlength="8" maxlength="200" autocomplete="new-password"></label><div class="acts"><button class="btn p" id="asv">${isNew?'Buat akun':'Simpan perubahan'}</button>${!isNew&&x.status==='Aktif'?'<button class="btn" id="ade">Nonaktifkan</button>':''}</div></div>`;
+ $('asv').onclick=async()=>{const b=$('asv'),o={username:$('an').value.trim().toLowerCase(),nama:$('anm').value.trim(),petugasId:$('apt').value,status:$('ast').value,password:$('apw').value};if(!o.username||!o.nama||(isNew&&!o.password)){toast('Lengkapi data akun.');return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSaveAccount',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM();await loadSpecific('akun');if(tab==='akun')render();toast(isNew?'Akun dibuat':'Akun diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Buat akun':'Simpan perubahan'}};
+ if($('ade'))$('ade').onclick=async()=>{const b=$('ade');b.disabled=true;try{await api('adminDeleteAccount',{row:x._row,sig:x._sig});closeM();await loadSpecific('akun');render();toast('Akun dinonaktifkan')}catch(e){toast(e.message)}finally{b.disabled=false}};
+ $('ov').classList.add('show');
+}
+
 function rPetugas(){
  const all=data.petugas||[],qq=q.toLowerCase(),list=all.filter(x=>!qq||[x.id,x.nama,x.jabatan,x.layanan,x.whatsapp,x.email,x.status].join(' ').toLowerCase().includes(qq));
- keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari nama, jabatan, layanan, atau ID petugas…" value="${esc(q)}"><button class="btn p" data-add-petugas="1">+ Tambah petugas</button></div>
+ keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari nama, jabatan, layanan, atau ID petugas…" value="${esc(q)}">${role==='SUPER_ADMIN'?'<button class="btn p" data-add-petugas="1">+ Tambah petugas</button>':''}</div>
  <div class="attention"><span class="chip">Total<b>${all.length}</b></span><span class="chip">Aktif<b>${all.filter(x=>x.status==='Aktif').length}</b></span><span class="chip">Nonaktif<b>${all.filter(x=>x.status!=='Aktif').length}</b></span></div>
  <div class="list">${list.length?list.map(x=>`<button class="row" data-prow="${esc(x._row)}"><div><b>${esc(x.nama)}</b><small>${esc(x.jabatan||'Petugas layanan')} · ${esc(x.id)}</small></div><div><b style="font-size:13px">${esc(x.layanan||'Semua layanan')}</b><small>${esc(x.whatsapp||x.email||'Kontak belum diisi')}</small></div><span class="tag ${x.status==='Aktif'?'ok':'wn'}">${esc(x.status||'Aktif')}</span></button>`).join(''):'<div class="empty"><b>Belum ada petugas</b>Tambahkan operator atau petugas layanan pertama.</div>'}</div>`})}
-function openPetugasDetail(row){
+function openPetugasDetail(row){if(role!=='SUPER_ADMIN'){toast('Hanya Super Admin yang dapat mengelola data petugas.');return}
  const x=(data.petugas||[]).find(r=>String(r._row)===String(row));const isNew=!x;
  $('mt').textContent=isNew?'Tambah petugas':'Kelola petugas';$('ms').textContent=isNew?'Data petugas dipakai untuk pembagian pekerjaan layanan.':(x.id+' · '+x.nama);
  const v=k=>x?x[k]||'':'';
@@ -444,7 +460,7 @@ function rTamu(){const all=data.tamu||[],qq=q.toLowerCase(),dd=day?day.split('-'
 
 $('ct').addEventListener('input',e=>{if(e.target.id==='qs'){q=e.target.value;render()}if(e.target.id==='dy'){day=e.target.value;render()}});
 $('ct').addEventListener('change',e=>{if(e.target.id==='sf'){svcFilter=e.target.value;render()}if(e.target.id==='pf'){prioFilter=e.target.value;render()}});
-$('ct').addEventListener('click',e=>{if(e.target.closest('[data-refresh-dash]'))return Promise.all([loadDashboard(),...['layanan','petugas','legalisir','statistik','prestasi','program','organisasi','mading','karya'].map(loadSpecific)]).then(()=>render());const j=e.target.closest('[data-jump]');if(j){tab=j.dataset.jump;root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return loadTab(true)}if(e.target.closest('[data-retry]'))return loadTab(true);if(e.target.closest('[data-late-filter]')){lateOnly=!lateOnly;unassignedOnly=false;tab='layanan';filter='Semua';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}if(e.target.closest('[data-late]')||e.target.closest('[data-unassigned]')){lateOnly=!!e.target.closest('[data-late]');unassignedOnly=!!e.target.closest('[data-unassigned]');svcFilter='Semua';prioFilter='Semua';filter='Semua';tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}const rt=e.target.closest('[data-ticket]');if(rt){tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));const x=(data.layanan||[]).find(a=>a.nomor===rt.dataset.ticket);if(x)openLayananDetail(x._row);return}const f=e.target.closest('[data-f]'),n=e.target.closest('[data-n]'),lr=e.target.closest('[data-lrow]'),pr=e.target.closest('[data-prow]');if(pr)openPetugasDetail(pr.dataset.prow);else if(f){filter=f.dataset.f;render()}else if(n)openDetail(n.dataset.n);else if(lr)openLayananDetail(lr.dataset.lrow);else if(e.target.closest('[data-add-petugas]'))openPetugasDetail();else if(e.target.closest('[data-add]'))openEdit();else{const r=e.target.closest('[data-r]');if(r)openEdit(r.dataset.r)}});
+$('ct').addEventListener('click',e=>{if(e.target.closest('[data-refresh-dash]'))return Promise.all([loadDashboard(),...['layanan','petugas','legalisir','statistik','prestasi','program','organisasi','mading','karya'].map(loadSpecific)]).then(()=>render());const j=e.target.closest('[data-jump]');if(j){tab=j.dataset.jump;root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return loadTab(true)}if(e.target.closest('[data-retry]'))return loadTab(true);if(e.target.closest('[data-late-filter]')){lateOnly=!lateOnly;unassignedOnly=false;tab='layanan';filter='Semua';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}if(e.target.closest('[data-late]')||e.target.closest('[data-unassigned]')){lateOnly=!!e.target.closest('[data-late]');unassignedOnly=!!e.target.closest('[data-unassigned]');svcFilter='Semua';prioFilter='Semua';filter='Semua';tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}const rt=e.target.closest('[data-ticket]');if(rt){tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));const x=(data.layanan||[]).find(a=>a.nomor===rt.dataset.ticket);if(x)openLayananDetail(x._row);return}const f=e.target.closest('[data-f]'),n=e.target.closest('[data-n]'),lr=e.target.closest('[data-lrow]'),pr=e.target.closest('[data-prow]'),ar=e.target.closest('[data-arow]');if(ar)openAccountDetail(ar.dataset.arow);else if(pr)openPetugasDetail(pr.dataset.prow);else if(f){filter=f.dataset.f;render()}else if(n)openDetail(n.dataset.n);else if(lr)openLayananDetail(lr.dataset.lrow);else if(e.target.closest('[data-add-petugas]'))openPetugasDetail();else if(e.target.closest('[data-add-akun]'))openAccountDetail();else if(e.target.closest('[data-add]'))openEdit();else{const r=e.target.closest('[data-r]');if(r)openEdit(r.dataset.r)}});
 
 /* modul data: statistik, prestasi, program, organisasi, mading, karya
    field: [kunci, label, jenis(t teks|a area|y tahun|n angka|p persen|s pilihan|u url), wajib, maks, opsi] */
@@ -509,8 +525,8 @@ $('mx').onclick=closeM;$('ov').onclick=e=>{if(e.target===$('ov'))closeM()};docum
 
 
 
-function openAdmin(){host.classList.add('open');document.body.style.overflow='hidden';
- if(token){$('login').hidden=true;$('app').hidden=false;loadTab()}else{$('app').hidden=true;$('login').hidden=false;setTimeout(()=>$('usr').focus(),60)}}
+async function openAdmin(){host.classList.add('open');document.body.style.overflow='hidden';
+ if(token){try{const j=await api('adminSession');role=j.role||sessionStorage.getItem('calm_adm_role')||'';me=j}catch(e){logout(e.message);return}$('login').hidden=true;$('app').hidden=false;await start()}else{$('app').hidden=true;$('login').hidden=false;setTimeout(()=>$('usr').focus(),60)}}
 function closeAdmin(){host.classList.remove('open');document.body.style.overflow='';if(location.hash==='#admin')history.replaceState(null,'',location.pathname+location.search)}
 $('bk1').onclick=$('bk2').onclick=closeAdmin;
 const lnk=document.getElementById('adm');if(lnk)lnk.addEventListener('click',e=>{e.preventDefault();openAdmin()});
