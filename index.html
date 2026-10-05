@@ -130,7 +130,7 @@ $('lg').innerHTML=ic('cap');$('yr').textContent=new Date().getFullYear();
 
 /* Katalog modul: [kunci, ikon, judul, deskripsi, aksi, kelas] */
 const SECTIONS={
-layanan:[['legal','doc','Legalisir','Ajukan ijazah, SKL, atau rapor sebelum datang.','Ajukan','main'],['track','find','Lacak pengajuan','Cek status dengan nomor pengajuan.','Lacak'],['surat','mail','Pengajuan surat','Surat keterangan dan administrasi lainnya.','Segera hadir','soon'],['tamu','book','Buku tamu digital','Catat kunjungan Anda ke sekolah.','Isi buku tamu']],
+layanan:[['legal','doc','Legalisir','Ajukan ijazah, SKL, atau rapor sebelum datang.','Ajukan','main'],['track','find','Lacak pengajuan','Cek status dengan nomor pengajuan.','Lacak'],['surat','mail','Pengajuan surat','Surat keterangan dan administrasi lainnya.','Ajukan'],['tamu','book','Buku tamu digital','Catat kunjungan Anda ke sekolah.','Isi buku tamu']],
 informasi:[['statistik','chart','Sekolah dalam angka','Ringkasan data sekolah.','Lihat'],['prestasi','trophy','Prestasi & lomba','Capaian siswa dan sekolah.','Lihat'],['program','target','Program sekolah','Kegiatan dan perkembangannya.','Lihat'],['organisasi','users','Organisasi','OSIS, ekstrakurikuler, dan komunitas.','Lihat']],
 ekspresi:[['mading','news','Mading digital','Artikel, opini, dan cerita dari siswa.','Baca'],['karya','spark','Karya siswa','Desain, fotografi, ilustrasi, dan video.','Jelajahi']]};
 for(const [s,items] of Object.entries(SECTIONS))$('g-'+s).innerHTML=items.map(([k,i,t,d,a,c])=>`<button class="card ${c||''}" onclick="openM('${k}')">${s==='ekspresi'?`<span class="ic">${ic(i)}</span><div><h3>${t}</h3><p>${d}</p><em>${a} ${ic('go')}</em></div>`:`<span class="ic">${ic(i)}</span><h3>${t}</h3><p>${d}</p><em>${a}${c==='soon'?'':' '+ic('go')}</em>`}</button>`).join('');
@@ -157,6 +157,33 @@ const tamu=`<form onsubmit="submitForm(event,'submitTamu','Simpan kunjungan')" n
 <button class="btn p full" id="sb">Simpan kunjungan</button></form><div class="res" id="res" role="status"></div>`;
 const trackF=`<form onsubmit="track(event)" novalidate><label class="full">Nomor pengajuan<input name="nomor" required placeholder="LEG-261004-001" autocapitalize="characters" autocomplete="off"></label><button class="btn p full" id="tb">Lacak status</button></form><div class="res" id="res" role="status"></div>`;
 
+
+const surat=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan')" novalidate>
+<input type="hidden" name="tahunLulus" value="${new Date().getFullYear()}"><input type="hidden" name="jumlah" value="1">
+<label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
+<label>NIS / NISN<input name="nis" required maxlength="30" inputmode="numeric"></label>
+<label>Kelas / jurusan<input name="jurusan" required maxlength="100" placeholder="XII TKJ 1"></label>
+<label>Nomor WhatsApp<input name="whatsapp" required maxlength="30" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
+<label>Jenis surat<select name="jenisDokumen" required><option value="">Pilih surat</option><option>Surat Keterangan Siswa Aktif</option><option>Surat Keterangan Alumni</option><option>Surat Rekomendasi</option><option>Surat Pindah / Mutasi</option><option>Surat Izin / Dispensasi</option><option>Surat lainnya</option></select></label>
+<label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
+<label class="full">Keperluan surat<textarea name="catatan" required maxlength="300" placeholder="Contoh: persyaratan beasiswa, melamar kerja…"></textarea></label>
+<button class="btn p full" id="sb">Kirim pengajuan</button></form><div class="res" id="res" role="status"></div>`;
+const kMading=`<form onsubmit="submitForm(event,'submitEkspresi','Kirim tulisan')" novalidate><input type="hidden" name="modul" value="mading">
+<label class="full">Judul tulisan<input name="judul" required maxlength="150"></label>
+<label>Kategori<select name="kategori"><option>Opini</option><option>Cerita</option><option>Berita sekolah</option><option>Tips &amp; edukasi</option><option>Lainnya</option></select></label>
+<label>Nama penulis<input name="penulis" required maxlength="100" placeholder="Nama & kelas"></label>
+<label class="full">Isi tulisan<textarea name="isi" required maxlength="5000" style="min-height:160px"></textarea></label>
+<div class="note full" style="margin:0">Tulisan akan ditinjau petugas sekolah sebelum tampil di mading.</div>
+<button class="btn p full" id="sb">Kirim tulisan</button></form><div class="res" id="res" role="status"></div>`;
+const kKarya=`<form onsubmit="submitForm(event,'submitEkspresi','Kirim karya')" novalidate><input type="hidden" name="modul" value="karya">
+<label class="full">Judul karya<input name="judul" required maxlength="150"></label>
+<label>Jenis<select name="jenis"><option>Desain</option><option>Fotografi</option><option>Ilustrasi</option><option>Video</option><option>Lainnya</option></select></label>
+<label>Nama pembuat<input name="pembuat" required maxlength="100" placeholder="Nama & kelas"></label>
+<label class="full">Tautan karya <span>(Google Drive / YouTube / Instagram)</span><input name="url" type="url" required maxlength="500" placeholder="https://…"></label>
+<div class="note full" style="margin:0">Pastikan tautan dapat dibuka publik. Karya ditinjau petugas sebelum tampil.</div>
+<button class="btn p full" id="sb">Kirim karya</button></form><div class="res" id="res" role="status"></div>`;
+const cta=k=>k==='mading'||k==='karya'?`<button class="btn p" style="margin-top:18px" onclick="openM('kirim-${k}')">${k==='mading'?'Kirim tulisan Anda':'Kirim karya Anda'}</button>`:'';
+
 /* Penampil data (modul informasi & ekspresi) */
 const lnk=u=>/^https?:\/\//i.test(u||'')?`<a href="${esc(u)}" target="_blank" rel="noopener">Buka karya</a>`:'';
 const R={
@@ -170,7 +197,7 @@ const INFO={statistik:['Sekolah dalam angka','Ringkasan data sekolah yang sudah 
 const cache={};let tok=0,lastFocus;
 
 function openM(k,pre){lastFocus=document.activeElement;const t=++tok;
- const base={legal:['Pengajuan legalisir','Isi data berikut agar dokumen bisa disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor pengajuan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya butuh satu menit.',tamu],surat:['Pengajuan surat','Segera hadir.','<div class="note">Layanan ini sedang disiapkan. Untuk saat ini, gunakan Legalisir, Lacak Pengajuan, atau Buku Tamu.</div>']}[k];
+ const base={legal:['Pengajuan legalisir','Isi data berikut agar dokumen bisa disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor pengajuan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya butuh satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau ceritamu untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatifmu untuk ditampilkan di sekolah.',kKarya]}[k];
  if(base){$('mt').textContent=base[0];$('md').textContent=base[1];$('mb').innerHTML=base[2];
   const d=document.querySelector('[name=tanggalAmbil]');if(d)d.min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
   if(pre){const n=document.querySelector('[name=nomor]');if(n)n.value=pre}}
@@ -179,7 +206,7 @@ function openM(k,pre){lastFocus=document.activeElement;const t=++tok;
 function closeM(){tok++;$('ov').classList.remove('show');document.body.style.overflow='';lastFocus&&lastFocus.focus&&lastFocus.focus()}
 
 async function load(k,t){
- const draw=a=>{if(t!==tok)return;$('mb').innerHTML=a.length?R[k](a):'<div class="empty"><b>Belum ada data</b>Informasi akan tampil setelah petugas sekolah menerbitkannya.</div>'};
+ const draw=a=>{if(t!==tok)return;$('mb').innerHTML=cta(k)+(a.length?R[k](a):'<div class="empty"><b>Belum ada data</b>Informasi akan tampil setelah petugas sekolah menerbitkannya.</div>')};
  if(cache[k])return draw(cache[k]);
  $('mb').innerHTML='<div class="empty">Memuat data…</div>';
  try{const j=await call(API_URL+'?action=list&modul='+k);if(!j.ok)throw Error(j.message||'Data belum tersedia.');cache[k]=j.items||[];draw(cache[k])}
@@ -192,11 +219,11 @@ async function call(url,opt){const c=new AbortController(),t=setTimeout(()=>c.ab
 
 async function submitForm(e,action,label){e.preventDefault();const f=e.target,b=$('sb');
  const bad=[...f.elements].find(x=>x.name&&!x.checkValidity());if(bad)return bad.reportValidity();
- const w=f.whatsapp.value.trim();if((action==='submitLegalisir'||w)&&!/^\+?[0-9 ()-]{8,20}$/.test(w))return show('<h4>Nomor WhatsApp belum sesuai</h4>Gunakan 8–20 angka, contoh 081234567890.','err');
+ const w=f.whatsapp?f.whatsapp.value.trim():'';if(f.whatsapp&&(action==='submitLegalisir'||w)&&!/^\+?[0-9 ()-]{8,20}$/.test(w))return show('<h4>Nomor WhatsApp belum sesuai</h4>Gunakan 8–20 angka, contoh 081234567890.','err');
  b.disabled=true;b.textContent='Mengirim…';$('res').className='res';
  try{const d=new URLSearchParams(new FormData(f));d.append('action',action);
   const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error(j.message||'Data belum dapat diproses. Periksa kembali isian Anda.');
-  show(action==='submitTamu'?'<h4>Kunjungan Anda tercatat</h4>Terima kasih sudah berkunjung ke sekolah kami.':`<h4>Pengajuan berhasil dikirim</h4>Simpan nomor ini untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
+  show(action==='submitTamu'?'<h4>Kunjungan Anda tercatat</h4>Terima kasih sudah berkunjung ke sekolah kami.':action==='submitEkspresi'?'<h4>Terima kasih!</h4>Kiriman Anda sudah diterima dan akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan nomor ini untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
   f.reset();if(f.jumlah)f.jumlah.value=1}
  catch(err){show('<h4>Data belum terkirim</h4>'+esc(err.message),'err')}finally{b.disabled=false;b.textContent=label}}
 function copyNo(b){const t=$('nm').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Tersalin').catch(()=>{const r=document.createRange();r.selectNodeContents($('nm'));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent='Pilih & salin'})}
@@ -329,7 +356,7 @@ const vis=x=>!['tidak','false','0','n','no'].includes(String(x.tampil||'').trim(
 function rData(){const m=MOD[tab],all=data[tab]||[],qq=q.toLowerCase(),list=all.filter(x=>!qq||m.f.map(f=>x[f[0]]||'').join(' ').toLowerCase().includes(qq));
  keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari ${esc(m.n.toLowerCase())}" value="${esc(q)}"><button class="btn p" data-add="1">+ Tambah</button></div>
  <div class="chips"><span class="chip">Menampilkan<b>${list.length} dari ${all.length}</b></span></div>
- <div class="list">${list.length?list.map(x=>`<button class="row dr" data-r="${esc(x._row)}"><div><b>${esc(x[m.ti]||'(tanpa judul)')}</b><small>${esc(m.s1(x)||'-')}</small></div><div><small>${esc(m.s2(x)||'')}</small></div><span class="tag ${vis(x)?'ok':'wn'}">${vis(x)?'Tampil':'Disembunyikan'}</span></button>`).join(''):`<div class="empty"><b>Belum ada data ${esc(m.n.toLowerCase())}</b>Klik "+ Tambah" untuk menambahkan data pertama.</div>`}</div>`})}
+ <div class="list">${list.length?list.map(x=>`<button class="row dr" data-r="${esc(x._row)}"><div><b>${esc(x[m.ti]||'(tanpa judul)')}</b><small>${esc(m.s1(x)||'-')}</small></div><div><small>${esc(m.s2(x)||'')}</small></div><span class="tag ${vis(x)?'ok':'wn'}">${vis(x)?'Tampil':(tab==='mading'||tab==='karya'?'Perlu ditinjau':'Disembunyikan')}</span></button>`).join(''):`<div class="empty"><b>Belum ada data ${esc(m.n.toLowerCase())}</b>Klik "+ Tambah" untuk menambahkan data pertama.</div>`}</div>`})}
 
 function openEdit(row){const m=MOD[tab],x=row?(data[tab]||[]).find(r=>String(r._row)===String(row)):null;if(row&&!x)return;
  $('mt').textContent=(x?'Ubah ':'Tambah ')+m.n;$('ms').textContent='Perubahan langsung tampil di situs setelah disimpan.';
