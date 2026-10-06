@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1d6bff">
 <meta name="description" content="CALM School Hub — Panel Admin">
-<title>CALM School Hub · Panel Admin · v2.4.1</title>
+<title>CALM School Hub · Panel Admin · v2.5.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -63,6 +63,63 @@ input,select,textarea{border-radius:11px}
 .top{box-shadow:0 1px 0 rgba(15,23,42,.06)}
 .panel,.card,.box{border-radius:16px}
 .toast{border-radius:12px;box-shadow:0 12px 30px rgba(15,23,42,.14)}
+
+
+/* v2.5.1 responsive refinement */
+#app{min-height:100vh}
+.top .wrap{min-width:0}
+.top .wrap>div:last-child{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.dash-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.svc-tools{display:grid;grid-template-columns:minmax(220px,1fr) auto auto auto;gap:10px;margin-bottom:12px;align-items:center}
+.attention{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.hd{margin:22px 0 14px}.hd h2{margin:0}.hd p{margin:4px 0;color:var(--mut)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.toolbar input{flex:1;min-width:220px;width:auto}
+.submetric{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{padding:12px;border:1px solid var(--line);border-radius:13px;background:var(--bg)}.mini b{display:block;font-size:20px}.mini span{font-size:12px;color:var(--mut)}
+.recent{display:grid;gap:8px}.recent-item{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;padding:11px 12px;border:1px solid var(--line);background:#fff;border-radius:12px}.recent-item:hover{border-color:var(--azure)}.recent-item b,.recent-item small{display:block}.recent-item small{color:var(--mut);font-size:12px}
+.note{padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:13px;color:var(--mut)}.full{grid-column:1/-1}
+@media(max-width:820px){
+  #login{padding:18px}
+  .login-shell{width:min(560px,100%);border-radius:22px}
+  .lc{padding:30px 24px}
+  .lc h1{font-size:23px}
+  .top .wrap{height:auto;min-height:64px;padding-top:10px;padding-bottom:10px;align-items:flex-start}
+  .top .wrap>div:last-child{width:100%;justify-content:flex-start}
+  .brand{min-width:0}.brand>div{min-width:0}.brand b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dash-hero{align-items:stretch;flex-direction:column;padding:22px}
+  .dash-actions{justify-content:flex-start}
+  .dash-actions .btn{flex:1;min-width:150px}
+  .svc-tools{grid-template-columns:1fr 1fr}.svc-tools input{grid-column:1/-1}
+}
+@media(max-width:560px){
+  #login{padding:10px}
+  .login-shell{border-radius:18px}
+  .lc{padding:24px 18px}
+  .lc h1{font-size:21px;line-height:1.25}
+  .lc p{margin-bottom:20px}
+  .login-meta{flex-direction:column;align-items:flex-start;gap:6px}
+  .wrap{padding-left:12px;padding-right:12px}
+  .top .wrap{gap:10px}
+  .top .wrap>div:last-child{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .top .wrap>div:last-child .btn{width:100%;padding:8px 9px;font-size:12px}
+  .top .wrap>div:last-child #rf{grid-column:1/-1}
+  .tabs{width:100%;margin:12px 0;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs button{padding:9px 14px;font-size:13px}
+  .dash{gap:12px}.dash-hero{padding:18px;border-radius:17px}.dash-hero h2{font-size:22px}.dash-hero p{font-size:12px}.dash-actions{display:grid;grid-template-columns:1fr}.dash-actions .btn{min-width:0;width:100%}
+  .dash-grid{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:13px;border-radius:14px}.metric b{font-size:24px}.metric span{font-size:11px}
+  .dash-two{gap:10px}.dash-card{padding:14px;border-radius:15px}.dash-card h3{font-size:14px}.flow-row{grid-template-columns:92px 1fr 24px;gap:7px;font-size:11px}.quick{grid-template-columns:1fr}
+  .submetric{gap:7px}.mini{padding:10px}.mini b{font-size:18px}
+  .svc-tools{grid-template-columns:1fr}.svc-tools input{grid-column:auto}.svc-tools select,.svc-tools .btn{width:100%}
+  .bar{display:grid;grid-template-columns:1fr}.bar input,.bar input[type=date]{width:100%;min-width:0}.bar .btn{width:100%}
+  .toolbar{display:grid;grid-template-columns:1fr}.toolbar input{min-width:0;width:100%}.toolbar .btn{width:100%}
+  .row{grid-template-columns:1fr;gap:7px;padding:13px 14px}.row>:last-child{grid-column:auto;grid-row:auto;justify-self:start}.row>:nth-child(2),.row>:nth-child(3){grid-column:auto}.row .tag{justify-self:start}
+  .tm{grid-template-columns:1fr}.tm p{grid-column:auto}
+  .chips{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.chip{flex:none}
+  .attention{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.attention .chip{flex:none}
+  .modal{width:100%;max-height:94vh;padding:20px 16px;border-radius:20px 20px 0 0}.mh h2{font-size:18px}.mh p{font-size:12px}.kv{grid-template-columns:1fr;gap:2px 0}.kv dd{text-align:left;margin-bottom:7px}.acts{display:grid;grid-template-columns:1fr}.acts .btn,.acts a{width:100%}
+  .fm{gap:12px}
+}
+@media(max-width:360px){
+  .lc{padding:20px 14px}.mark{width:34px;height:34px}.btn{padding:10px 13px}.top .wrap>div:last-child{grid-template-columns:1fr}.top .wrap>div:last-child #rf{grid-column:auto}.dash-grid{grid-template-columns:1fr}.metric b{font-size:26px}.tabs button{padding-left:12px;padding-right:12px}
+}
 
 </style>
 </head>
