@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1d6bff">
 <meta name="description" content="CALM School Hub — Panel Admin">
-<title>CALM School Hub · Panel Admin · v2.5.3</title>
+<title>CALM School Hub · Panel Admin · v2.5.4</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -123,7 +123,7 @@ input,select,textarea{border-radius:11px}
 }
 
 
-/* ===== CALM design layer v2.5.3 — minimalis, konsisten, responsif ===== */
+/* ===== CALM design layer v2.5.4 — minimalis, konsisten, responsif ===== */
 :root,:host{--ink:#0b1f44;--mut:#5b6b8a;--line:#dfe8f7;--bg:#f5f9ff;--blue:#1d6bff;--blue-d:#0f4fd6;--sky:#eaf2ff;--azure:#4da3ff;--ok:#12a36b;--warn:#c2410c;--sh:0 1px 2px #0b1f4410,0 12px 32px -12px #1d6bff33;--r1:10px;--r2:14px;--r3:20px}
 body,.adm{background:var(--bg);color:var(--ink);text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -163,6 +163,7 @@ label{font-weight:600}
 .chip{font-weight:500}
 .row,.recent-item,.mini,.metric,.dash-card{border-radius:var(--r2)}
 button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
+.tag.prio-urgent{background:#fde8e8;color:#b42318}.tag.prio-high{background:#fff0e8;color:var(--warn)}.tag.late-tag{background:#fff4f1;color:#b42318;border:1px solid #f6cfc4}
 </style>
 </head>
 <body>
@@ -190,22 +191,22 @@ button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
 
 <div id="app" hidden>
  <header class="top"><div class="wrap">
-  <div class="brand"><span class="mark"><svg class="i" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/><\/svg><\/span><div><b>Panel admin<\/b><small>CALM School Hub<\/small><\/div><\/div>
-  <div style="display:flex;gap:8px"><button class="btn s" id="rf">Perbarui<\/button><button class="btn s" id="bk2">Situs utama<\/button><button class="btn s" id="lo">Keluar<\/button><\/div>
- <\/div><\/header>
+  <div class="brand"><span class="mark"><svg class="i" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></svg></span><div><b>Panel admin</b><small>CALM School Hub</small></div></div>
+  <div style="display:flex;gap:8px"><button class="btn s" id="rf">Perbarui</button><button class="btn s" id="bk2">Situs utama</button><button class="btn s" id="lo">Keluar</button></div>
+ </div></header>
  <div class="wrap">
-  <div class="tabs" role="tablist"><button role="tab" data-t="dashboard" aria-selected="true">Ringkasan</button><button role="tab" data-t="layanan" aria-selected="false">Layanan</button><button role="tab" data-t="petugas" aria-selected="false">Petugas</button><button role="tab" data-t="akun" aria-selected="false" hidden>Akun admin<\/button><button role="tab" data-t="legalisir" aria-selected="false">Legalisir<\/button><button role="tab" data-t="tamu" aria-selected="false">Buku tamu<\/button><button role="tab" data-t="statistik" aria-selected="false">Statistik<\/button><button role="tab" data-t="prestasi" aria-selected="false">Prestasi<\/button><button role="tab" data-t="program" aria-selected="false">Program<\/button><button role="tab" data-t="organisasi" aria-selected="false">Organisasi<\/button><button role="tab" data-t="mading" aria-selected="false">Mading<\/button><button role="tab" data-t="karya" aria-selected="false">Karya<\/button><\/div>
-  <div id="ct"><\/div>
- <\/div>
-<\/div>
+  <div class="tabs" role="tablist"><button role="tab" data-t="dashboard" aria-selected="true">Ringkasan</button><button role="tab" data-t="layanan" aria-selected="false">Layanan</button><button role="tab" data-t="petugas" aria-selected="false">Petugas</button><button role="tab" data-t="akun" aria-selected="false" hidden>Akun admin</button><button role="tab" data-t="legalisir" aria-selected="false">Legalisir</button><button role="tab" data-t="tamu" aria-selected="false">Buku tamu</button><button role="tab" data-t="statistik" aria-selected="false">Statistik</button><button role="tab" data-t="prestasi" aria-selected="false">Prestasi</button><button role="tab" data-t="program" aria-selected="false">Program</button><button role="tab" data-t="organisasi" aria-selected="false">Organisasi</button><button role="tab" data-t="mading" aria-selected="false">Mading</button><button role="tab" data-t="karya" aria-selected="false">Karya</button></div>
+  <div id="ct"></div>
+ </div>
+</div>
 
-<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"><\/h2><p id="ms"><\/p><\/div><button class="x" id="mx" aria-label="Tutup">×<\/button><\/div><div id="mb"><\/div><\/div><\/div>
+<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="ms"></p></div><button class="x" id="mx" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
 
 
 </div>
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbwLKSwf_U0F0TAmT6afNhRzt5SBTRwt4mZgoS6V2P_oHTbvdrBxojUk1p7AlXwXVvy6ig/exec';
-const FRONTEND_VERSION='2.5.3';
+const FRONTEND_VERSION='2.5.4';
 const root=document;
 const STATUS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai','Perlu Perbaikan'];
 const $=id=>document.getElementById(id);
@@ -343,7 +344,7 @@ function rTamu(){const all=data.tamu||[],qq=q.toLowerCase(),dd=day?day.split('-'
 
 $('ct').addEventListener('input',e=>{if(e.target.id==='qs'){q=e.target.value;render()}if(e.target.id==='dy'){day=e.target.value;render()}});
 $('ct').addEventListener('change',e=>{if(e.target.id==='sf'){svcFilter=e.target.value;render()}if(e.target.id==='pf'){prioFilter=e.target.value;render()}});
-$('ct').addEventListener('click',e=>{if(e.target.closest('[data-refresh-dash]'))return loadDashboard().then(()=>render());const j=e.target.closest('[data-jump]');if(j){tab=j.dataset.jump;root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return loadTab(true)}if(e.target.closest('[data-retry]'))return loadTab(true);if(e.target.closest('[data-mine-filter]')){mineOnly=!mineOnly;lateOnly=false;unassignedOnly=false;tab='layanan';filter='Semua';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}if(e.target.closest('[data-late-filter]')){lateOnly=!lateOnly;mineOnly=false;unassignedOnly=false;tab='layanan';filter='Semua';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}if(e.target.closest('[data-late]')||e.target.closest('[data-unassigned]')){lateOnly=!!e.target.closest('[data-late]');unassignedOnly=!!e.target.closest('[data-unassigned]');svcFilter='Semua';prioFilter='Semua';filter='Semua';tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}const rt=e.target.closest('[data-ticket]');if(rt){tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));const x=(data.layanan||[]).find(a=>a.nomor===rt.dataset.ticket);if(x)openLayananDetail(x._row);return}const f=e.target.closest('[data-f]'),n=e.target.closest('[data-n]'),lr=e.target.closest('[data-lrow]'),pr=e.target.closest('[data-prow]'),ar=e.target.closest('[data-arow]');if(ar)openAccountDetail(ar.dataset.arow);else if(pr)openPetugasDetail(pr.dataset.prow);else if(f){filter=f.dataset.f;render()}else if(n)openDetail(n.dataset.n);else if(lr)openLayananDetail(lr.dataset.lrow);else if(e.target.closest('[data-add-petugas]'))openPetugasDetail();else if(e.target.closest('[data-add-akun]'))openAccountDetail();else if(e.target.closest('[data-add]'))openEdit();else{const r=e.target.closest('[data-r]');if(r)openEdit(r.dataset.r)}});
+$('ct').addEventListener('click',e=>{if(e.target.closest('[data-refresh-dash]'))return loadDashboard().then(()=>render());const j=e.target.closest('[data-jump]');if(j){tab=j.dataset.jump;root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return loadTab(true)}if(e.target.closest('[data-retry]'))return loadTab(true);if(e.target.closest('[data-mine-filter]')){mineOnly=!mineOnly;lateOnly=false;unassignedOnly=false;tab='layanan';filter='Semua';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}if(e.target.closest('[data-late-filter]')){lateOnly=!lateOnly;mineOnly=false;unassignedOnly=false;tab='layanan';filter='Semua';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}if(e.target.closest('[data-late]')||e.target.closest('[data-unassigned]')){lateOnly=!!e.target.closest('[data-late]');unassignedOnly=!!e.target.closest('[data-unassigned]');svcFilter='Semua';prioFilter='Semua';filter='Semua';tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));return render()}const rt=e.target.closest('[data-ticket]');if(rt){tab='layanan';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));const nomor=rt.dataset.ticket;(async()=>{if(!data.layanan)await loadTab(true);else render();const x=(data.layanan||[]).find(a=>a.nomor===nomor);if(x)openLayananDetail(x._row)})();return}const f=e.target.closest('[data-f]'),n=e.target.closest('[data-n]'),lr=e.target.closest('[data-lrow]'),pr=e.target.closest('[data-prow]'),ar=e.target.closest('[data-arow]');if(ar)openAccountDetail(ar.dataset.arow);else if(pr)openPetugasDetail(pr.dataset.prow);else if(f){filter=f.dataset.f;render()}else if(n)openDetail(n.dataset.n);else if(lr)openLayananDetail(lr.dataset.lrow);else if(e.target.closest('[data-add-petugas]'))openPetugasDetail();else if(e.target.closest('[data-add-akun]'))openAccountDetail();else if(e.target.closest('[data-add]'))openEdit();else{const r=e.target.closest('[data-r]');if(r)openEdit(r.dataset.r)}});
 
 /* modul data: statistik, prestasi, program, organisasi, mading, karya
    field: [kunci, label, jenis(t teks|a area|y tahun|n angka|p persen|s pilihan|u url), wajib, maks, opsi] */
@@ -410,6 +411,9 @@ $('mx').onclick=closeM;$('ov').onclick=e=>{if(e.target===$('ov'))closeM()};docum
 
 
 
+// Tombol "Kembali ke situs" / "Situs utama": kembali ke halaman sebelumnya, atau ke root situs
+function goSite(){try{if(document.referrer&&new URL(document.referrer).origin===location.origin){location.href=document.referrer;return}}catch(e){}location.href='./'}
+$('bk1').onclick=$('bk2').onclick=goSite;
 // Standalone admin portal: login is shown immediately.
 </script>
 </body>
