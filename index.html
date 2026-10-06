@@ -50,7 +50,11 @@ section.s{padding:68px 0 0}.hd{margin-bottom:24px;max-width:560px}.hd h2{font-si
 .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.service-card{position:relative;display:flex;flex-direction:column;text-align:left;padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff;min-height:205px;transition:.18s;overflow:hidden}.service-card:hover{transform:translateY(-3px);border-color:var(--azure);box-shadow:var(--sh)}.service-card .ic{margin-bottom:14px}.service-card h3{font-size:16px;margin:0 0 7px}.service-card p{margin:0;color:var(--mut);font-size:13px;line-height:1.55;flex:1}.service-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.service-meta span{padding:4px 9px;border-radius:99px;background:var(--sky);color:var(--blue-d);font-size:11px;font-weight:700}.service-card em{font-style:normal;margin-top:14px;color:var(--blue-d);font-weight:800;font-size:13px}.service-note{margin-top:18px;padding:17px 18px;border:1px solid #cfe0fb;border-radius:17px;background:linear-gradient(100deg,#f5f9ff,#fff);display:flex;justify-content:space-between;gap:18px;align-items:center}.service-note b{display:block;font-size:14px}.service-note span{display:block;color:var(--mut);font-size:12.5px;margin-top:3px}
 .timeline{display:grid;gap:10px;margin-top:18px}.timeline-item{display:grid;grid-template-columns:12px 1fr;gap:11px}.timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);margin-top:5px;box-shadow:0 0 0 4px #1d6bff16}.timeline-item small{color:var(--mut)}.timeline-item b{display:block;font-size:13.5px}.track-hero{padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--bg);margin-top:16px}.track-status{font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--blue-d)}
 @media(max-width:900px){.service-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.service-grid{grid-template-columns:1fr}.service-note{align-items:flex-start;flex-direction:column}}
-footer{margin-top:80px;border-top:1px solid var(--line);background:#fff}footer .wrap{padding-top:26px;padding-bottom:30px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--mut);font-size:13px}
+footer{margin-top:80px;border-top:1px solid var(--line);background:#fff}
+footer .wrap{padding-top:26px;padding-bottom:30px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--mut);font-size:13px}
+.footer-links{display:flex;align-items:center;justify-content:flex-end;gap:20px;flex-wrap:wrap}
+.footer-links>span{display:inline-flex;align-items:center;min-height:44px}
+.footer-links #adm{display:inline-flex;align-items:center;justify-content:center;min-height:44px;line-height:24px;padding:10px 4px}
 .ov{position:fixed;inset:0;background:#0b1f4499;backdrop-filter:blur(4px);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.ov.show{display:flex}
 .modal{width:min(660px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;padding:26px;box-shadow:0 30px 80px -20px #0b1f4488;animation:up .22s ease-out}
 @keyframes up{from{opacity:0;transform:translateY(14px)}}
@@ -142,7 +146,7 @@ footer{margin-top:clamp(56px,9vw,88px)}
 .service-note{border-radius:var(--r2)}
 @media(max-width:560px){.top .wrap{height:58px}.hero .wrap{padding-top:32px}}
 html,body{overflow-x:clip;max-width:100%}
-#adm{display:inline-block;padding:10px 4px;min-height:44px;line-height:24px;opacity:1!important;font-weight:600;text-decoration:underline}
+#adm{opacity:1!important;font-weight:600;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -164,7 +168,7 @@ html,body{overflow-x:clip;max-width:100%}
 <section class="s" id="informasi"><div class="wrap"><div class="hd"><h2>Informasi sekolah</h2><p>Data dan capaian yang diperbarui oleh petugas sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
 <section class="s" id="ekspresi"><div class="wrap"><div class="hd"><h2>Ekspresi siswa</h2><p>Tulisan dan karya siswa yang sudah dimoderasi sekolah.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
 </main>
-<footer><div class="wrap"><span>© <span id="yr"></span> CALM School Hub</span><span style="display:flex;gap:20px;flex-wrap:wrap"><span>Legalisir, pelacakan, dan buku tamu</span><a href="#admin" id="adm" style="color:inherit;opacity:.75">Masuk admin</a></span></div></footer>
+<footer><div class="wrap"><span>© <span id="yr"></span> CALM School Hub</span><span class="footer-links"><span>Legalisir, pelacakan, dan buku tamu</span><a href="#admin" id="adm" style="color:inherit;opacity:.75">Masuk admin</a></span></div></footer>
 <div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
 
 <script>
