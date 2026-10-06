@@ -10,8 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
---ink:#0b1f44;--mut:#5b6b8a;--line:#dfe8f7;--bg:#f5f9ff;--blue:#1d6bff;--blue-d:#0f4fd6;--sky:#eaf2ff;--azure:#4da3ff;--ok:#12a36b;--warn:#c2410c}
+:root{--ink:#0b1f44;--mut:#5b6b8a;--line:#dfe8f7;--bg:#f5f9ff;--blue:#1d6bff;--blue-d:#0f4fd6;--sky:#eaf2ff;--azure:#4da3ff;--ok:#12a36b;--warn:#c2410c}
 *{box-sizing:border-box}.adm{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:15px/1.6 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}:focus-visible{outline:3px solid #1d6bff55;outline-offset:2px}[hidden]{display:none!important}
 svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -123,6 +122,47 @@ input,select,textarea{border-radius:11px}
   .lc{padding:20px 14px}.mark{width:34px;height:34px}.btn{padding:10px 13px}.top .wrap>div:last-child{grid-template-columns:1fr}.top .wrap>div:last-child #rf{grid-column:auto}.dash-grid{grid-template-columns:1fr}.metric b{font-size:26px}.tabs button{padding-left:12px;padding-right:12px}
 }
 
+
+/* ===== CALM design layer v2.5.3 — minimalis, konsisten, responsif ===== */
+:root,:host{--ink:#0b1f44;--mut:#5b6b8a;--line:#dfe8f7;--bg:#f5f9ff;--blue:#1d6bff;--blue-d:#0f4fd6;--sky:#eaf2ff;--azure:#4da3ff;--ok:#12a36b;--warn:#c2410c;--sh:0 1px 2px #0b1f4410,0 12px 32px -12px #1d6bff33;--r1:10px;--r2:14px;--r3:20px}
+body,.adm{background:var(--bg);color:var(--ink);text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.mark{background:var(--blue);box-shadow:none;border-radius:var(--r1)}
+.btn{min-height:42px;border-radius:var(--r1);font-weight:600;box-shadow:none}
+.btn:hover{border-color:#b9d0f5;background:#fff;color:var(--ink)}
+.btn.p,.btn.p:hover{color:#fff}
+.btn.p{background:var(--blue);border-color:var(--blue)}
+.btn.p:hover{background:var(--blue-d);border-color:var(--blue-d)}
+.btn.s{min-height:34px;padding:6px 12px;font-size:13px;border-radius:8px}
+input,select,textarea{border:1px solid var(--line);border-radius:var(--r1)}
+input:hover,select:hover,textarea:hover{border-color:#b9d0f5}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,107,255,.12)}
+label{font-weight:600}
+.tag{background:var(--sky);color:var(--blue-d);font-weight:600}
+.tag.ok{background:#e3f7ee;color:#0b7a50}
+.tag.wn{background:#fff0e8;color:var(--warn)}
+.ov{background:#0b1f4499;backdrop-filter:blur(3px)}
+.modal{border-radius:var(--r3);box-shadow:0 24px 60px -20px rgba(14,26,47,.35)}
+.x{background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:var(--r1)}
+.x:hover{background:var(--sky);color:var(--ink)}
+.empty{border-radius:var(--r2)}
+.note{border-radius:var(--r1)}
+.kv{border-radius:var(--r1)}
+.toast{border-radius:var(--r1)}
+@media(max-width:560px){
+ .btn{min-height:44px}
+ input,select,textarea{font-size:16px}
+ .modal{border-radius:var(--r3) var(--r3) 0 0;max-height:92vh;max-height:92dvh;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
+}
+
+.top{backdrop-filter:saturate(1.4) blur(12px);box-shadow:none}
+.tabs{width:100%;background:transparent;border-bottom:1px solid var(--line);border-radius:0;padding:0;gap:2px}
+.tabs button{border-radius:8px 8px 0 0;padding:11px 14px;font-weight:600}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected=true]{background:none;color:var(--blue-d);box-shadow:inset 0 -2px 0 var(--blue)}
+.chip{font-weight:500}
+.row,.recent-item,.mini,.metric,.dash-card{border-radius:var(--r2)}
+button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
 </style>
 </head>
 <body>
@@ -134,7 +174,7 @@ input,select,textarea{border-radius:11px}
    <span class="mark"><svg class="i" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></svg></span>
    <h2>Ruang kendali<br>sekolah digital.</h2>
    <p>Kelola pengajuan, data informasi, karya siswa, dan buku tamu dalam satu ruang kerja yang rapi.</p>
-   <div class="login-points"><div><i>â</i><span>Dashboard ringkas & fokus pada pekerjaan utama</span></div><div><i>â</i><span>Perubahan data terlindungi dari konflik pembaruan</span></div><div><i>â</i><span>Sesi admin dibatasi waktu untuk keamanan</span></div></div>
+   <div class="login-points"><div><i>✓</i><span>Dashboard ringkas & fokus pada pekerjaan utama</span></div><div><i>✓</i><span>Perubahan data terlindungi dari konflik pembaruan</span></div><div><i>✓</i><span>Sesi admin dibatasi waktu untuk keamanan</span></div></div>
   </section>
   <form class="lc" id="lf" novalidate>
    <span class="mark"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
