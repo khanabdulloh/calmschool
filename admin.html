@@ -27,7 +27,7 @@ label{font-size:13px;font-weight:700;display:block}label>:not(span){margin-top:6
 .lc{padding:44px}.lc h1{font-size:25px;letter-spacing:-.025em;margin:18px 0 5px}.lc p{margin:0 0 24px;color:var(--mut);font-size:14px}.lc .btn{width:100%;margin-top:14px}.lc label+label{margin-top:12px}.pass-wrap{position:relative}.pass-wrap input{padding-right:54px}.peek{position:absolute;right:7px;bottom:6px;width:40px;height:34px;border:0;border-radius:9px;background:var(--sky);color:var(--blue-d)}.login-meta{display:flex;justify-content:space-between;gap:12px;margin-top:16px;color:var(--mut);font-size:12px}.login-meta span{display:flex;align-items:center;gap:6px}.online-dot{width:7px;height:7px;border-radius:50%;background:#12a36b;box-shadow:0 0 0 4px #12a36b18}
 .err{margin-top:12px;padding:10px 13px;border-radius:11px;background:#fff4f1;border:1px solid #f6cfc4;color:#8f2d0f;font-size:13.5px}
 /* app */
-.top{position:sticky;top:0;z-index:20;background:#f5f9ffd9;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:20;background:#f5f9ff;border-bottom:1px solid var(--line)}
 .wrap{max-width:1040px;margin:auto;padding:0 20px}.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
 .brand{display:flex;align-items:center;gap:12px}.brand b{display:block;line-height:1.2}.brand small{color:var(--mut);font-size:12px}
 .tabs{display:flex;width:fit-content;max-width:100%;overflow-x:auto;gap:4px;padding:4px;background:#e6efff;border-radius:14px;margin:22px 0 16px}
@@ -74,7 +74,7 @@ html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:15
    <label>Password<div class="pass-wrap"><input id="pw" type="password" autocomplete="current-password" maxlength="200" required placeholder="Masukkan password"><button class="peek" type="button" id="peek" aria-label="Tampilkan password">Lihat</button></div></label>
    <div class="err" id="le" hidden role="alert"></div>
    <button class="btn p" id="lb">Masuk ke dashboard</button><button class="btn" type="button" id="bk1">Kembali ke situs</button>
-   <div class="login-meta"><span><i class="online-dot"></i> Akses terlindungi</span><span>CALM School Hub</span></div>
+   <div class="login-meta"><span><i class="online-dot"></i> Akses terlindungi</span><span>CALM School Hub</span></div><button class="btn s" type="button" id="testServer" style="margin-top:10px">Tes koneksi server</button>
   </form>
  </div>
 </main>
@@ -103,24 +103,70 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 let token=null,role='',me={},tab='dashboard',data={},filter='Semua',q='',day='',svcFilter='Semua',prioFilter='Semua',lateOnly=false,unassignedOnly=false,mineOnly=false,dash=null;
 try{token=sessionStorage.getItem('calm_adm')}catch(e){}
 
-async function api(action,extra={}){
+async function api(action,extra={},opts={}){
  const d=new URLSearchParams({action,...extra});if(token)d.append('token',token);
- const c=new AbortController(),t=setTimeout(()=>c.abort(),25000);
- try{const j=await(await fetch(API_URL,{method:'POST',body:d,signal:c.signal})).json();
+ const timeout=opts.timeout||12000;
+ const started=performance.now(),c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);
+ try{
+  if(opts.onStart)opts.onStart();
+  const r=await fetch(API_URL,{method:'POST',body:d,signal:c.signal,cache:'no-store'});
+  if(!r.ok)throw Error('Server HTTP '+r.status+'.');
+  const j=await r.json();
   if(!j.ok&&j.code==='UNAUTHORIZED'){logout(j.message);throw Error(j.message)}
-  if(!j.ok)throw Error((j.message||'Permintaan gagal.')+apiHint(j));return j}
- catch(e){if(e.name==='AbortError')throw Error('Server tidak merespons. Coba lagi.');if(e instanceof TypeError)throw Error('Tidak dapat terhubung ke server.');if(e instanceof SyntaxError)throw Error('Respons server tidak valid. Pastikan Web App sudah di-deploy versi terbaru.');throw e}
- finally{clearTimeout(t)}}
+  if(!j.ok)throw Error((j.message||'Permintaan gagal.')+(typeof apiHint==='function'?apiHint(j):''));
+  if(opts.onDone)opts.onDone(Math.round(performance.now()-started));
+  return j
+ }catch(e){
+  if(e.name==='AbortError')throw Error('Server belum merespons dalam '+Math.round(timeout/1000)+' detik. Coba lagi.');
+  if(e instanceof TypeError)throw Error('Tidak dapat terhubung ke server. Periksa URL Web App dan koneksi internet.');
+  if(e instanceof SyntaxError)throw Error('Respons server tidak valid. Pastikan Web App versi terbaru.');
+  throw e
+ }finally{clearTimeout(t)}
+}
 function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;root.appendChild(e);setTimeout(()=>e.remove(),2600)}
 
 /* sesi */
 $('peek').onclick=()=>{const p=$('pw'),on=p.type==='password';p.type=on?'text':'password';$('peek').textContent=on?'Sembunyikan':'Lihat'};
-$('lf').addEventListener('submit',async e=>{e.preventDefault();const b=$('lb'),er=$('le');er.hidden=true;
+function loginMsg(text,show=true){const e=$('loginStatus');if(!e)return;e.textContent=text;e.hidden=!show}
+$('lf').addEventListener('submit',async e=>{
+ e.preventDefault();const b=$('lb'),er=$('le');er.hidden=true;
  if(!$('usr').value.trim()||!$('pw').value){er.textContent='Masukkan username dan password.';er.hidden=false;return}
- b.disabled=true;b.textContent='Memeriksa…';token=null;
- try{const j=await api('adminLogin',{user:$('usr').value.trim(),password:$('pw').value});token=j.token;role=j.role||'';me=j;try{sessionStorage.setItem('calm_adm',token);sessionStorage.setItem('calm_adm_role',role);sessionStorage.setItem('calm_adm_name',j.nama||'')}catch(x){}$('pw').value='';start()}
- catch(err){er.textContent=err.message;er.hidden=false;$('pw').select()}finally{b.disabled=false;b.textContent='Masuk'}});
-async function start(){if(!role&&token){try{const j=await api('adminSession');role=j.role||'';me=j}catch(e){logout(e.message);return}}$('login').hidden=true;$('app').hidden=false;tab='dashboard';const akun=root.querySelector('[data-t=akun]');if(akun)akun.hidden=role!=='SUPER_ADMIN'; root.querySelectorAll('.tabs button[data-t]').forEach(x=>{if(['dashboard','layanan'].includes(x.dataset.t))return;x.hidden=role!=='SUPER_ADMIN';});if($('roleLabel'))$('roleLabel').textContent=role==='SUPER_ADMIN'?'Super Admin':'Admin / Petugas';root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));await Promise.all([loadDashboard(),...(role==='SUPER_ADMIN'?['layanan','petugas','legalisir','tamu','statistik','prestasi','program','organisasi','mading','karya']:['layanan']).map(loadSpecific),role==='SUPER_ADMIN'?loadSpecific('akun'):Promise.resolve()]);render()}
+ b.disabled=true;b.textContent='Menghubungkan…';token=null;loginMsg('Mengirim permintaan login ke server…');
+ try{
+  const j=await api('adminLogin',{user:$('usr').value.trim(),password:$('pw').value},{
+   timeout:12000,onStart:()=>loginMsg('Server sedang memeriksa akun…'),
+   onDone:ms=>loginMsg('Server merespons dalam '+ms+' ms.')
+  });
+  token=j.token;role=j.role||'';me=j;
+  try{sessionStorage.setItem('calm_adm',token);sessionStorage.setItem('calm_adm_role',role);sessionStorage.setItem('calm_adm_name',j.nama||'')}catch(x){}
+  $('pw').value='';loginMsg('Login berhasil. Membuka dashboard…');start()
+ }catch(err){er.textContent=err.message;er.hidden=false;loginMsg('Login belum berhasil.');$('pw').select()}
+ finally{b.disabled=false;b.textContent='Masuk ke dashboard'}
+});
+$('testServer').onclick=async()=>{
+ const b=$('testServer'),er=$('le');er.hidden=true;b.disabled=true;b.textContent='Menguji…';loginMsg('Menguji koneksi ke Google Apps Script…');
+ const started=performance.now(),c=new AbortController(),tm=setTimeout(()=>c.abort(),8000);
+ try{
+  const r=await fetch(API_URL+'?action=diag&_='+Date.now(),{method:'GET',cache:'no-store',signal:c.signal});
+  clearTimeout(tm);if(!r.ok)throw Error('HTTP '+r.status);
+  const j=await r.json();
+  loginMsg(j.version?'Server aktif · backend v'+j.version+' · '+Math.round(performance.now()-started)+' ms':'Server merespons, tetapi format diag tidak dikenali.')
+ }catch(e){
+  clearTimeout(tm);loginMsg('Tes koneksi gagal.');
+  er.textContent=e.name==='AbortError'?'Server tidak merespons dalam 8 detik.':'Tes koneksi gagal: '+e.message;er.hidden=false
+ }finally{b.disabled=false;b.textContent='Tes koneksi server'}
+};
+async function start(){
+ if(!role&&token){try{const j=await api('adminSession',{}, {timeout:8000});role=j.role||'';me=j}catch(e){logout(e.message);return}}
+ $('login').hidden=true;$('app').hidden=false;tab='dashboard';
+ const akun=root.querySelector('[data-t=akun]');if(akun)akun.hidden=role!=='SUPER_ADMIN';
+ root.querySelectorAll('.tabs button[data-t]').forEach(x=>{if(['dashboard','layanan'].includes(x.dataset.t))return;x.hidden=role!=='SUPER_ADMIN'});
+ if($('roleLabel'))$('roleLabel').textContent=role==='SUPER_ADMIN'?'Super Admin':'Admin / Petugas';
+ root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));
+ await Promise.all([loadDashboard(),loadSpecific('layanan')]);render();
+ const bg=role==='SUPER_ADMIN'?['petugas','legalisir','tamu','statistik','prestasi','program','organisasi','mading','karya','akun']:[];
+ Promise.all(bg.map(loadSpecific)).catch(()=>{});
+}
 function logout(msg){if(token)api('adminLogout').catch(()=>{});token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
 $('lo').onclick=()=>logout();$('rf').onclick=()=>tab==='dashboard'?Promise.all([loadDashboard(),...(role==='SUPER_ADMIN'?['layanan','petugas','legalisir','tamu','statistik','prestasi','program','organisasi','mading','karya']:['layanan']).map(loadSpecific),role==='SUPER_ADMIN'?loadSpecific('akun'):Promise.resolve()]).then(()=>render()):loadTab(true);
 
