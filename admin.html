@@ -261,7 +261,10 @@ async function start(){
  root.querySelectorAll('.tabs button[data-t]').forEach(x=>{if(['dashboard','layanan'].includes(x.dataset.t))return;x.hidden=role!=='SUPER_ADMIN'});
  if($('roleLabel'))$('roleLabel').textContent=role==='SUPER_ADMIN'?'Super Admin':'Admin / Petugas';
  root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===tab));
- await loadDashboard();render();
+ /* Tampilkan kerangka dashboard lebih dulu; data statistik menyusul tanpa membuat pengguna menunggu layar kosong. */
+ render();
+ await loadDashboard();
+ render();
 }
 function logout(msg){if(token)api('adminLogout').catch(()=>{});token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
 $('lo').onclick=()=>logout();$('rf').onclick=async()=>{if(tab==='dashboard'){await loadDashboard();render();}else{await loadTab(true,true);toast('Data diperbarui')}};
