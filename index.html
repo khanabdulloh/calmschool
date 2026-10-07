@@ -75,6 +75,7 @@ input:hover,select:hover,textarea:hover{border-color:#b9d0f5}input:focus,select:
 .bar{height:8px;border-radius:99px;background:var(--sky);margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--azure),var(--blue));border-radius:99px}.grad{background:linear-gradient(120deg,var(--blue-d),#5b9cff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-panel{position:relative}.hero-panel:before{content:"";position:absolute;inset:-24px -34px auto auto;width:220px;height:220px;border-radius:50%;background:#4da3ff24;pointer-events:none}.mini-proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}.mini-proof span{display:inline-flex;align-items:center;gap:6px}.mini-proof i{font-style:normal;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#e3f7ee;color:#0b7a50;font-weight:800}.trust{padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.trust .wrap>div{display:flex;align-items:center;gap:12px;padding:8px 14px}.trust b{font-size:12px;color:var(--blue);letter-spacing:.08em}.trust span{font-size:13px;font-weight:700}.hero .btn.p{padding-inline:20px}
 @media(max-width:900px){.trust .wrap{grid-template-columns:1fr 1fr}.hero .wrap{grid-template-columns:1fr;gap:36px;padding-top:48px;padding-bottom:56px}.grid{grid-template-columns:1fr 1fr}.links a{display:none}}
 @media(max-width:560px){.trust .wrap{grid-template-columns:1fr}.grid,.grid.two,form{grid-template-columns:1fr}.brand small{display:none}.top .btn{padding:9px 13px}.ov{align-items:flex-end;padding:0}.modal{border-radius:24px 24px 0 0}.stats{grid-template-columns:1fr 1fr}}
+#g-layanan{grid-template-columns:repeat(3,1fr)}@media(max-width:900px){#g-layanan{grid-template-columns:1fr 1fr}}@media(max-width:560px){#g-layanan{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .igb{position:relative;overflow:hidden;border-radius:26px;padding:30px;color:#fff;background:linear-gradient(135deg,#0b1f44 0%,#0f4fd6 62%,#1d6bff 100%);box-shadow:0 24px 60px -24px #0f4fd6aa}
@@ -163,7 +164,7 @@ html,body{overflow-x:clip;max-width:100%}
  <ol class="steps"><li class="done">Diajukan</li><li class="done">Diverifikasi</li><li class="now">Diproses</li><li>Siap Diambil</li><li>Selesai</li></ol><div class="mini-proof"><span><i>✓</i> Nomor & kode pelacakan</span><span><i>✓</i> Status diperbarui petugas</span></div></div></div><p class="cap">Contoh pengalaman pelacakan pengajuan</p></div>
 </div></section>
 <section class="trust"><div class="wrap"><div><b>01</b><span>Ajukan online</span></div><div><b>02</b><span>Diverifikasi petugas</span></div><div><b>03</b><span>Pantau status</span></div><div><b>04</b><span>Ambil saat siap</span></div></div></section>
-<section class="s" id="layanan"><div class="wrap"><div class="hd"><h2>Layanan sekolah terpadu</h2><p>Pilih kebutuhan Anda. Setiap layanan memiliki alur, status, dan target penyelesaian yang jelas.</p></div><div class="service-grid" id="g-layanan"></div><div class="service-note"><div><b>Semua layanan memiliki nomor tiket.</b><span>Simpan nomor dan kode pelacakan untuk memantau proses tanpa harus datang ke sekolah.</span></div><button class="btn p" onclick="openM('track')">Lacak layanan</button></div></div></section>
+<section class="s" id="layanan"><div class="wrap"><div class="hd"><h2>Layanan sekolah terpadu</h2><p>Pilih kebutuhan Anda. Setiap layanan memiliki alur, status, dan target penyelesaian yang jelas.</p></div><div class="grid" id="g-layanan" style="margin-bottom:22px"></div><div class="service-grid" id="g-layanan-surat"></div><div class="service-note"><div><b>Semua layanan memiliki nomor tiket.</b><span>Simpan nomor dan kode pelacakan untuk memantau proses tanpa harus datang ke sekolah.</span></div><button class="btn p" onclick="openM('track')">Lacak layanan</button></div></div></section>
 <section class="s" id="angka"><div class="wrap"><div class="hd"><h2>Sekolah dalam angka</h2><p>Ringkasan otomatis dari data yang sudah diterbitkan.</p></div><div id="ig"></div></div></section>
 <section class="s" id="informasi"><div class="wrap"><div class="hd"><h2>Informasi sekolah</h2><p>Data dan capaian yang diperbarui oleh petugas sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
 <section class="s" id="ekspresi"><div class="wrap"><div class="hd"><h2>Ekspresi siswa</h2><p>Tulisan dan karya siswa yang sudah dimoderasi sekolah.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
@@ -197,7 +198,7 @@ $('lg').innerHTML=ic('cap');$('yr').textContent=new Date().getFullYear();
 
 /* Katalog modul: [kunci, ikon, judul, deskripsi, aksi, kelas] */
 const SECTIONS={
-layanan:[['legal','doc','Legalisir','Ajukan ijazah, SKL, atau rapor sebelum datang.','Ajukan','main'],['track','find','Lacak pengajuan','Cek status dengan nomor pengajuan.','Lacak'],['surat_aktif','mail','Surat Keterangan Siswa Aktif','Surat keterangan dan administrasi lainnya.','Ajukan'],['tamu','book','Buku tamu digital','Catat kunjungan Anda ke sekolah.','Isi buku tamu']],
+layanan:[['legal','doc','Legalisir','Ajukan ijazah, SKL, atau rapor sebelum datang.','Ajukan','main'],['track','find','Lacak pengajuan','Cek status dengan nomor pengajuan.','Lacak'],['tamu','book','Buku tamu digital','Catat kunjungan Anda ke sekolah.','Isi buku tamu']],
 informasi:[['statistik','chart','Sekolah dalam angka','Ringkasan data sekolah.','Lihat'],['prestasi','trophy','Prestasi & lomba','Capaian siswa dan sekolah.','Lihat'],['program','target','Program sekolah','Kegiatan dan perkembangannya.','Lihat'],['organisasi','users','Organisasi','OSIS, ekstrakurikuler, dan komunitas.','Lihat']],
 ekspresi:[['mading','news','Mading digital','Artikel, opini, dan cerita dari siswa.','Baca'],['karya','spark','Karya siswa','Desain, fotografi, ilustrasi, dan video.','Jelajahi']]};
 for(const [s,items] of Object.entries(SECTIONS))$('g-'+s).innerHTML=items.map(([k,i,t,d,a,c])=>`<button class="card ${c||''}" onclick="openM('${k}')">${s==='ekspresi'?`<span class="ic">${ic(i)}</span><div><h3>${t}</h3><p>${d}</p><em>${a} ${ic('go')}</em></div>`:`<span class="ic">${ic(i)}</span><h3>${t}</h3><p>${d}</p><em>${a}${c==='soon'?'':' '+ic('go')}</em>`}</button>`).join('');
@@ -215,16 +216,17 @@ const SERVICE_UI=[
 ['janji_temu','calendar','Janji Temu','Atur permintaan pertemuan dengan guru, staf, atau pimpinan.','1 hari','Tatap muka']
 ];
 const SIC={graduation:'<path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/>',swap:'<path d="M7 7h13M17 3l4 4-4 4M17 17H4M7 13l-4 4 4 4"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',alert:'<path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17v.5"/>',spark:IC.spark,users:IC.users,doc:IC.doc};
-$('g-layanan').innerHTML=SERVICE_UI.map(([k,i,t,d,sla,met])=>`<button class="service-card" onclick="openM('service','${k}')"><span class="ic">${ic(i)||`<svg class="i" viewBox="0 0 24 24">${SIC[i]||''}</svg>`}</span><h3>${t}</h3><p>${d}</p><div class="service-meta"><span>${sla}</span><span>${met}</span></div><em>Ajukan layanan ${ic('go')}</em></button>`).join('');
+$('g-layanan-surat').innerHTML=SERVICE_UI.map(([k,i,t,d,sla,met])=>`<button class="service-card" onclick="openM('service','${k}')"><span class="ic">${ic(i)||`<svg class="i" viewBox="0 0 24 24">${SIC[i]||''}</svg>`}</span><h3>${t}</h3><p>${d}</p><div class="service-meta"><span>${sla}</span><span>${met}</span></div><em>Ajukan layanan ${ic('go')}</em></button>`).join('');
 
 /* Formulir */
+const METODE={surat_aktif:['Diambil di sekolah','Digital'],surat_alumni:['Diambil di sekolah','Digital'],surat_rekomendasi:['Diambil di sekolah','Digital'],surat_mutasi:['Diambil di sekolah'],surat_izin:['Digital','Diambil di sekolah'],pengaduan:['Digital'],aspirasi:['Digital'],konsultasi:['Digital','Tatap muka'],janji_temu:['Tatap muka']};
 const serviceForm=(sid)=>{const x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];return `<form onsubmit="submitForm(event,'submitLayanan','Kirim pengajuan')" novalidate><input type="hidden" name="jenisLayanan" value="${esc(x[0])}">
 <label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
 <label>NIS / NISN / Identitas<input name="identitas" required maxlength="40" placeholder="Nomor identitas peserta didik / alumni"></label>
 <label>Kelas / jurusan <span>(opsional)</span><input name="kelasJurusan" maxlength="100" placeholder="Contoh: XII TKJ 1"></label>
-<label>Nomor WhatsApp<input name="whatsapp" required maxlength="16" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
+<label>Nomor WhatsApp<input name="whatsapp" required maxlength="20" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
 <label>Email <span>(opsional)</span><input name="email" type="email" maxlength="120" autocomplete="email"></label>
-<label>Metode penerimaan<select name="metodePenerimaan"><option>Digital</option><option>Diambil di sekolah</option><option>Tatap muka</option></select></label>
+<label>Metode penerimaan<select name="metodePenerimaan">${(METODE[sid]||['Digital']).map(m=>`<option>${m}</option>`).join('')}</select></label>
 <label>Tanggal diperlukan <span>(opsional)</span><input name="tanggalDiperlukan" type="date"></label>
 <label class="full">Keperluan / kebutuhan<textarea name="keperluan" required maxlength="500" placeholder="Jelaskan kebutuhan Anda secara singkat dan jelas."></textarea></label>
 <label class="full">Catatan tambahan <span>(opsional)</span><textarea name="catatan" maxlength="500"></textarea></label>
@@ -235,7 +237,7 @@ const legal=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan
 <label>NISN<input name="nis" required maxlength="10" minlength="10" pattern="[0-9]{10}" title="NISN terdiri dari 10 angka" inputmode="numeric" placeholder="10 angka" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></label>
 <label>Tahun lulus<input name="tahunLulus" required type="number" min="2000" max="2100" placeholder="2024"></label>
 <label>Jurusan<input name="jurusan" required maxlength="100"></label>
-<label>Nomor WhatsApp<input name="whatsapp" required maxlength="16" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
+<label>Nomor WhatsApp<input name="whatsapp" required maxlength="20" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
 <label>Jenis dokumen<select name="jenisDokumen" required><option value="">Pilih dokumen</option><option>Ijazah</option><option>SKL</option><option>Rapor</option><option>Dokumen lainnya</option></select></label>
 <label>Jumlah rangkap<input name="jumlah" required type="number" min="1" max="20" value="1"></label>
 <label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
@@ -260,7 +262,7 @@ const surat=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan
 <label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
 <label>NISN<input name="nis" required maxlength="10" minlength="10" pattern="[0-9]{10}" title="NISN terdiri dari 10 angka" inputmode="numeric" placeholder="10 angka" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></label>
 <label>Kelas / jurusan<input name="jurusan" required maxlength="100" placeholder="XII TKJ 1"></label>
-<label>Nomor WhatsApp<input name="whatsapp" required maxlength="16" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
+<label>Nomor WhatsApp<input name="whatsapp" required maxlength="20" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></label>
 <label>Jenis surat<select name="jenisDokumen" required><option value="">Pilih surat</option><option>Surat Keterangan Siswa Aktif</option><option>Surat Keterangan Alumni</option><option>Surat Rekomendasi</option><option>Surat Pindah / Mutasi</option><option>Surat Izin / Dispensasi</option><option>Surat lainnya</option></select></label>
 <label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
 <label class="full">Keperluan surat<textarea name="catatan" required maxlength="300" placeholder="Contoh: persyaratan beasiswa, melamar kerja…"></textarea></label>
@@ -283,13 +285,14 @@ const cta=k=>k==='mading'||k==='karya'?`<button class="btn p" style="margin-top:
 
 /* Penampil data (modul informasi & ekspresi) */
 const lnk=u=>/^https?:\/\//i.test(u||'')?`<a href="${esc(u)}" target="_blank" rel="noopener">Buka karya</a>`:'';
+const foto=u=>/^https?:\/\//i.test(u||'')?`<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" style="width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-top:10px" onerror="this.remove()">`:'';
 const R={
 statistik:a=>`<div class="stats">${a.map(x=>`<div class="stat"><b>${esc(x.nilai)}</b><span>${esc(x.label)}</span>${x.keterangan?`<small>${esc(x.keterangan)}</small>`:''}</div>`).join('')}</div>`,
 prestasi:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.judul)}</b><div class="m">${x.tingkat?`<span class="tag">${esc(x.tingkat)}</span>`:''}<span>${esc([x.tahun,x.peraih].filter(Boolean).join(' – '))}</span></div>${x.keterangan?`<p>${esc(x.keterangan)}</p>`:''}</li>`).join('')}</ul>`,
 program:a=>`<ul class="lst">${a.map(x=>{const p=Math.max(0,Math.min(100,Number(x.progres)||0));return `<li><b>${esc(x.nama)}</b><div class="m"><span>${esc(x.periode)}</span><span>${p}% terlaksana</span></div>${x.deskripsi?`<p>${esc(x.deskripsi)}</p>`:''}<div class="bar"><i style="width:${p}%"></i></div></li>`}).join('')}</ul>`,
 organisasi:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.nama)}</b><div class="m"><span>${esc(x.pembina?'Pembina: '+x.pembina:'')}</span>${x.jumlahAnggota?`<span class="tag">${esc(x.jumlahAnggota)} anggota</span>`:''}</div>${x.deskripsi?`<p>${esc(x.deskripsi)}</p>`:''}</li>`).join('')}</ul>`,
-mading:a=>`<div class="lst">${a.map(x=>`<details><summary>${esc(x.judul)}</summary><div class="m">${x.kategori?`<span class="tag">${esc(x.kategori)}</span>`:''}<span>${esc([x.penulis,x.tanggal].filter(Boolean).join(' – '))}</span></div><p>${esc(x.isi)}</p></details>`).join('')}</div>`,
-karya:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.judul)}</b><div class="m">${x.jenis?`<span class="tag">${esc(x.jenis)}</span>`:''}<span>${esc([x.pembuat,x.tanggal].filter(Boolean).join(' – '))}</span></div><div style="margin-top:8px">${lnk(x.url)}</div></li>`).join('')}</ul>`};
+mading:a=>`<div class="lst">${a.map(x=>`<details><summary>${esc(x.judul)}</summary><div class="m">${x.kategori?`<span class="tag">${esc(x.kategori)}</span>`:''}<span>${esc([x.penulis,x.tanggal].filter(Boolean).join(' – '))}</span></div><p>${esc(x.isi)}</p>${foto(x.fotoUrl)}</details>`).join('')}</div>`,
+karya:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.judul)}</b><div class="m">${x.jenis?`<span class="tag">${esc(x.jenis)}</span>`:''}<span>${esc([x.pembuat,x.tanggal].filter(Boolean).join(' – '))}</span></div>${foto(x.fotoUrl)}<div style="margin-top:8px">${lnk(x.url)}</div></li>`).join('')}</ul>`};
 const INFO={statistik:['Sekolah dalam angka','Ringkasan data sekolah yang sudah diverifikasi.'],prestasi:['Prestasi & lomba','Capaian siswa dan sekolah.'],program:['Program sekolah','Kegiatan sekolah dan tingkat keterlaksanaannya.'],organisasi:['Organisasi siswa','Organisasi dan ekstrakurikuler yang aktif.'],mading:['Mading digital','Tulisan siswa yang sudah dimoderasi.'],karya:['Karya siswa','Karya kreatif dari siswa.']};
 const cache={};let tok=0,lastFocus;
 const DRAFT_PREFIX='calm_service_draft_';
@@ -350,7 +353,7 @@ function copyCode(b){const t=$('kc').textContent;if(navigator.clipboard)navigato
 function copyNo(b){const t=$('nm').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Tersalin').catch(()=>{const r=document.createRange();r.selectNodeContents($('nm'));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent='Pilih & salin'})}
 
 async function track(e){e.preventDefault();const f=e.target,b=$('tb'),n=f.nomor.value.trim().toUpperCase(),k=f.kode.value.trim().toUpperCase();
-  if(!/^[A-Z0-9]+-\d{6}-\d{3,}$/.test(n))return show('<h4>Format nomor tiket belum sesuai</h4>Contoh: SUR-AKTIF-261005-001.','err');
+  if(!/^[A-Z0-9]+(?:-[A-Z0-9]+)*-\d{6}-\d{3,}$/.test(n))return show('<h4>Format nomor tiket belum sesuai</h4>Contoh: SUR-AKTIF-261005-001.','err');
   if(!TRACK_CODE_RE.test(k))return show('<h4>Kode pelacakan belum sesuai</h4>Masukkan kode yang diberikan saat pengajuan.','err');
   b.disabled=true;b.textContent='Mencari…';$('res').className='res';
   try{const j=await call(API_URL+'?action='+((/^LEG-/.test(n))?'track':'trackLayanan')+'&nomor='+encodeURIComponent(n)+'&kode='+encodeURIComponent(k));if(!j.ok)throw Error(j.message||'Nomor atau kode pelacakan tidak cocok.');
