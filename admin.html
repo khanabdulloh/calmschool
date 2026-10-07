@@ -207,6 +207,7 @@ button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbzLNLTCMlUygT1B2Vz9mWoDM6zYlafLdomTwPfy1zb7RRYjpnOTeGVXqfwpqAJqwSBl/exec';
 const FRONTEND_VERSION='2.5.5';
+const apiHint=j=>j&&j.code==='ACTION_NOT_FOUND'?' [Panel memanggil …'+API_URL.slice(-34)+' — samakan dengan URL /exec deployment terbaru]':'';
 const root=document;
 const STATUS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai','Perlu Perbaikan'];
 const $=id=>document.getElementById(id);
@@ -245,13 +246,13 @@ $('lf').addEventListener('submit',async e=>{
  b.disabled=true;b.textContent='Menghubungkan…';token=null;loginMsg('Memverifikasi akun…');
  try{
   const j=await api('adminLogin',{user:$('usr').value.trim(),password:$('pw').value},{
-   timeout:12000,onStart:()=>loginMsg('Memverifikasi akun…'),
+   timeout:30000,onStart:()=>loginMsg('Memverifikasi akun…'),
    onDone:()=>loginMsg('Akun berhasil diverifikasi.')
   });
   token=j.token;role=j.role||'';me=j;
   try{sessionStorage.setItem('calm_adm',token);sessionStorage.setItem('calm_adm_role',role);sessionStorage.setItem('calm_adm_name',j.nama||'')}catch(x){}
   $('pw').value='';loginMsg('Login berhasil. Membuka dashboard…');start()
- }catch(err){er.textContent=err.message;er.hidden=false;loginMsg('Login belum berhasil.');$('pw').select()}
+ }catch(err){er.textContent=err.message;er.hidden=false;$('pw').select()}
  finally{b.disabled=false;b.textContent='Masuk'}
 });
 async function start(){
