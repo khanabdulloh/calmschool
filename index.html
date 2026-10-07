@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1d6bff">
-<meta name="description" content="Portal layanan sekolah: legalisir, pelacakan, buku tamu, prestasi, program, dan karya siswa.">
-<title>CALM School Hub · Layanan Sekolah Digital · v2.5.5</title>
+<meta name="description" content="Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah Garut: legalisir, surat keterangan, pengaduan, konsultasi, dan pelacakan pengajuan dalam satu pintu.">
+<title>CALM School Hub · Layanan Digital Terpadu SMKS Ciledug Al-Musaddadiyah Garut</title>
+<meta name="theme-color" content="#0b3d91">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#0b1f44;--mut:#5b6b8a;--line:#dfe8f7;--bg:#f5f9ff;--blue:#1d6bff;--blue-d:#0f4fd6;--sky:#eaf2ff;--azure:#4da3ff;--ok:#12a36b;--warn:#c2410c;--sh:0 1px 2px #0b1f4410,0 12px 32px -12px #1d6bff33}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
@@ -148,28 +149,149 @@ footer{margin-top:clamp(56px,9vw,88px)}
 @media(max-width:560px){.top .wrap{height:58px}.hero .wrap{padding-top:32px}}
 html,body{overflow-x:clip;max-width:100%}
 #adm{opacity:1!important;font-weight:600;text-decoration:underline}
+/* ===== Selaras situs sekolah (navy #0b3d91) ===== */
+:root{--ink:#0a1b3d;--mut:#5a6783;--line:#e0e6f1;--bg:#f6f8fc;--blue:#0b3d91;--blue-d:#082c6c;--sky:#eaf0fa;--azure:#3d6bbd;--gold:#c8963e;--sh:0 1px 2px #0a1b3d0f,0 14px 34px -16px #0b3d9140}
+:focus-visible{outline:3px solid #0b3d9166}
+.top{background:#fffffff0;border-bottom:1px solid var(--line)}.top .wrap{height:72px}
+.mark{background:#fff;border:1px solid var(--line);box-shadow:none;color:var(--blue);overflow:hidden;width:42px;height:42px;border-radius:12px}.mark img{width:100%;height:100%;object-fit:contain;padding:3px}
+.brand b{font-size:15px;letter-spacing:-.01em}.brand small{letter-spacing:.01em}
+.btn{border-radius:10px}.btn.p{background:var(--blue);border-color:var(--blue);box-shadow:0 8px 20px -10px #0b3d91cc}.btn.p:hover{background:var(--blue-d)}.btn:hover{border-color:var(--azure)}
+.links a:hover{background:var(--sky);color:var(--blue)}
+.hero{background:linear-gradient(180deg,#fff 0,#f1f5fc 100%);border-bottom:1px solid var(--line)}
+.hero .wrap{padding-top:84px;padding-bottom:88px}
+.pill{background:var(--sky);border-color:#d3def2;color:var(--blue);letter-spacing:.02em}.pill:before{background:var(--gold);box-shadow:0 0 0 4px #c8963e26}
+h1{font-weight:800;letter-spacing:-.03em;line-height:1.1}
+em.ac,.hd h2 em{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:600;letter-spacing:0;color:var(--blue)}
+h1 em.ac{color:var(--blue)}
+.facts{display:flex;gap:10px 22px;flex-wrap:wrap;margin:30px 0 0;padding:18px 0 0;border-top:1px solid var(--line);color:var(--mut);font-size:13px;list-style:none}.facts li b{color:var(--ink);font-weight:700}
+.demo{border-radius:18px}.tag{background:var(--sky);color:var(--blue)}
+.steps li.done:before{border-color:var(--blue);background:radial-gradient(circle,#fff 28%,var(--blue) 30%)}.steps li.done:after{background:var(--blue)}.steps li.now{color:var(--blue)}.steps li.now:before{border-color:var(--blue);box-shadow:0 0 0 5px #0b3d9122}
+.trust b{color:var(--gold)}
+.eyebrow{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.hd h2{font-size:clamp(26px,3.4vw,34px);font-weight:800;letter-spacing:-.025em}
+section.s{padding-top:84px}
+.card,.service-card{border-radius:14px}.card:hover,.service-card:hover{border-color:#b9c8e4}
+.ic{background:var(--sky);color:var(--blue);border-radius:12px}
+.card.main{background:linear-gradient(150deg,#164aa6,#082c6c)}.card.main em{color:#fff}
+.service-meta span{background:var(--sky);color:var(--blue)}
+.card em,.service-card em{color:var(--blue)}
+.service-note{background:linear-gradient(100deg,#f1f5fc,#fff);border-color:#d3def2;border-radius:14px}
+.timeline-dot{background:var(--blue);box-shadow:0 0 0 4px #0b3d9118}.track-status{color:var(--blue)}
+.x{background:var(--sky);color:var(--blue)}.ov{background:#0a1b3d99}.modal{border-radius:20px}
+footer{margin-top:96px;background:#0a1b3d;color:#c5d0e6;border-top:0}
+footer .wrap{display:block;color:inherit;padding-top:0;padding-bottom:0}
+.fgrid{display:grid;grid-template-columns:1.3fr 1.2fr .8fr;gap:40px;padding:52px 22px 36px}
+.fgrid b{display:block;color:#fff;font-size:14px;margin-bottom:10px}.fgrid p{margin:0;font-size:13px;line-height:1.75;color:#aab8d4}.fgrid a{display:block;color:#c5d0e6;text-decoration:none;font-size:13px;padding:5px 0}.fgrid a:hover{color:#fff}
+.fbar{border-top:1px solid #ffffff1f;padding:18px 22px 24px;font-size:12px;color:#8fa0c2;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:26px;padding-top:40px}}
+
+/* ===== Penyempurnaan: minimalis & elegan ===== */
+:root{--line:#e6eaf2;--bg:#fff;--sky:#f1f5fb;--sh:0 1px 0 #0a1b3d08}
+body{background:#fff;font-size:15px;line-height:1.7;color:#1b2a4a}
+.wrap{max-width:1080px}
+.top{background:#ffffffeb;border-bottom:1px solid var(--line)}
+.top .wrap{height:68px}
+.brand b{font-weight:700;font-size:14.5px}.brand small{font-size:11.5px;color:#7a869d}
+.links a{font-weight:500;font-size:13.5px;color:#4a5878;padding:8px 11px}
+.links a:hover{background:transparent;color:var(--blue)}
+.btn{font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:8px;box-shadow:none!important}
+.btn.p{box-shadow:none}.btn:not(.p){background:#fff}
+.hero{background:#fff;border-bottom:0}
+.hero .wrap{padding-top:96px;padding-bottom:84px;gap:72px}
+.pill{background:transparent;border:0;padding:0;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}.pill:before{display:none}
+h1{font-size:clamp(34px,4.6vw,52px);font-weight:700;letter-spacing:-.028em;line-height:1.12;margin:18px 0 20px}
+.lead{font-size:16.5px;color:#56637f;line-height:1.75;max-width:480px}
+.cta{margin-top:34px}
+.facts{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-size:12.5px;gap:8px 26px}
+.demo{border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 48px -32px #0a1b3d33;padding:26px}
+.cap{font-size:11.5px;color:#8a95ab}
+.mini-proof{border-top:1px solid var(--line)}
+.trust{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0}
+.trust .wrap>div{padding:6px 14px}.trust span{font-size:13px;color:#4a5878}.trust b{font-weight:600}
+section.s{padding-top:104px}
+.hd{margin-bottom:34px;max-width:620px}
+.eyebrow{font-size:11.5px;letter-spacing:.18em;margin-bottom:12px}
+.hd h2{font-size:clamp(26px,3vw,32px);font-weight:700;letter-spacing:-.02em}
+.hd p{font-size:15px;color:#68748e;margin-top:6px}
+.card,.service-card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:none;padding:24px}
+.card:hover,.service-card:hover{transform:none;border-color:var(--blue);box-shadow:none}
+.card h3,.service-card h3{font-size:15.5px;font-weight:700;letter-spacing:-.01em}
+.card p,.service-card p{font-size:13.5px;color:#68748e;line-height:1.65}
+.ic{width:40px;height:40px;border-radius:10px;background:var(--sky)}
+.card.main{background:var(--blue);border-color:var(--blue)}.card.main:hover{background:var(--blue-d)}
+.service-meta span{background:transparent;border:1px solid var(--line);color:#68748e;font-weight:600;border-radius:6px;padding:3px 8px}
+.service-note{background:var(--sky);border:0;border-radius:12px;padding:20px 24px}
+.stats .stat,.stat{border-radius:12px;box-shadow:none}
+input,select,textarea{border-radius:8px}
+.modal{border-radius:16px;box-shadow:0 40px 90px -30px #0a1b3d66}
+/* Footer terang & ringkas */
+footer{margin-top:120px;background:#fff;color:#56637f;border-top:1px solid var(--line)}
+.fgrid{grid-template-columns:1.5fr 1.2fr .8fr;gap:56px;padding:64px 22px 44px}
+.fgrid b{color:var(--ink);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.fgrid p{color:#68748e;font-size:13px;line-height:1.85;max-width:380px}
+.fgrid a{color:#4a5878;font-size:13px;padding:4px 0;transition:color .15s}.fgrid a:hover{color:var(--blue)}
+.fgrid>div:first-child b{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-size:19px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--blue);margin-bottom:12px}
+.fbar{border-top:1px solid var(--line);color:#8a95ab;font-size:12px;padding:20px 22px 30px}
+@media(max-width:760px){section.s{padding-top:72px}.hero .wrap{padding-top:56px;gap:44px}.fgrid{gap:30px;padding-top:44px}footer{margin-top:80px}}
+
+/* ===== Footer ringkas, tersusun ke samping ===== */
+footer{margin-top:88px}
+.fgrid{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:20px 56px;padding:34px 22px 18px}
+.fgrid>div{min-width:0}
+.fgrid>div:first-child{flex:1 1 230px}.fgrid>div:nth-child(2){flex:1.4 1 300px}.fgrid>div:last-child{flex:0 1 auto}
+.fgrid b{margin-bottom:8px}
+.fgrid>div:first-child b{font-size:17px;margin-bottom:6px}
+.fgrid p{font-size:12.5px;line-height:1.7;max-width:none}
+.fgrid>div:last-child a{display:inline-block;margin-right:18px;padding:2px 0;font-size:12.5px}.fgrid>div:last-child a:last-child{margin-right:0}
+.fbar{padding:14px 22px 20px;font-size:11.5px}
+@media(max-width:760px){footer{margin-top:64px}.fgrid{gap:18px;padding-top:28px}.fgrid>div{flex:1 1 100%!important}}
+
+/* ===== Footer gaya situs sekolah ===== */
+footer.ft{margin-top:104px;background:linear-gradient(135deg,#061636 0,#0a2556 55%,#0b3d91 140%);color:#c3cfe6;border-top:0}
+footer.ft .wrap{display:block}
+.ftg{display:grid!important;grid-template-columns:1.25fr 1.2fr .85fr 1fr;gap:44px;padding:56px 22px 40px}
+.fbn{display:flex;align-items:center;gap:12px}.fl{width:44px;height:44px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none;overflow:hidden}.fl img{width:100%;height:100%;object-fit:contain;padding:4px}
+.fbn b{display:block;color:#fff;font-size:15px;line-height:1.25}.fbn small{color:#8fb0e8;font-size:12px}
+.fb p{margin:16px 0 0;font-size:13px;line-height:1.75;color:#a9b9d8;max-width:340px}
+.fs{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.so{width:36px;height:36px;border-radius:10px;border:1px solid #ffffff26;background:#ffffff0d;display:grid;place-items:center;color:#c3cfe6;transition:.15s}.so:hover{background:#ffffff1f;color:#fff}.so svg{width:17px;height:17px}
+.ft h4{margin:4px 0 16px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9db3dd}
+.ft ul{list-style:none;margin:0;padding:0}
+.fc li{display:flex;gap:11px;align-items:flex-start;font-size:13px;line-height:1.55;padding:5px 0;color:#d3dcf0}.fc svg{width:16px;height:16px;margin-top:2px;color:#8fb0e8}
+.fc a,.fk a{color:inherit;text-decoration:none}.fc a:hover,.fk a:hover{color:#fff}
+.fk li{padding:5px 0}.fk a{font-size:13px;color:#c3cfe6;transition:color .15s}
+.ftb{display:flex!important;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;border-top:1px solid #ffffff1c;padding:18px 22px 26px;font-size:12px;color:#8ea0c4}
+@media(max-width:980px){.ftg{grid-template-columns:1fr 1fr;gap:34px}}
+@media(max-width:560px){footer.ft{margin-top:72px}.ftg{grid-template-columns:1fr;gap:28px;padding-top:40px}}
+
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
- <a class="brand" href="#"><span class="mark" id="lg"></span><span><b>CALM School Hub</b><small>Layanan sekolah digital</small></span></a>
- <nav class="links"><a href="#layanan">Layanan</a><a href="#angka">Infografis</a><a href="#informasi">Informasi</a><a href="#ekspresi">Ekspresi</a><button class="btn p" onclick="openM('service','surat_aktif')">Mulai layanan</button></nav>
+ <a class="brand" href="#"><span class="mark" id="lg"></span><span><b>CALM School Hub</b><small>SMKS Ciledug Al-Musaddadiyah</small></span></a>
+ <nav class="links"><a href="#layanan">Layanan</a><a href="#angka">Sekilas Sekolah</a><a href="#informasi">Informasi</a><a href="#ekspresi">Karya Siswa</a><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">Situs Sekolah</a><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan Layanan</button></nav>
 </div></header>
 <main>
 <section class="hero"><div class="wrap">
- <div><span class="pill">Layanan digital sekolah · aman & praktis</span><h1>Layanan sekolah yang lebih <span class="grad">sederhana.</span></h1>
- <p class="lead">Ajukan kebutuhan administrasi dari mana saja, pantau prosesnya secara transparan, dan datang ke sekolah hanya saat diperlukan.</p>
- <div class="cta"><button class="btn p" onclick="openM('service','surat_aktif')">Mulai layanan</button><button class="btn" onclick="openM('track')">Lacak layanan</button></div></div>
- <div><div class="hero-panel"><div class="demo" aria-label="Contoh tampilan pelacakan"><div class="row"><div><small>Pelacakan real-time</small><b class="n">LEG-261004-001</b></div><span class="tag">Diproses</span></div>
- <ol class="steps"><li class="done">Diajukan</li><li class="done">Diverifikasi</li><li class="now">Diproses</li><li>Siap Diambil</li><li>Selesai</li></ol><div class="mini-proof"><span><i>✓</i> Nomor & kode pelacakan</span><span><i>✓</i> Status diperbarui petugas</span></div></div></div><p class="cap">Contoh pengalaman pelacakan pengajuan</p></div>
+ <div><span class="pill">Layanan Digital Terpadu</span><h1>Satu pintu layanan, <em class="ac">tertib dan transparan.</em></h1>
+ <p class="lead">Ajukan surat, legalisir, dan kebutuhan administrasi lainnya secara daring. Setiap pengajuan memperoleh nomor tiket dan dapat dipantau hingga selesai.</p>
+ <div class="cta"><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan Layanan</button><button class="btn" onclick="openM('track')">Lacak Pengajuan</button></div>
+ <ul class="facts"><li><b>Sejak 1996</b></li><li><b>Akreditasi A</b> BAN-S/M</li><li>Yayasan Al-Musaddadiyah Garut</li></ul></div>
+ <div><div class="hero-panel"><div class="demo" aria-label="Contoh tampilan pelacakan"><div class="row"><div><small>Pelacakan pengajuan</small><b class="n">LEG-261004-001</b></div><span class="tag">Diproses</span></div>
+ <ol class="steps"><li class="done">Diajukan</li><li class="done">Diverifikasi</li><li class="now">Diproses</li><li>Siap Diambil</li><li>Selesai</li></ol><div class="mini-proof"><span><i>✓</i> Nomor tiket & kode pelacakan</span><span><i>✓</i> Status dari petugas sekolah</span></div></div></div><p class="cap">Contoh tampilan pelacakan pengajuan</p></div>
 </div></section>
-<section class="trust"><div class="wrap"><div><b>01</b><span>Ajukan online</span></div><div><b>02</b><span>Diverifikasi petugas</span></div><div><b>03</b><span>Pantau status</span></div><div><b>04</b><span>Ambil saat siap</span></div></div></section>
-<section class="s" id="layanan"><div class="wrap"><div class="hd"><h2>Layanan sekolah terpadu</h2><p>Pilih kebutuhan Anda. Setiap layanan memiliki alur, status, dan target penyelesaian yang jelas.</p></div><div class="grid" id="g-layanan" style="margin-bottom:22px"></div><div class="service-grid" id="g-layanan-surat"></div><div class="service-note"><div><b>Semua layanan memiliki nomor tiket.</b><span>Simpan nomor dan kode pelacakan untuk memantau proses tanpa harus datang ke sekolah.</span></div><button class="btn p" onclick="openM('track')">Lacak layanan</button></div></div></section>
-<section class="s" id="angka"><div class="wrap"><div class="hd"><h2>Sekolah dalam angka</h2><p>Ringkasan otomatis dari data yang sudah diterbitkan.</p></div><div id="ig"></div></div></section>
-<section class="s" id="informasi"><div class="wrap"><div class="hd"><h2>Informasi sekolah</h2><p>Data dan capaian yang diperbarui oleh petugas sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
-<section class="s" id="ekspresi"><div class="wrap"><div class="hd"><h2>Ekspresi siswa</h2><p>Tulisan dan karya siswa yang sudah dimoderasi sekolah.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
+<section class="trust"><div class="wrap"><div><b>01</b><span>Ajukan daring</span></div><div><b>02</b><span>Diverifikasi petugas</span></div><div><b>03</b><span>Pantau status</span></div><div><b>04</b><span>Ambil saat siap</span></div></div></section>
+<section class="s" id="layanan"><div class="wrap"><div class="hd"><span class="eyebrow">Layanan</span><h2>Pilih layanan yang <em>Anda butuhkan.</em></h2><p>Setiap layanan memiliki alur, status, dan target waktu penyelesaian yang jelas.</p></div><div class="grid" id="g-layanan" style="margin-bottom:22px"></div><div class="service-grid" id="g-layanan-surat"></div><div class="service-note"><div><b>Setiap pengajuan memperoleh nomor tiket.</b><span>Simpan nomor dan kode pelacakan untuk memantau proses tanpa perlu datang ke sekolah.</span></div><button class="btn p" onclick="openM('track')">Lacak Pengajuan</button></div></div></section>
+<section class="s" id="angka"><div class="wrap"><div class="hd"><span class="eyebrow">Sekilas Sekolah</span><h2>Sekolah <em>dalam angka.</em></h2><p>Ringkasan data yang diperbarui langsung oleh petugas sekolah.</p></div><div id="ig"></div></div></section>
+<section class="s" id="informasi"><div class="wrap"><div class="hd"><span class="eyebrow">Informasi</span><h2>Capaian dan <em>program sekolah.</em></h2><p>Prestasi, program, dan organisasi yang dikelola oleh sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
+<section class="s" id="ekspresi"><div class="wrap"><div class="hd"><span class="eyebrow">Karya Siswa</span><h2>Ruang bagi <em>tulisan dan karya.</em></h2><p>Setiap kiriman ditinjau sekolah sebelum ditampilkan.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
 </main>
-<footer><div class="wrap"><span>© <span id="yr"></span> CALM School Hub</span><span class="footer-links"><span>Legalisir, pelacakan, dan buku tamu</span><a href="admin.html" id="adm" style="color:inherit;opacity:.75">Masuk admin</a></span></div></footer>
+<footer class="ft"><div class="wrap ftg">
+<div class="fb"><div class="fbn"><span class="fl"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD-8YPFS6i86EyZZNDUhwuam5ro_mtc9So2muvB7EDWz1Zp6rarLubvVS3vfVVoto_S6SaHlIPPnmNaddUugGUztWkJYhDwwT8CU1BcUuq9TNyxnHKa6B44iDBx6LjR1-z3r7_C34jviaWeOYgk4bNJHsziPV4KR5mQjY69HVhyphenhyphenR3STD4xp-b46x_HeR4/s160/An8Em6pLCtVUNFZTK-rgdQG9pKiDxE1AR7m_1QO_5slD3C5qFXYq7S9suI1ztpViB_aUnbOGE2-Y71AU9SF3GjQzZ09xbw5aat-JT_7ptJ4VcfdGeJ73DWbHD9IDtVHa_16MjCj09HJ4eGBvZMo-removebg-preview.png" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div><b>SMK Ciledug Al-Musaddadiyah</b><small>CALM School Hub · Garut</small></div></div><p>Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah, di bawah naungan Yayasan Al-Musaddadiyah Garut.</p><div class="fs"><a class="so" href="https://www.instagram.com/smkscalm_official/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg></a><a class="so" href="https://www.facebook.com/profile.php?id=61575761302335" target="_blank" rel="noopener" aria-label="Facebook"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a class="so" href="https://www.tiktok.com/@smkscalm_official" target="_blank" rel="noopener" aria-label="TikTok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.4 2.6 2 4 5 4.2"/></svg></a><a class="so" href="https://www.youtube.com/@smk_calm" target="_blank" rel="noopener" aria-label="YouTube"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10.5 9.5 4 2.5-4 2.5z"/></svg></a><a class="so" href="https://wa.me/6287856681523" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9 9c0 3 3 6 6 6l1-1.5-2-1-1 .7c-1-.5-1.800-1.300-2.300-2.300l.7-1-1-2z"/></svg></a></div></div>
+<div><h4>Kontak</h4><ul class="fc"><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Jl. Mayor Syamsu No.2, Jayaraga, Tarogong Kidul, Garut</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>(0262) 4892181</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>info@smkciledug.sch.id</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Senin–Jumat, 07.00–16.00 WIB</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">smkciledugalmusaddadiyah.sch.id</a></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l8-5 8 5v12M9 21v-6h6v6"/></svg><span>NPSN 20209207</span></li></ul></div>
+<div><h4>Layanan</h4><ul class="fk"><li><a href="#layanan" onclick="openM('legal');return false">Legalisir Dokumen</a></li><li><a href="#layanan" onclick="openM('service','surat_aktif');return false">Surat Keterangan</a></li><li><a href="#layanan" onclick="openM('service','pengaduan');return false">Pengaduan &amp; Aspirasi</a></li><li><a href="#layanan" onclick="openM('service','konsultasi');return false">Konsultasi</a></li><li><a href="#layanan" onclick="openM('track');return false">Lacak Pengajuan</a></li><li><a href="#layanan" onclick="openM('tamu');return false">Buku Tamu Digital</a></li></ul></div>
+<div><h4>Tautan Penting</h4><ul class="fk"><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/profil.html" target="_blank" rel="noopener">Profil Sekolah</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/ppdb-online-smk-ciledug-al-musaddadiyah.html" target="_blank" rel="noopener">Daftar SPMB Online</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/portal-akademik.html" target="_blank" rel="noopener">Portal Akademik</a></li><li><a href="https://nisn.data.kemendikdasmen.go.id/" target="_blank" rel="noopener">Cek NISN</a></li><li><a href="https://dapo.kemendikdasmen.go.id/" target="_blank" rel="noopener">Portal Dapodik</a></li><li><a href="admin.html" id="adm">Masuk Petugas</a></li></ul></div>
+</div><div class="wrap ftb"><span>© <span id="yr"></span> SMK Ciledug Al-Musaddadiyah · Berkomitmen untuk Pendidikan Berkualitas</span><span>Yayasan Al-Musaddadiyah Garut</span></div></footer>
 <div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
 
 <script>
@@ -194,29 +316,29 @@ spark:'<path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/>',
 cap:'<path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
 go:'<path d="M5 12h14M13 6l6 6-6 6"/>'};
 const ic=n=>IC[n]?`<svg class="i" viewBox="0 0 24 24">${IC[n]}</svg>`:'';
-$('lg').innerHTML=ic('cap');$('yr').textContent=new Date().getFullYear();
+{const l=$('lg'),im=new Image();im.alt='Logo SMK Ciledug Al-Musaddadiyah';im.referrerPolicy='no-referrer';im.onload=()=>{l.textContent='';l.appendChild(im)};l.innerHTML=ic('cap');im.src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD-8YPFS6i86EyZZNDUhwuam5ro_mtc9So2muvB7EDWz1Zp6rarLubvVS3vfVVoto_S6SaHlIPPnmNaddUugGUztWkJYhDwwT8CU1BcUuq9TNyxnHKa6B44iDBx6LjR1-z3r7_C34jviaWeOYgk4bNJHsziPV4KR5mQjY69HVhyphenhyphenR3STD4xp-b46x_HeR4/s160/An8Em6pLCtVUNFZTK-rgdQG9pKiDxE1AR7m_1QO_5slD3C5qFXYq7S9suI1ztpViB_aUnbOGE2-Y71AU9SF3GjQzZ09xbw5aat-JT_7ptJ4VcfdGeJ73DWbHD9IDtVHa_16MjCj09HJ4eGBvZMo-removebg-preview.png'}$('yr').textContent=new Date().getFullYear();
 
 /* Katalog modul: [kunci, ikon, judul, deskripsi, aksi, kelas] */
 const SECTIONS={
-layanan:[['legal','doc','Legalisir','Ajukan ijazah, SKL, atau rapor sebelum datang.','Ajukan','main'],['track','find','Lacak pengajuan','Cek status dengan nomor pengajuan.','Lacak'],['tamu','book','Buku tamu digital','Catat kunjungan Anda ke sekolah.','Isi buku tamu']],
-informasi:[['statistik','chart','Sekolah dalam angka','Ringkasan data sekolah.','Lihat'],['prestasi','trophy','Prestasi & lomba','Capaian siswa dan sekolah.','Lihat'],['program','target','Program sekolah','Kegiatan dan perkembangannya.','Lihat'],['organisasi','users','Organisasi','OSIS, ekstrakurikuler, dan komunitas.','Lihat']],
-ekspresi:[['mading','news','Mading digital','Artikel, opini, dan cerita dari siswa.','Baca'],['karya','spark','Karya siswa','Desain, fotografi, ilustrasi, dan video.','Jelajahi']]};
+layanan:[['legal','doc','Legalisir','Ijazah, SKL, dan rapor. Ajukan lebih dulu, ambil saat siap.','Ajukan','main'],['track','find','Lacak pengajuan','Pantau status dengan nomor dan kode pelacakan.','Lacak'],['tamu','book','Buku tamu digital','Catat kunjungan Anda secara ringkas dan tertib.','Isi buku tamu']],
+informasi:[['statistik','chart','Sekolah dalam angka','Ringkasan data utama sekolah.','Lihat'],['prestasi','trophy','Prestasi & lomba','Capaian siswa dan sekolah.','Lihat'],['program','target','Program sekolah','Kegiatan sekolah dan perkembangannya.','Lihat'],['organisasi','users','Organisasi','OSIS, ekstrakurikuler, dan komunitas.','Lihat']],
+ekspresi:[['mading','news','Mading digital','Tulisan, opini, dan cerita dari siswa.','Baca'],['karya','spark','Karya siswa','Desain, fotografi, ilustrasi, dan video karya siswa.','Jelajahi']]};
 for(const [s,items] of Object.entries(SECTIONS))$('g-'+s).innerHTML=items.map(([k,i,t,d,a,c])=>`<button class="card ${c||''}" onclick="openM('${k}')">${s==='ekspresi'?`<span class="ic">${ic(i)}</span><div><h3>${t}</h3><p>${d}</p><em>${a} ${ic('go')}</em></div>`:`<span class="ic">${ic(i)}</span><h3>${t}</h3><p>${d}</p><em>${a}${c==='soon'?'':' '+ic('go')}</em>`}</button>`).join('');
 
 /* Katalog layanan operasional v2 */
 const SERVICE_UI=[
-['surat_aktif','doc','Surat Keterangan Siswa Aktif','Untuk beasiswa, administrasi, lomba, magang, dan kebutuhan resmi.','1 hari','Digital / Ambil'],
-['surat_alumni','graduation','Surat Keterangan Alumni','Keterangan resmi pernah menempuh pendidikan di sekolah.','2 hari','Digital / Ambil'],
-['surat_rekomendasi','star','Surat Rekomendasi','Rekomendasi untuk studi, kerja, atau program tertentu.','3 hari','Digital / Ambil'],
-['surat_mutasi','swap','Surat Pindah / Mutasi','Administrasi perpindahan peserta didik secara terarah.','3 hari','Ambil'],
-['surat_izin','calendar','Surat Izin / Dispensasi','Permohonan izin atau dispensasi kegiatan peserta didik.','1 hari','Digital / Ambil'],
-['pengaduan','alert','Pengaduan','Sampaikan kendala layanan, fasilitas, atau masalah yang perlu ditindaklanjuti.','Respons 1 hari','Digital'],
-['aspirasi','spark','Aspirasi & Saran','Berikan ide dan masukan untuk pengembangan sekolah.','3 hari','Digital'],
-['konsultasi','users','Konsultasi','Ajukan permintaan konsultasi dengan pihak sekolah.','2 hari','Digital / Tatap muka'],
-['janji_temu','calendar','Janji Temu','Atur permintaan pertemuan dengan guru, staf, atau pimpinan.','1 hari','Tatap muka']
+['surat_aktif','doc','Surat Keterangan Siswa Aktif','Untuk beasiswa, lomba, magang, dan keperluan administrasi.','1 hari kerja','Daring / Ambil'],
+['surat_alumni','graduation','Surat Keterangan Alumni','Keterangan resmi bahwa Anda pernah menempuh pendidikan di sekolah.','2 hari kerja','Daring / Ambil'],
+['surat_rekomendasi','star','Surat Rekomendasi','Rekomendasi untuk studi lanjutan, pekerjaan, atau program tertentu.','3 hari kerja','Daring / Ambil'],
+['surat_mutasi','swap','Surat Pindah / Mutasi','Pengurusan administrasi perpindahan peserta didik.','3 hari kerja','Ambil'],
+['surat_izin','calendar','Surat Izin / Dispensasi','Permohonan izin atau dispensasi kegiatan peserta didik.','1 hari kerja','Daring / Ambil'],
+['pengaduan','alert','Pengaduan','Sampaikan kendala layanan atau fasilitas agar dapat ditindaklanjuti.','Respons 1 hari kerja','Digital'],
+['aspirasi','spark','Aspirasi & Saran','Berikan gagasan dan masukan untuk kemajuan sekolah.','3 hari kerja','Digital'],
+['konsultasi','users','Konsultasi','Ajukan permintaan konsultasi dengan pihak sekolah.','2 hari kerja','Daring / Tatap muka'],
+['janji_temu','calendar','Janji Temu','Atur permintaan pertemuan dengan guru, staf, atau pimpinan.','1 hari kerja','Tatap muka']
 ];
 const SIC={graduation:'<path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/>',swap:'<path d="M7 7h13M17 3l4 4-4 4M17 17H4M7 13l-4 4 4 4"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',alert:'<path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17v.5"/>',spark:IC.spark,users:IC.users,doc:IC.doc};
-$('g-layanan-surat').innerHTML=SERVICE_UI.map(([k,i,t,d,sla,met])=>`<button class="service-card" onclick="openM('service','${k}')"><span class="ic">${ic(i)||`<svg class="i" viewBox="0 0 24 24">${SIC[i]||''}</svg>`}</span><h3>${t}</h3><p>${d}</p><div class="service-meta"><span>${sla}</span><span>${met}</span></div><em>Ajukan layanan ${ic('go')}</em></button>`).join('');
+$('g-layanan-surat').innerHTML=SERVICE_UI.map(([k,i,t,d,sla,met])=>`<button class="service-card" onclick="openM('service','${k}')"><span class="ic">${ic(i)||`<svg class="i" viewBox="0 0 24 24">${SIC[i]||''}</svg>`}</span><h3>${t}</h3><p>${d}</p><div class="service-meta"><span>${sla}</span><span>${met}</span></div><em>Ajukan ${ic('go')}</em></button>`).join('');
 
 /* Formulir */
 const METODE={surat_aktif:['Diambil di sekolah','Digital'],surat_alumni:['Diambil di sekolah','Digital'],surat_rekomendasi:['Diambil di sekolah','Digital'],surat_mutasi:['Diambil di sekolah'],surat_izin:['Digital','Diambil di sekolah'],pengaduan:['Digital'],aspirasi:['Digital'],konsultasi:['Digital','Tatap muka'],janji_temu:['Tatap muka']};
@@ -304,7 +426,7 @@ function wireServiceDraft(f,sid){restoreServiceDraft(f,sid);f.addEventListener('
 
 function openM(k,pre,kode){lastFocus=document.activeElement;const t=++tok;
  if(k==='service'||SERVICE_UI.some(a=>a[0]===k)){const sid=k==='service'?(pre||'surat_aktif'):k,x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];$('mt').textContent=x[2];$('md').textContent=x[3];$('mb').innerHTML=serviceForm(sid);const f=document.querySelector('#mb form');if(f)wireServiceDraft(f,sid);const d=document.querySelector('[name=tanggalDiperlukan]');if(d)d.min=tglIni();$('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>document.querySelector('#mb input:not([type=hidden])')?.focus(),50);return}
- const base={legal:['Pengajuan legalisir','Isi data berikut agar dokumen bisa disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor pengajuan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya butuh satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau ceritamu untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatifmu untuk ditampilkan di sekolah.',kKarya]}[k];
+ const base={legal:['Pengajuan legalisir','Lengkapi data berikut agar dokumen dapat disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor tiket dan kode pelacakan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya membutuhkan satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau ceritamu untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatifmu untuk ditampilkan di sekolah.',kKarya]}[k];
  if(base){$('mt').textContent=base[0];$('md').textContent=base[1];$('mb').innerHTML=base[2];
   const d=document.querySelector('[name=tanggalAmbil]');if(d)d.min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
   if(pre){const n=document.querySelector('[name=nomor]');if(n)n.value=pre;const c=document.querySelector('[name=kode]');if(c&&kode)c.value=kode}}
