@@ -462,6 +462,23 @@ html.kb .ov{bottom:auto;top:var(--vvt);height:var(--vvh)}
 @supports (height:100svh){.ov{height:100svh}}
 html.kb .ov{top:var(--vvt);height:var(--vvh)}
 #dbg{position:fixed;z-index:99;left:6px;top:6px;max-width:calc(100% - 12px);padding:8px 10px;border-radius:10px;background:#000c;color:#9fffb0;font:11px/1.45 monospace;white-space:pre-wrap;pointer-events:none}
+
+/* v9: perbaikan tombol aksi modal pada layar HP */
+.ov{height:100vh;height:100dvh;min-height:0;overscroll-behavior:none}
+@supports(height:100svh){.ov:not(html.kb .ov){height:100svh}}
+.modal{min-height:0;height:auto;max-height:100%;overflow:hidden}
+#mb{min-height:0;flex:1 1 auto;overscroll-behavior:contain;padding-bottom:16px}
+#mb form{align-content:start;min-width:0}
+#mb .fa{position:sticky;bottom:calc(-1 * var(--mp));z-index:10;grid-column:1/-1;align-self:end;margin:16px calc(var(--mp)*-1) calc(-1 * var(--mp));padding:14px var(--mp) calc(14px + env(safe-area-inset-bottom, 0px));background:rgba(255,255,255,.98);box-shadow:0 -8px 20px -18px #0a1b3d66;border-top:1px solid var(--line)}
+#mb .fa .btn{display:flex;width:100%;min-height:50px;touch-action:manipulation}
+@media(max-width:560px){
+ .ov{padding:0;align-items:stretch}
+ .modal{width:100%;height:100%;max-height:100%;border-radius:20px 20px 0 0}
+ .mh{flex:none}
+ #mb{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+ #mb .fa{bottom:calc(-1 * var(--mp));padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+}
+
 </style>
 </head>
 <body>
