@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="ui-version" content="v8">
 <meta name="description" content="Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah Garut: legalisir, surat keterangan, pengaduan, konsultasi, dan pelacakan pengajuan dalam satu pintu.">
 <title>CALM School Hub · Layanan Digital Terpadu SMKS Ciledug Al-Musaddadiyah Garut</title>
 <meta name="theme-color" content="#0a1b3d">
@@ -456,6 +457,11 @@ html.kb .ov{bottom:auto;top:var(--vvt);height:var(--vvh)}
 @media(max-width:560px){.modal{max-height:calc(100% - 10px)}}
 .fa{flex:none}
 #mb{scroll-padding-bottom:110px}
+/* v8: tinggi overlay memakai satuan svh (area terlihat saat bar alamat tampil) — tidak bergantung pada angka JS */
+.ov{inset:0 0 auto 0;height:100%}
+@supports (height:100svh){.ov{height:100svh}}
+html.kb .ov{top:var(--vvt);height:var(--vvh)}
+#dbg{position:fixed;z-index:99;left:6px;top:6px;max-width:calc(100% - 12px);padding:8px 10px;border-radius:10px;background:#000c;color:#9fffb0;font:11px/1.45 monospace;white-space:pre-wrap;pointer-events:none}
 </style>
 </head>
 <body>
@@ -765,15 +771,20 @@ loadIG();
 
 /* Modal mengikuti viewport visual (keyboard layar HP), menu mobile, fokus & penutupan */
 (()=>{const h=document.documentElement,r=h.style,vv=window.visualViewport,ov=$('ov');
+const editing=()=>{const a=document.activeElement;return !!(a&&a.closest&&a.closest('#ov')&&/^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName))};
+/* Tinggi overlay normal = 100svh (CSS). Angka visualViewport dipakai hanya saat keyboard layar benar-benar terbuka. */
 const f=()=>{if(!vv){h.classList.remove('kb');return}
  const top=vv.offsetTop,vh=vv.height;r.setProperty('--vvh',vh+'px');r.setProperty('--vvt',top+'px');
- /* keyboard layar menutupi bagian bawah layout viewport (tanpa zoom cubit) */
- let kb=vv.scale<=1.01&&(innerHeight-(vh+top))>80;h.classList.toggle('kb',kb);
- /* pengaman: bila dasar overlay melewati area terlihat, ikuti viewport visual */
- if(!kb&&ov.classList.contains('show')&&ov.getBoundingClientRect().bottom>top+vh+2)h.classList.add('kb')};
+ h.classList.toggle('kb',ov.classList.contains('show')&&editing()&&vv.scale<=1.01&&(innerHeight-(vh+top))>80)};
 window.fitVV=f;if(vv){vv.addEventListener('resize',f);vv.addEventListener('scroll',f)}addEventListener('resize',f);addEventListener('orientationchange',()=>setTimeout(f,250));f();
-/* kolom yang difokuskan tetap terlihat di atas tombol aksi */
-document.addEventListener('focusin',e=>{const t=e.target;if(!coarse()||!t.closest||!t.closest('#mb')||!/^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName))return;setTimeout(()=>{f();t.scrollIntoView({block:'nearest'})},320)})})();
+document.addEventListener('focusin',e=>{const t=e.target;if(!coarse()||!t.closest||!t.closest('#mb')||!/^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName))return;setTimeout(()=>{f();t.scrollIntoView({block:'nearest'})},320)});
+document.addEventListener('focusout',()=>setTimeout(f,150))})();
+/* Diagnosis: buka halaman dengan ?debug=1 untuk melihat ukuran viewport sebenarnya di perangkat */
+if(/[?&]debug=1(&|$)/.test(location.search)){const d=document.createElement('div');d.id='dbg';document.body.appendChild(d);
+ const pr=document.createElement('div');pr.style.cssText='position:fixed;visibility:hidden;pointer-events:none;left:0;top:0;width:0;height:100svh;padding-bottom:env(safe-area-inset-bottom,0px)';pr.innerHTML='<i style="position:absolute;height:100lvh"></i><i style="position:absolute;height:100dvh"></i>';document.body.appendChild(pr);
+ const u=()=>{const vv=window.visualViewport,o=$('ov'),b=document.querySelector('#mb .fa .btn'),R=e=>e?Math.round(e.getBoundingClientRect().bottom):'-';
+  d.textContent=['UI v8','innerH '+innerHeight+'  screenH '+screen.height,'vv.h '+(vv?Math.round(vv.height):'-')+'  vv.top '+(vv?Math.round(vv.offsetTop):'-')+'  scale '+(vv?vv.scale.toFixed(2):'-'),'svh '+pr.offsetHeight+'  lvh '+pr.children[0].offsetHeight+'  dvh '+pr.children[1].offsetHeight,'safe-bottom '+parseInt(getComputedStyle(pr).paddingBottom),'ov.bottom '+R(o)+'  tombol.bottom '+R(b),'kb '+h2.classList.contains('kb')].join('\n')};
+ const h2=document.documentElement;u();setInterval(u,400)}
 {const o=openM;openM=function(){o.apply(this,arguments);$('mb').scrollTop=0;window.fitVV&&fitVV();if(coarse())document.querySelector('.modal').focus({preventScroll:true})}}
 (()=>{const n=$('nav'),b=$('mn'),set=v=>{n.classList.toggle('open',v);b.setAttribute('aria-expanded',String(v));b.setAttribute('aria-label',v?'Tutup menu':'Buka menu')};b.onclick=()=>set(!n.classList.contains('open'));n.addEventListener('click',e=>{if(e.target.closest('a,button'))set(false)});document.addEventListener('click',e=>{if(!e.target.closest('.top'))set(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false)})})();
 $('ov').addEventListener('click',e=>{if(e.target===$('ov')&&!$('mb').querySelector('form'))closeM()});
