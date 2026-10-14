@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah Garut: legalisir, surat keterangan, pengaduan, konsultasi, dan pelacakan pengajuan dalam satu pintu.">
 <title>CALM School Hub · Layanan Digital Terpadu SMKS Ciledug Al-Musaddadiyah Garut</title>
-<meta name="theme-color" content="#0b3d91">
+<meta name="theme-color" content="#0a1b3d">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
 <style>
@@ -231,12 +231,230 @@ footer.ft .ftb{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
 .thx-a{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
 @media(max-width:560px){.thx-a .btn{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* ===== v4: polesan modern-elegan (Midnight Navy · Champagne Gold) ===== */
+:root{--navy:#0a1b3d;--gold:#c8963e;--soft:#f5f7fb;--sh1:0 1px 2px #0a1b3d0d,0 8px 24px -16px #0a1b3d33;--sh2:0 2px 4px #0a1b3d0f,0 24px 40px -24px #0a1b3d55}
+body{background:var(--soft);font-size:15px;color:#243251}
+em.ac,.hd h2 em{font-family:var(--serif)}
+/* header */
+.top{background:#ffffffe6;border-bottom:1px solid #e4e9f2;box-shadow:0 1px 0 #fff inset}
+.top:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:.55;pointer-events:none}
+.mark{border-radius:12px;box-shadow:var(--sh1)}
+.brand b{font-family:var(--serif);font-size:17px;font-weight:600;letter-spacing:0;color:var(--navy)}
+.links a{position:relative;font-weight:600}.links a:hover{color:var(--navy)}
+@media(min-width:901px){.links a:not(.btn):after{content:"";position:absolute;left:12px;right:12px;bottom:2px;height:2px;border-radius:2px;background:var(--gold);transform:scaleX(0);transition:transform .2s}.links a:hover:after{transform:scaleX(1)}}
+/* tombol */
+.btn{border-radius:12px;border-color:#d5ddec;font-weight:600;transition:transform .15s,box-shadow .15s,border-color .15s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn.p{background:linear-gradient(180deg,#123a85,#0a2a63);border-color:#0a2a63;box-shadow:0 8px 18px -10px #0a2a63cc,inset 0 1px 0 #ffffff26}
+.btn.p:hover{background:linear-gradient(180deg,#154594,#0b3174);box-shadow:0 12px 22px -10px #0a2a63dd,inset 0 1px 0 #ffffff2e}
+/* hero */
+.hero{position:relative;overflow:hidden;background:radial-gradient(900px 420px at 88% -10%,#c8963e22,transparent 60%),radial-gradient(800px 460px at -10% 10%,#3d6bbd26,transparent 60%),linear-gradient(180deg,#fff,#f5f7fb)}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#0a1b3d08 1px,transparent 1px),linear-gradient(90deg,#0a1b3d08 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 85%);mask-image:linear-gradient(180deg,#000,transparent 85%);pointer-events:none}
+.hero .wrap{position:relative}
+h1{color:var(--navy);font-weight:600;letter-spacing:-.02em}
+h1:after{content:"";display:block;width:56px;height:3px;margin-top:20px;border-radius:3px;background:var(--gold)}
+.lead{color:#4d5b78}
+.facts{border-top:1px solid #dfe5f1}.facts li{display:inline-flex;align-items:center;gap:8px}.facts li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.demo{border:1px solid #e1e8f4;border-radius:20px;padding:24px;box-shadow:var(--sh2)}
+.demo b.n{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--navy)}
+.tag{background:#fff4de;color:#8a5a0f;border:1px solid #f0d9a8}
+.steps li.done:before{border-color:var(--navy);background:radial-gradient(circle,#fff 28%,var(--navy) 30%)}.steps li.done:after{background:var(--navy)}
+.steps li.now{color:var(--navy)}.steps li.now:before{border-color:var(--gold);box-shadow:0 0 0 5px #c8963e2e}
+/* strip alur */
+.trust{background:var(--navy);border:0;padding:0}
+.trust .wrap>div{padding:18px 16px}
+.trust b{color:var(--gold);font-size:18px}.trust span{color:#dbe5fa;font-weight:500}
+@media(min-width:901px){.trust .wrap>div+div{border-left:1px solid #ffffff1c}}
+/* judul seksi */
+section.s{padding-top:var(--sec)}
+.hd{margin-bottom:32px}
+.hd h2{color:var(--navy);font-weight:600}
+.hd h2:before{content:"";display:block;width:36px;height:3px;margin-bottom:16px;border-radius:3px;background:var(--gold)}
+#layanan{padding-bottom:var(--sec)}
+#informasi{padding-bottom:0}
+/* kartu */
+.card,.service-card{border:1px solid #e3e9f4;border-radius:18px;box-shadow:var(--sh1);transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover,.service-card:hover{transform:translateY(-3px);border-color:#c9d6ee;box-shadow:var(--sh2)}
+.ic{width:44px;height:44px;border-radius:12px;background:linear-gradient(145deg,#eef3fc,#dfe9fa);color:#0b3d91;box-shadow:inset 0 0 0 1px #d3e0f6}
+.card .h,.service-card .h{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:0;color:var(--navy)}
+.card .d,.service-card .d{color:#56637f}
+.card .act,.service-card .act{color:#0b3d91}
+.card.main{background:linear-gradient(150deg,#0a1b3d,#0b3d91);border-color:#0a1b3d;box-shadow:0 22px 40px -24px #0a1b3dcc;position:relative;overflow:hidden}
+.card.main:before{content:"";position:absolute;right:-50px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#c8963e55,transparent 70%);pointer-events:none}
+.card.main:hover{background:linear-gradient(150deg,#0c2250,#0d44a3);border-color:#0a1b3d}
+.card.main .ic{background:#ffffff1f;box-shadow:inset 0 0 0 1px #ffffff2e;color:#f3d9a4}
+.card.main .h{color:#fff}.card.main .act{color:#f3d9a4}
+.service-meta span{background:var(--soft);border-color:#e3e9f4;border-radius:99px;padding:3px 10px}
+.service-note{background:#fff;border:1px solid #e3e9f4;border-left:4px solid var(--gold);border-radius:16px;box-shadow:var(--sh1)}
+/* infografis */
+#angka,#ekspresi{background:var(--soft)}
+.igb{border-radius:22px;background:linear-gradient(140deg,#0a1b3d,#0d3a85)}
+.tl b{color:#fff}.tl span{color:#cfdcf5}
+.gc{border-radius:18px;border-color:#e3e9f4;box-shadow:var(--sh1)}
+.gc h3{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--navy)}
+.tr i,.bar i{background:linear-gradient(90deg,#3d6bbd,#0b3d91)}
+/* footer */
+footer.ft{position:relative;background:linear-gradient(160deg,#071634,#0a1b3d 60%,#0c2a63)}
+footer.ft:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.ft h4{color:#f3d9a4}
+/* modal */
+.modal{border-radius:22px;box-shadow:0 40px 90px -30px #0a1b3d99}
+.mh{background:linear-gradient(180deg,#fff,#f8faff)}
+.mh h2{color:var(--navy)}
+.x{border-radius:12px;background:#fff}
+input,select,textarea{border-radius:12px;border-color:#d5ddec;background:#fcfdff}
+input:focus,select:focus,textarea:focus{border-color:#0b3d91;box-shadow:0 0 0 4px #0b3d9120;background:#fff}
+.lst>li,.lst details{border-radius:14px;box-shadow:var(--sh1)}
+.stat{background:var(--soft);border:1px solid #e3e9f4}.stat b{font-family:var(--serif);font-weight:600;color:var(--navy)}
+/* HP */
+@media(max-width:900px){
+ .links{border-radius:0 0 18px 18px}
+ .menu{border-radius:12px;box-shadow:var(--sh1)}
+ .hero .wrap{gap:36px}
+}
+@media(max-width:560px){
+ :root{--gut:20px;--sec:56px}
+ body{font-size:14.5px}
+ .brand b{font-size:16px}.mark{width:38px;height:38px}
+ .hero .wrap{padding-top:36px;padding-bottom:44px;gap:32px}
+ h1{font-size:clamp(30px,9vw,36px);line-height:1.1}
+ h1:after{margin-top:16px;width:44px}
+ .lead{font-size:15px;line-height:1.7}
+ .cta{margin-top:24px}.cta .btn{min-height:50px;font-size:14.5px}
+ .facts{margin-top:28px;padding-top:16px;gap:8px 18px;font-size:12px}
+ .demo{padding:20px;border-radius:18px}
+ .mini-proof{display:grid;gap:8px}
+ .trust .wrap{grid-template-columns:1fr 1fr;gap:0;padding-inline:8px}
+ .trust .wrap>div{padding:14px 12px;gap:10px;align-items:flex-start;border-bottom:1px solid #ffffff14}
+ .trust .wrap>div:nth-child(odd){border-right:1px solid #ffffff14}.trust .wrap>div:nth-last-child(-n+2){border-bottom:0}
+ .trust b{font-size:16px;line-height:1.2}.trust span{font-size:12.5px;line-height:1.4}
+ .hd{margin-bottom:22px}.hd h2{font-size:26px}.hd h2:before{margin-bottom:12px;width:30px}
+ .grid,.service-grid,#g-layanan{gap:12px}
+ .card,.service-card{border-radius:16px;padding:16px;gap:14px}
+ .card .h,.service-card .h{font-size:17px}
+ .ic{width:42px;height:42px}
+ .card:hover,.service-card:hover{transform:none}
+ .service-note{padding:18px;border-radius:14px}.service-note .btn{width:100%}
+ .igb{padding:22px 18px;border-radius:18px}
+ .tls{grid-template-columns:1fr 1fr;gap:22px 14px}
+ .tl b{font-size:30px}
+ .gc{padding:18px;border-radius:16px}
+ .dnw{justify-content:center}
+ footer.ft .ftg{padding-top:36px}
+ .modal{border-radius:22px 22px 0 0}
+ .modal:before{content:"";display:block;flex:none;width:40px;height:4px;margin:10px auto 0;border-radius:4px;background:#d5ddec}
+ .mh{padding-top:12px}
+}
+@media(max-width:360px){h1{font-size:28px}.trust .wrap>div{padding:12px 8px}}
+/* ===== v5: perbaikan responsif HP (halaman lebih ringkas, jarak seimbang) ===== */
+@media(max-width:900px){
+ #angka,#ekspresi{margin-top:0}
+ #layanan{padding-bottom:clamp(40px,8vw,64px)}
+ #informasi{padding-top:clamp(48px,8vw,72px)}
+}
+@media(max-width:560px){
+ :root{--sec:44px}
+ .hero .wrap{padding-bottom:36px}
+ .demo{padding:18px}
+ .mini-proof,.cap{display:none}
+ .steps{margin-top:16px}.steps li{padding-bottom:12px;font-size:13.5px}
+ #layanan{padding-bottom:36px}
+ #angka,#ekspresi{padding-block:44px}
+ #informasi{padding-top:44px}
+ .hd{margin-bottom:18px}.hd p{font-size:14px}
+ /* kartu: ringkas, satu ketukan = satu baris informasi */
+ .card,.service-card{padding:14px 40px 14px 14px;gap:12px;align-items:center}
+ .card .tx,.service-card .tx{align-self:stretch}
+ .card .ic,.service-card .ic{align-self:flex-start;width:40px;height:40px}
+ .card .h,.service-card .h{font-size:16.5px;margin-bottom:3px}
+ .card .d,.service-card .d{font-size:13px;line-height:1.55;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+ .service-card .act{display:none}
+ .card .act{margin-top:8px;font-size:12.5px}
+ .go{display:grid;top:50%;right:12px;width:26px;height:26px;transform:translateY(-50%)}
+ .card.main .go,.card:hover .go,.service-card:hover .go{transform:translateY(-50%)}
+ .service-meta{gap:6px;margin-top:8px}
+ .service-meta span{padding:2px 8px;font-size:10.5px;line-height:1.5}
+ .grid.two .card{padding:14px;align-items:flex-start}
+ .grid.two .card .go{display:none}
+ .service-note{margin-top:18px}
+ .igb{padding:20px 16px}
+ footer.ft .ftg{gap:26px}
+ footer.ft .ftb{flex-direction:column;gap:4px}
+}
+@media(max-width:360px){
+ .card,.service-card{padding:12px 36px 12px 12px;gap:10px}
+ .card .ic,.service-card .ic{width:36px;height:36px}
+ .btn{padding-inline:12px}
+}
+@media(max-width:560px){input::placeholder,textarea::placeholder{font-size:14px;font-weight:400;color:#8a96ad;opacity:1}}
+/* ===== v6: FAQ + efek modern minimalis ===== */
+.faq{padding-bottom:var(--sec)}
+.faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,64px);align-items:start}
+.faq-side{position:sticky;top:96px}
+.faq-help{padding:18px 20px;border:1px solid #e3e9f4;border-left:4px solid var(--gold);border-radius:16px;background:#fff;box-shadow:var(--sh1)}
+.faq-help b{display:block;font-size:14.5px;color:var(--navy)}.faq-help>span{display:block;margin-top:2px;color:var(--mut);font-size:13px}
+.faq-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.faq-links .btn{gap:6px}.faq-links svg.i{width:16px;height:16px}
+.faq-search{position:relative;display:block;margin-bottom:12px}
+.faq-search svg.i{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--mut);pointer-events:none}
+.faq-search input{margin:0;padding:13px 14px 13px 42px;border-radius:14px;background:#fff;-webkit-appearance:none;appearance:none}
+.faq-list{border:1px solid #e3e9f4;border-radius:18px;background:#fff;box-shadow:var(--sh1);overflow:hidden}
+.faq-item+.faq-item{border-top:1px solid #e9eef7}
+.faq-item summary{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding:16px 20px;cursor:pointer;list-style:none;font-weight:600;font-size:15px;line-height:1.45;color:var(--navy);transition:background .15s,color .15s;-webkit-tap-highlight-color:transparent}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:hover{background:#f8faff}
+.faq-item summary:focus-visible{outline-offset:-3px;border-radius:14px}
+.pm{position:relative;flex:none;width:28px;height:28px;border-radius:50%;background:var(--sky);transition:background .2s,transform .25s}
+.pm:before,.pm:after{content:"";position:absolute;left:50%;top:50%;width:11px;height:2px;margin:-1px 0 0 -5.5px;border-radius:2px;background:#0b3d91;transition:transform .25s,background .2s}
+.pm:after{transform:rotate(90deg)}
+.faq-item[open] summary{color:#0b3d91}
+.faq-item[open] .pm{background:var(--navy)}.faq-item[open] .pm:before,.faq-item[open] .pm:after{background:#f3d9a4}.faq-item[open] .pm:after{transform:rotate(0)}
+.faq-item .a{padding:0 64px 20px 20px;color:#4d5b78;font-size:14.5px;line-height:1.75}
+.faq-item[open] .a{animation:faqIn .28s ease-out}
+.faq-item .a p{margin:0}.faq-item .a a{color:#0b3d91;font-weight:600;text-underline-offset:3px}
+.faq-empty{margin:12px 4px 0;color:var(--mut);font-size:14px}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}}
+/* header saat digulir & tautan aktif */
+.top{transition:box-shadow .25s,background .25s}
+.top.sc{box-shadow:0 10px 30px -22px #0a1b3d88;background:#fffffff5}
+@media(min-width:901px){.links a.cur:not(.btn){color:var(--navy)}.links a.cur:not(.btn):after{transform:scaleX(1)}}
+/* animasi muncul saat digulir (hanya aktif bila JS berjalan) */
+.rv-on .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+.rv-on .rv.in{opacity:1;transform:none}
+.rv-on .card.rv.in,.rv-on .service-card.rv.in{transition:opacity .6s cubic-bezier(.2,.7,.2,1) var(--d,0ms),transform .2s,box-shadow .2s,border-color .2s}
+/* masuk hero */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+.hero .wrap>div:first-child>*{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.hero .wrap>div:first-child>:nth-child(2){animation-delay:.08s}.hero .wrap>div:first-child>:nth-child(3){animation-delay:.16s}.hero .wrap>div:first-child>:nth-child(4){animation-delay:.24s}
+.hero .wrap>div:last-child{animation:rise .8s .2s cubic-bezier(.2,.7,.2,1) both}
+.steps li.now:before{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px #c8963e14}}
+@media(max-width:900px){.faq-grid{display:flex;flex-direction:column;gap:20px}.faq-side .hd{margin-bottom:0}.faq-side{display:contents}.faq-side .hd{order:0}.faq-main{order:1}.faq-help{order:2;margin-top:4px}}
+@media(max-width:560px){
+ .faq{padding-bottom:44px}
+ .faq-item summary{padding:14px 16px;font-size:14.5px;min-height:56px}
+ .faq-item .a{padding:0 16px 18px;font-size:14px}
+ .faq-list{border-radius:16px}
+ .faq-search input{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){.rv-on .rv{opacity:1!important;transform:none!important}.hero .wrap>div,.hero .wrap>div>*{animation:none!important}}
+/* v6.1: header muat di desktop; tombol kontak FAQ */
+.links a,.links .btn,.top .btn{white-space:nowrap}
+.top .wrap{max-width:1200px}
+.faq-links .btn{text-decoration:none;color:var(--navy);font-weight:600}
+@media(min-width:901px) and (max-width:1100px){
+ .menu{display:grid}
+ .links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;padding:6px var(--gut) 18px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 22px 30px -24px #0a1b3d66}
+ .links.open{display:flex}
+ .links a{display:block;padding:14px 2px;font-size:15px;border-bottom:1px solid var(--line)}
+ .links a:not(.btn):after{display:none}
+ .links .btn{margin:16px 0 0}
+}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
  <a class="brand" href="#"><span class="mark" id="lg"></span><span><b>CALM School Hub</b><small>SMKS Ciledug Al-Musaddadiyah</small></span></a>
- <nav class="links" id="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#angka">Sekilas sekolah</a><a href="#informasi">Capaian</a><a href="#ekspresi">Karya siswa</a><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">Situs sekolah</a><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan layanan</button></nav><button class="menu" id="mn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Buka menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+ <nav class="links" id="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#angka">Sekilas sekolah</a><a href="#informasi">Capaian</a><a href="#ekspresi">Karya siswa</a><a href="#faq">FAQ</a><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">Situs sekolah</a><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan layanan</button></nav><button class="menu" id="mn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Buka menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
 <main>
 <section class="hero"><div class="wrap">
@@ -252,11 +470,35 @@ footer.ft .ftb{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
 <section class="s" id="angka"><div class="wrap"><div class="hd"><h2>Sekolah dalam angka</h2><p>Ringkasan data yang diperbarui langsung oleh petugas sekolah.</p></div><div id="ig"></div></div></section>
 <section class="s" id="informasi"><div class="wrap"><div class="hd"><h2>Capaian dan program sekolah</h2><p>Prestasi, program, dan organisasi siswa yang dikelola sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
 <section class="s" id="ekspresi"><div class="wrap"><div class="hd"><h2>Ruang karya dan tulisan siswa</h2><p>Setiap kiriman ditinjau sekolah sebelum ditampilkan.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
+<section class="s faq" id="faq"><div class="wrap">
+ <div class="faq-grid">
+  <div class="faq-side">
+   <div class="hd"><h2>Pertanyaan yang sering diajukan</h2><p>Jawaban singkat seputar pengajuan, pelacakan, dan pengambilan dokumen.</p></div>
+   <div class="faq-help"><b>Belum menemukan jawabannya?</b><span>Hubungi sekolah pada hari dan jam layanan.</span>
+    <div class="faq-links"><a href="tel:+622624892181" class="btn s" aria-label="Telepon sekolah"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>(0262) 4892181</a><a href="mailto:info@smkciledug.sch.id" class="btn s" aria-label="Kirim email ke sekolah"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a></div>
+   </div>
+  </div>
+  <div class="faq-main">
+   <label class="faq-search"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Cari pertanyaan, mis. status, legalisir" autocomplete="off" aria-label="Cari pertanyaan"></label>
+   <div class="faq-list" id="fl">
+    <details class="faq-item" name="faq" open><summary>Layanan apa saja yang tersedia?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Legalisir dokumen, surat keterangan (siswa aktif, alumni, rekomendasi, pindah atau mutasi, izin atau dispensasi), pengaduan, aspirasi dan saran, konsultasi, janji temu, serta buku tamu digital.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Bagaimana cara mengajukan layanan?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Pilih layanan pada bagian <a href="#layanan">Layanan</a>, isi formulir, lalu kirim. Setelah terkirim, Anda memperoleh nomor tiket dan kode pelacakan. Simpan keduanya.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Bagaimana memantau status pengajuan?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Buka <a href="#" onclick="openM('track');return false">Lacak pengajuan</a>, lalu masukkan nomor tiket dan kode pelacakan. Status berjalan dari Diajukan, Diverifikasi, Diproses, Siap Diambil, hingga Selesai. Jika berstatus Perlu Perbaikan, lengkapi data sesuai catatan petugas.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Berapa lama prosesnya?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Setiap layanan mencantumkan target waktu pada kartunya, misalnya 1 sampai 3 hari kerja. Target dihitung dalam hari kerja dan dapat berbeda sesuai kelengkapan data serta antrean.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Nomor tiket atau kode pelacakan saya hilang. Apa yang harus dilakukan?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Hubungi sekolah melalui telepon (0262) 4892181 atau email info@smkciledug.sch.id pada jam layanan. Sebutkan nama dan jenis layanan yang Anda ajukan agar petugas dapat membantu menelusuri.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Bagaimana cara menerima dokumen?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Metode penerimaan, daring atau diambil di sekolah, tertera pada kartu setiap layanan. Untuk dokumen yang diambil, datanglah setelah status berubah menjadi Siap Diambil.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Kapan jam layanan sekolah?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Senin sampai Jumat, pukul 07.00 sampai 16.00 WIB. Pengajuan daring dapat dikirim kapan saja, sedangkan pemrosesan oleh petugas mengikuti hari dan jam layanan.</p></div></details>
+    <details class="faq-item" name="faq"><summary>Apakah karya atau tulisan siswa langsung tampil?<span class="pm" aria-hidden="true"></span></summary><div class="a"><p>Tidak. Setiap kiriman ditinjau sekolah terlebih dahulu sebelum ditampilkan.</p></div></details>
+   </div>
+   <p class="faq-empty" id="fe" hidden>Tidak ada pertanyaan yang cocok. Coba kata kunci lain atau hubungi sekolah.</p>
+  </div>
+ </div>
+</div></section>
 </main>
 <footer class="ft"><div class="wrap ftg">
 <div class="fb"><div class="fbn"><span class="fl"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD-8YPFS6i86EyZZNDUhwuam5ro_mtc9So2muvB7EDWz1Zp6rarLubvVS3vfVVoto_S6SaHlIPPnmNaddUugGUztWkJYhDwwT8CU1BcUuq9TNyxnHKa6B44iDBx6LjR1-z3r7_C34jviaWeOYgk4bNJHsziPV4KR5mQjY69HVhyphenhyphenR3STD4xp-b46x_HeR4/s160/An8Em6pLCtVUNFZTK-rgdQG9pKiDxE1AR7m_1QO_5slD3C5qFXYq7S9suI1ztpViB_aUnbOGE2-Y71AU9SF3GjQzZ09xbw5aat-JT_7ptJ4VcfdGeJ73DWbHD9IDtVHa_16MjCj09HJ4eGBvZMo-removebg-preview.png" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div><b>SMKS Ciledug Al-Musaddadiyah</b><small>CALM School Hub, Garut</small></div></div><p>Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah, di bawah naungan Yayasan Al-Musaddadiyah Garut.</p><div class="fs"><a class="so" href="https://www.instagram.com/smkscalm_official/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg></a><a class="so" href="https://www.facebook.com/profile.php?id=61575761302335" target="_blank" rel="noopener" aria-label="Facebook"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a class="so" href="https://www.tiktok.com/@smkscalm_official" target="_blank" rel="noopener" aria-label="TikTok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.4 2.6 2 4 5 4.2"/></svg></a><a class="so" href="https://www.youtube.com/@smk_calm" target="_blank" rel="noopener" aria-label="YouTube"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10.5 9.5 4 2.5-4 2.5z"/></svg></a><a class="so" href="https://wa.me/6287856681523" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9 9c0 3 3 6 6 6l1-1.5-2-1-1 .7c-1-.5-1.800-1.300-2.300-2.300l.7-1-1-2z"/></svg></a></div></div>
 <div><h4>Kontak</h4><ul class="fc"><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Jl. Mayor Syamsu No.2, Jayaraga, Tarogong Kidul, Garut</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>(0262) 4892181</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>info@smkciledug.sch.id</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Senin–Jumat, 07.00–16.00 WIB</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">smkciledugalmusaddadiyah.sch.id</a></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l8-5 8 5v12M9 21v-6h6v6"/></svg><span>NPSN 20209207</span></li></ul></div>
-<div><h4>Layanan</h4><ul class="fk"><li><a href="#layanan" onclick="openM('legal');return false">Legalisir dokumen</a></li><li><a href="#layanan" onclick="openM('service','surat_aktif');return false">Surat keterangan</a></li><li><a href="#layanan" onclick="openM('service','pengaduan');return false">Pengaduan dan aspirasi</a></li><li><a href="#layanan" onclick="openM('service','konsultasi');return false">Konsultasi</a></li><li><a href="#layanan" onclick="openM('track');return false">Lacak pengajuan</a></li><li><a href="#layanan" onclick="openM('tamu');return false">Buku tamu digital</a></li></ul></div>
+<div><h4>Layanan</h4><ul class="fk"><li><a href="#layanan" onclick="openM('legal');return false">Legalisir dokumen</a></li><li><a href="#layanan" onclick="openM('service','surat_aktif');return false">Surat keterangan</a></li><li><a href="#layanan" onclick="openM('service','pengaduan');return false">Pengaduan dan aspirasi</a></li><li><a href="#layanan" onclick="openM('service','konsultasi');return false">Konsultasi</a></li><li><a href="#layanan" onclick="openM('track');return false">Lacak pengajuan</a></li><li><a href="#layanan" onclick="openM('tamu');return false">Buku tamu digital</a></li><li><a href="#faq">Pertanyaan umum (FAQ)</a></li></ul></div>
 <div><h4>Tautan penting</h4><ul class="fk"><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/profil.html" target="_blank" rel="noopener">Profil sekolah</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/ppdb-online-smk-ciledug-al-musaddadiyah.html" target="_blank" rel="noopener">Daftar SPMB daring</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/portal-akademik.html" target="_blank" rel="noopener">Portal akademik</a></li><li><a href="https://nisn.data.kemendikdasmen.go.id/" target="_blank" rel="noopener">Cek NISN</a></li><li><a href="https://dapo.kemendikdasmen.go.id/" target="_blank" rel="noopener">Portal Dapodik</a></li><li><a href="admin.html" id="adm">Masuk petugas</a></li></ul></div>
 </div><div class="wrap ftb"><span>© <span id="yr"></span> SMKS Ciledug Al-Musaddadiyah. Berkomitmen untuk pendidikan berkualitas.</span><span>Yayasan Al-Musaddadiyah Garut</span></div></footer>
 <div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt" aria-describedby="md" tabindex="-1"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
@@ -521,5 +763,33 @@ document.addEventListener('keydown',e=>{if(!$('ov').classList.contains('show'))r
 const qp=new URLSearchParams(location.search),q=qp.get('nomor'),kc=qp.get('kode');if(q){openM('track',q,kc);if(kc){const tf=document.querySelector('#mb form');if(tf)track({preventDefault(){},target:tf})}}
 </script>
 
+<script>
+/* v6: efek gulir, header, tautan aktif, pencarian FAQ */
+(()=>{
+const d=document,de=d.documentElement,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* header */
+const top=d.querySelector('.top');if(top){const f=()=>top.classList.toggle('sc',scrollY>8);f();addEventListener('scroll',f,{passive:true})}
+/* muncul saat digulir */
+if('IntersectionObserver' in window&&!reduce){
+ const els=[...d.querySelectorAll('.hd,.card,.service-card,.service-note,.faq-list,.faq-help')];
+ els.forEach(e=>{e.classList.add('rv');const sib=[...e.parentElement.children].filter(x=>x.classList.contains('rv')||x.matches('.card,.service-card'));e.style.setProperty('--d',Math.min(sib.indexOf(e),5)*60+'ms')});
+ de.classList.add('rv-on');
+ const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+ els.forEach(e=>io.observe(e));
+}
+/* tautan navigasi aktif */
+if('IntersectionObserver' in window){
+ const links=[...d.querySelectorAll('.links a[href^="#"]')],map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+ const so=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){links.forEach(a=>a.classList.remove('cur'));const a=map.get(x.target.id);a&&a.classList.add('cur')}}),{rootMargin:'-35% 0px -60% 0px'});
+ map.forEach((a,id)=>{const s=d.getElementById(id);s&&so.observe(s)});
+}
+/* pencarian FAQ */
+const q=d.getElementById('fq'),items=[...d.querySelectorAll('.faq-item')],empty=d.getElementById('fe');
+if(q){q.addEventListener('input',()=>{const t=q.value.trim().toLowerCase();let n=0,first=null;
+ items.forEach(it=>{const ok=!t||it.textContent.toLowerCase().includes(t);it.hidden=!ok;if(ok){n++;first=first||it}});
+ if(t&&first)first.open=true;empty.hidden=n>0;
+ const l=d.getElementById('fl');l.hidden=n===0})}
+})();
+</script>
 </body>
 </html>
