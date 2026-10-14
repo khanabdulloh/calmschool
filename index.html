@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah Garut: legalisir, surat keterangan, pengaduan, konsultasi, dan pelacakan pengajuan dalam satu pintu.">
 <title>CALM School Hub · Layanan Digital Terpadu SMKS Ciledug Al-Musaddadiyah Garut</title>
 <meta name="theme-color" content="#0b3d91">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
 <style>
 /* ===== CALM School Hub — satu sistem desain (tanpa lapisan tumpang-tindih) ===== */
 :root{--ink:#0a1b3d;--body:#1b2a4a;--mut:#5c6882;--line:#e4e9f2;--sky:#f1f5fb;--blue:#0b3d91;--blue-d:#082c6c;--azure:#3d6bbd;--gold:#c8963e;--gold-t:#94671a;--ok:#12a36b;--warn:#c2410c;--r1:8px;--r2:12px;--r3:16px;--gut:22px;--sec:clamp(64px,9vw,104px)}
@@ -95,10 +95,10 @@ section.s{padding-top:var(--sec)}
 .service-note b{display:block;font-size:14px}.service-note span{display:block;margin-top:3px;color:var(--mut);font-size:12.5px}
 
 /* Infografis */
-.igb{position:relative;overflow:hidden;border-radius:var(--r3);padding:32px;color:#fff;background:linear-gradient(135deg,#0b1f44 0%,#0f4fd6 62%,#1d6bff 100%);box-shadow:0 24px 60px -28px #0f4fd6aa}
-.igb:before{content:"";position:absolute;right:-80px;top:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#4da3ff66,transparent 70%);pointer-events:none}
+.igb{position:relative;overflow:hidden;border-radius:var(--r3);padding:32px;color:#fff;background:linear-gradient(135deg,#0a1b3d,#0b3d91);box-shadow:0 24px 60px -28px #0b3d91aa}
+.igb:before{content:"";position:absolute;right:-80px;top:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#3d6bbd66,transparent 70%);pointer-events:none}
 .tls{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:28px 20px}
-.tl{padding-left:16px;border-left:3px solid #4da3ff}.tl b{display:block;font-size:clamp(30px,4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.1}.tl span{display:block;margin-top:6px;color:#d3e2ff;font-size:13.5px}
+.tl{padding-left:16px;border-left:3px solid #3d6bbd}.tl b{display:block;font-size:clamp(30px,4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.1}.tl span{display:block;margin-top:6px;color:#d3e2ff;font-size:13.5px}
 .dm{position:relative;margin:0 0 20px;padding:8px 14px;border-radius:10px;background:#ffffff1f;font-size:13px}
 .igg{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
 .gc{background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:24px}.gc h3{margin:0;font-size:15.5px;font-weight:700}.gc>p{margin:4px 0 16px;color:var(--mut);font-size:13px}
@@ -158,20 +158,69 @@ input:hover,select:hover,textarea:hover{border-color:#b9c8e4}input:focus,select:
  input,select,textarea{font-size:16px}
  .ov{align-items:flex-end;padding:0}.modal{border-radius:var(--r3) var(--r3) 0 0;max-height:92vh;max-height:92dvh;padding:24px 20px calc(24px + env(safe-area-inset-bottom,0px))}
 }
-/* Audit formulir: tombol aksi tetap terlihat saat modal panjang digulir */
-.modal{overscroll-behavior:contain;scrollbar-gutter:stable}
-#mb form{padding-bottom:8px}
-#mb form>button[type="submit"],#mb form>button#sb{
- position:sticky;bottom:0;z-index:3;align-self:stretch;margin-top:8px;min-height:48px;
- /* Halo putih lewat box-shadow (bukan pseudo-elemen): warna tombol tetap terlihat, konten yang digulir tidak tembus di belakangnya */
- box-shadow:0 0 0 10px #fff,0 22px 0 10px #fff,0 -12px 14px 6px #fff
-}
-#mb form>button:disabled{opacity:1;filter:saturate(.55) brightness(1.12)}
-.res{overflow-wrap:anywhere}
+/* ===== v3: tipografi, modal & responsif HP ===== */
+:root{--vvh:100%;--vvt:0px;--mp:28px;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+html{scroll-padding-top:72px}
+.wrap{padding-left:max(var(--gut),env(safe-area-inset-left));padding-right:max(var(--gut),env(safe-area-inset-right))}
+h1,h2,.thx h3{font-family:var(--serif);font-weight:600;letter-spacing:-.015em}
+h1{font-size:clamp(32px,5.2vw,56px);line-height:1.08}
+.hd h2{font-size:clamp(28px,3.4vw,36px);line-height:1.15}.hd p{max-width:520px}
+.lead{max-width:500px}
+.btn{border-radius:10px}.btn:disabled{opacity:.7}
+.top .wrap{position:relative}
+.menu{display:none;width:44px;height:44px;flex:none;place-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.trust b{font-family:var(--serif);font-size:15px;letter-spacing:0}
+#angka,#ekspresi{background:#f6f8fc;padding-block:var(--sec);margin-top:var(--sec)}
+#ekspresi{margin-bottom:0}footer.ft{margin-top:0}
+/* kartu: satu struktur, ikon + teks + penanda aksi */
+.card,.service-card{position:relative;padding:22px;border-radius:14px;box-shadow:0 1px 2px #0a1b3d0a}
+.card:hover,.service-card:hover{border-color:#b7c6e3;box-shadow:0 16px 30px -22px #0a1b3d66}
+.tx{display:flex;flex-direction:column;flex:1;min-width:0}
+.card .h,.service-card .h{display:block;margin:0 0 6px;padding-right:34px;font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.35;color:var(--ink)}
+.card .d,.service-card .d{display:block;flex:1;color:var(--mut);font-size:13.5px;line-height:1.65}
+.card .act,.service-card .act{display:block;margin-top:18px;font-size:13px;font-weight:700;color:var(--blue)}
+.go{position:absolute;top:20px;right:20px;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--sky);color:var(--blue);transition:background .18s,color .18s}
+.go svg.i{width:15px;height:15px}.card:hover .go,.service-card:hover .go{background:var(--blue);color:#fff}
+.card.main .h{color:#fff}.card.main .d{color:#dfe9fb}.card.main .act{color:#fff}.card.main .go{background:#ffffff26;color:#fff}
+.grid.two .card{flex-direction:row;align-items:flex-start;gap:16px;min-height:0}
+.ft h4{text-transform:none;letter-spacing:.01em;font-size:13.5px;color:#e3ebfa}
+/* infografis selaras warna merek */
+.igb{background:linear-gradient(135deg,#0a1b3d,#0b3d91);box-shadow:0 24px 50px -30px #0a1b3d99}
+.igb:before{background:radial-gradient(circle,#c8963e33,transparent 70%)}
+.tls{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.tl{border-left-color:var(--gold)}
+.tl b{font-family:var(--serif);font-weight:600;font-variant-numeric:lining-nums;letter-spacing:-.01em}
+/* modal: header tetap, isi menggulir, bilah aksi menempel di dasar (tanpa halo box-shadow) */
+.ov{inset:auto;left:0;right:0;top:var(--vvt);height:var(--vvh);padding:16px}
+.modal{display:flex;flex-direction:column;overflow:hidden;padding:0;max-height:100%;border-radius:var(--r3)}
+.modal:focus{outline:0}
+.mh{flex:none;align-items:flex-start;padding:22px var(--mp) 16px;border-bottom:1px solid var(--line)}
+.mh h2{font-family:var(--serif);font-size:24px}
+#mb{flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:22px var(--mp) 0;scroll-padding:16px 0 100px}
+#mb>:last-child{margin-bottom:var(--mp)}#mb>form:last-child{margin-bottom:0}
+#mb form{margin-top:0;padding-bottom:0}
+.fa{position:sticky;bottom:0;z-index:3;margin:4px calc(var(--mp)*-1) 0;padding:14px var(--mp) calc(14px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid var(--line)}
+.fa .btn{width:100%;min-height:48px}
+.res{margin-top:0;overflow-wrap:anywhere}#mb>.res{margin-top:20px}
+.nomor{flex-wrap:wrap;overflow-wrap:anywhere;font-size:17px}.nomor .btn{flex:none}.kv dd{overflow-wrap:anywhere}
+footer.ft .ftb{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+@media(pointer:coarse){input,select,textarea{font-size:16px}.btn{min-height:44px}.btn.s{min-height:40px}}
+@media(max-width:900px){
+ .menu{display:grid}.hero-panel:before{display:none}
+ .links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;padding:6px var(--gut) 18px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 22px 30px -24px #0a1b3d66}
+ .links.open{display:flex}.links a{display:block;padding:14px 2px;font-size:15px;border-bottom:1px solid var(--line)}.links .btn{margin:16px 0 0}}
 @media(max-width:560px){
- .modal{overscroll-behavior:contain}
- #mb form>button[type="submit"],#mb form>button#sb{bottom:env(safe-area-inset-bottom,0px);min-height:50px}
-}
+ :root{--mp:20px}
+ .top .wrap{height:60px}
+ .cta .btn{flex:1 1 100%}
+ .trust .wrap{grid-template-columns:1fr 1fr;gap:2px}.trust .wrap>div{padding:8px 4px;gap:8px}.trust span{font-size:12.5px}
+ .card,.service-card{flex-direction:row;align-items:flex-start;gap:14px;padding:16px;min-height:0}
+ .card .ic,.service-card .ic{width:38px;height:38px;margin:0}.card .h,.service-card .h{padding-right:0}.go{display:none}
+ .card .act,.service-card .act{margin-top:12px}
+ .ov{padding:0;align-items:flex-end}
+ .modal{max-height:calc(100% - 10px);border-radius:var(--r3) var(--r3) 0 0}
+ .mh{padding:18px var(--mp) 14px}.mh h2{font-size:21px}.x{width:44px;height:44px}
+ .hb{grid-template-columns:88px 1fr 28px}
+ .nomor .btn{width:100%}}
 /* Ucapan terima kasih buku tamu */
 .thx{text-align:center;padding:12px 4px 4px}
 .thx-ic{width:56px;height:56px;margin:4px auto 16px;display:grid;place-items:center;border-radius:50%;background:#e3f7ee;color:#0b7a50}
@@ -187,30 +236,30 @@ input:hover,select:hover,textarea:hover{border-color:#b9c8e4}input:focus,select:
 <body>
 <header class="top"><div class="wrap">
  <a class="brand" href="#"><span class="mark" id="lg"></span><span><b>CALM School Hub</b><small>SMKS Ciledug Al-Musaddadiyah</small></span></a>
- <nav class="links"><a href="#layanan">Layanan</a><a href="#angka">Sekilas Sekolah</a><a href="#informasi">Informasi</a><a href="#ekspresi">Karya Siswa</a><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">Situs Sekolah</a><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan Layanan</button></nav>
+ <nav class="links" id="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#angka">Sekilas sekolah</a><a href="#informasi">Capaian</a><a href="#ekspresi">Karya siswa</a><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">Situs sekolah</a><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan layanan</button></nav><button class="menu" id="mn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Buka menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
 <main>
 <section class="hero"><div class="wrap">
- <div><span class="pill">Layanan Digital Terpadu</span><h1>Satu pintu layanan, <em class="ac">tertib dan transparan.</em></h1>
- <p class="lead">Ajukan surat, legalisir, dan kebutuhan administrasi lainnya secara daring. Setiap pengajuan memperoleh nomor tiket dan dapat dipantau hingga selesai.</p>
- <div class="cta"><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan Layanan</button><button class="btn" onclick="openM('track')">Lacak Pengajuan</button></div>
- <ul class="facts"><li><b>Sejak 1996</b></li><li><b>Akreditasi A</b> BAN-S/M</li><li>Yayasan Al-Musaddadiyah Garut</li></ul></div>
+ <div><h1>Satu pintu layanan sekolah, tertib dan transparan.</h1>
+ <p class="lead">Ajukan surat, legalisir, pengaduan, dan kebutuhan administrasi lainnya secara daring. Setiap pengajuan memperoleh nomor tiket sehingga statusnya dapat dipantau sampai selesai.</p>
+ <div class="cta"><button class="btn p" onclick="openM('service','surat_aktif')">Ajukan layanan</button><button class="btn" onclick="openM('track')">Lacak pengajuan</button></div>
+ <ul class="facts"><li><b>Berdiri sejak 1996</b></li><li><b>Akreditasi A</b> (BAN-S/M)</li><li>Naungan Yayasan Al-Musaddadiyah Garut</li></ul></div>
  <div><div class="hero-panel"><div class="demo" aria-label="Contoh tampilan pelacakan"><div class="row"><div><small>Pelacakan pengajuan</small><b class="n">LEG-261004-001</b></div><span class="tag">Diproses</span></div>
- <ol class="steps"><li class="done">Diajukan</li><li class="done">Diverifikasi</li><li class="now">Diproses</li><li>Siap Diambil</li><li>Selesai</li></ol><div class="mini-proof"><span><i>✓</i> Nomor tiket & kode pelacakan</span><span><i>✓</i> Status dari petugas sekolah</span></div></div></div><p class="cap">Contoh tampilan pelacakan pengajuan</p></div>
+ <ol class="steps"><li class="done">Diajukan</li><li class="done">Diverifikasi</li><li class="now">Diproses</li><li>Siap Diambil</li><li>Selesai</li></ol><div class="mini-proof"><span><i>✓</i> Nomor tiket dan kode pelacakan</span><span><i>✓</i> Status diperbarui petugas sekolah</span></div></div></div><p class="cap">Contoh tampilan pelacakan pengajuan</p></div>
 </div></section>
-<section class="trust"><div class="wrap"><div><b>01</b><span>Ajukan daring</span></div><div><b>02</b><span>Diverifikasi petugas</span></div><div><b>03</b><span>Pantau status</span></div><div><b>04</b><span>Ambil saat siap</span></div></div></section>
-<section class="s" id="layanan"><div class="wrap"><div class="hd"><span class="eyebrow">Layanan</span><h2>Pilih layanan yang <em>Anda butuhkan.</em></h2><p>Setiap layanan memiliki alur, status, dan target waktu penyelesaian yang jelas.</p></div><div class="grid" id="g-layanan"></div><div class="service-grid" id="g-layanan-surat"></div><div class="service-note"><div><b>Setiap pengajuan memperoleh nomor tiket.</b><span>Simpan nomor dan kode pelacakan untuk memantau proses tanpa perlu datang ke sekolah.</span></div><button class="btn p" onclick="openM('track')">Lacak Pengajuan</button></div></div></section>
-<section class="s" id="angka"><div class="wrap"><div class="hd"><span class="eyebrow">Sekilas Sekolah</span><h2>Sekolah <em>dalam angka.</em></h2><p>Ringkasan data yang diperbarui langsung oleh petugas sekolah.</p></div><div id="ig"></div></div></section>
-<section class="s" id="informasi"><div class="wrap"><div class="hd"><span class="eyebrow">Informasi</span><h2>Capaian dan <em>program sekolah.</em></h2><p>Prestasi, program, dan organisasi yang dikelola oleh sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
-<section class="s" id="ekspresi"><div class="wrap"><div class="hd"><span class="eyebrow">Karya Siswa</span><h2>Ruang bagi <em>tulisan dan karya.</em></h2><p>Setiap kiriman ditinjau sekolah sebelum ditampilkan.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
+<section class="trust"><div class="wrap"><div><b>01</b><span>Ajukan secara daring</span></div><div><b>02</b><span>Diverifikasi petugas sekolah</span></div><div><b>03</b><span>Pantau status kapan saja</span></div><div><b>04</b><span>Ambil saat dokumen siap</span></div></div></section>
+<section class="s" id="layanan"><div class="wrap"><div class="hd"><h2>Pilih layanan yang Anda butuhkan</h2><p>Setiap layanan memiliki alur, status, dan target waktu penyelesaian yang jelas.</p></div><div class="grid" id="g-layanan"></div><div class="service-grid" id="g-layanan-surat"></div><div class="service-note"><div><b>Setiap pengajuan memperoleh nomor tiket.</b><span>Simpan nomor tiket dan kode pelacakan agar Anda dapat memantau proses tanpa datang ke sekolah.</span></div><button class="btn p" onclick="openM('track')">Lacak pengajuan</button></div></div></section>
+<section class="s" id="angka"><div class="wrap"><div class="hd"><h2>Sekolah dalam angka</h2><p>Ringkasan data yang diperbarui langsung oleh petugas sekolah.</p></div><div id="ig"></div></div></section>
+<section class="s" id="informasi"><div class="wrap"><div class="hd"><h2>Capaian dan program sekolah</h2><p>Prestasi, program, dan organisasi siswa yang dikelola sekolah.</p></div><div class="grid" id="g-informasi"></div></div></section>
+<section class="s" id="ekspresi"><div class="wrap"><div class="hd"><h2>Ruang karya dan tulisan siswa</h2><p>Setiap kiriman ditinjau sekolah sebelum ditampilkan.</p></div><div class="grid two" id="g-ekspresi"></div></div></section>
 </main>
 <footer class="ft"><div class="wrap ftg">
-<div class="fb"><div class="fbn"><span class="fl"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD-8YPFS6i86EyZZNDUhwuam5ro_mtc9So2muvB7EDWz1Zp6rarLubvVS3vfVVoto_S6SaHlIPPnmNaddUugGUztWkJYhDwwT8CU1BcUuq9TNyxnHKa6B44iDBx6LjR1-z3r7_C34jviaWeOYgk4bNJHsziPV4KR5mQjY69HVhyphenhyphenR3STD4xp-b46x_HeR4/s160/An8Em6pLCtVUNFZTK-rgdQG9pKiDxE1AR7m_1QO_5slD3C5qFXYq7S9suI1ztpViB_aUnbOGE2-Y71AU9SF3GjQzZ09xbw5aat-JT_7ptJ4VcfdGeJ73DWbHD9IDtVHa_16MjCj09HJ4eGBvZMo-removebg-preview.png" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div><b>SMK Ciledug Al-Musaddadiyah</b><small>CALM School Hub · Garut</small></div></div><p>Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah, di bawah naungan Yayasan Al-Musaddadiyah Garut.</p><div class="fs"><a class="so" href="https://www.instagram.com/smkscalm_official/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg></a><a class="so" href="https://www.facebook.com/profile.php?id=61575761302335" target="_blank" rel="noopener" aria-label="Facebook"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a class="so" href="https://www.tiktok.com/@smkscalm_official" target="_blank" rel="noopener" aria-label="TikTok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.4 2.6 2 4 5 4.2"/></svg></a><a class="so" href="https://www.youtube.com/@smk_calm" target="_blank" rel="noopener" aria-label="YouTube"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10.5 9.5 4 2.5-4 2.5z"/></svg></a><a class="so" href="https://wa.me/6287856681523" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9 9c0 3 3 6 6 6l1-1.5-2-1-1 .7c-1-.5-1.800-1.300-2.300-2.300l.7-1-1-2z"/></svg></a></div></div>
+<div class="fb"><div class="fbn"><span class="fl"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD-8YPFS6i86EyZZNDUhwuam5ro_mtc9So2muvB7EDWz1Zp6rarLubvVS3vfVVoto_S6SaHlIPPnmNaddUugGUztWkJYhDwwT8CU1BcUuq9TNyxnHKa6B44iDBx6LjR1-z3r7_C34jviaWeOYgk4bNJHsziPV4KR5mQjY69HVhyphenhyphenR3STD4xp-b46x_HeR4/s160/An8Em6pLCtVUNFZTK-rgdQG9pKiDxE1AR7m_1QO_5slD3C5qFXYq7S9suI1ztpViB_aUnbOGE2-Y71AU9SF3GjQzZ09xbw5aat-JT_7ptJ4VcfdGeJ73DWbHD9IDtVHa_16MjCj09HJ4eGBvZMo-removebg-preview.png" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div><b>SMKS Ciledug Al-Musaddadiyah</b><small>CALM School Hub, Garut</small></div></div><p>Layanan digital terpadu SMKS Ciledug Al-Musaddadiyah, di bawah naungan Yayasan Al-Musaddadiyah Garut.</p><div class="fs"><a class="so" href="https://www.instagram.com/smkscalm_official/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg></a><a class="so" href="https://www.facebook.com/profile.php?id=61575761302335" target="_blank" rel="noopener" aria-label="Facebook"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a class="so" href="https://www.tiktok.com/@smkscalm_official" target="_blank" rel="noopener" aria-label="TikTok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.4 2.6 2 4 5 4.2"/></svg></a><a class="so" href="https://www.youtube.com/@smk_calm" target="_blank" rel="noopener" aria-label="YouTube"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="m10.5 9.5 4 2.5-4 2.5z"/></svg></a><a class="so" href="https://wa.me/6287856681523" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9 9c0 3 3 6 6 6l1-1.5-2-1-1 .7c-1-.5-1.800-1.300-2.300-2.300l.7-1-1-2z"/></svg></a></div></div>
 <div><h4>Kontak</h4><ul class="fc"><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Jl. Mayor Syamsu No.2, Jayaraga, Tarogong Kidul, Garut</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>(0262) 4892181</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>info@smkciledug.sch.id</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Senin–Jumat, 07.00–16.00 WIB</span></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><a href="https://www.smkciledugalmusaddadiyah.sch.id/" target="_blank" rel="noopener">smkciledugalmusaddadiyah.sch.id</a></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l8-5 8 5v12M9 21v-6h6v6"/></svg><span>NPSN 20209207</span></li></ul></div>
-<div><h4>Layanan</h4><ul class="fk"><li><a href="#layanan" onclick="openM('legal');return false">Legalisir Dokumen</a></li><li><a href="#layanan" onclick="openM('service','surat_aktif');return false">Surat Keterangan</a></li><li><a href="#layanan" onclick="openM('service','pengaduan');return false">Pengaduan &amp; Aspirasi</a></li><li><a href="#layanan" onclick="openM('service','konsultasi');return false">Konsultasi</a></li><li><a href="#layanan" onclick="openM('track');return false">Lacak Pengajuan</a></li><li><a href="#layanan" onclick="openM('tamu');return false">Buku Tamu Digital</a></li></ul></div>
-<div><h4>Tautan Penting</h4><ul class="fk"><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/profil.html" target="_blank" rel="noopener">Profil Sekolah</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/ppdb-online-smk-ciledug-al-musaddadiyah.html" target="_blank" rel="noopener">Daftar SPMB Online</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/portal-akademik.html" target="_blank" rel="noopener">Portal Akademik</a></li><li><a href="https://nisn.data.kemendikdasmen.go.id/" target="_blank" rel="noopener">Cek NISN</a></li><li><a href="https://dapo.kemendikdasmen.go.id/" target="_blank" rel="noopener">Portal Dapodik</a></li><li><a href="admin.html" id="adm">Masuk Petugas</a></li></ul></div>
-</div><div class="wrap ftb"><span>© <span id="yr"></span> SMK Ciledug Al-Musaddadiyah · Berkomitmen untuk Pendidikan Berkualitas</span><span>Yayasan Al-Musaddadiyah Garut</span></div></footer>
-<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
+<div><h4>Layanan</h4><ul class="fk"><li><a href="#layanan" onclick="openM('legal');return false">Legalisir dokumen</a></li><li><a href="#layanan" onclick="openM('service','surat_aktif');return false">Surat keterangan</a></li><li><a href="#layanan" onclick="openM('service','pengaduan');return false">Pengaduan dan aspirasi</a></li><li><a href="#layanan" onclick="openM('service','konsultasi');return false">Konsultasi</a></li><li><a href="#layanan" onclick="openM('track');return false">Lacak pengajuan</a></li><li><a href="#layanan" onclick="openM('tamu');return false">Buku tamu digital</a></li></ul></div>
+<div><h4>Tautan penting</h4><ul class="fk"><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/profil.html" target="_blank" rel="noopener">Profil sekolah</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/ppdb-online-smk-ciledug-al-musaddadiyah.html" target="_blank" rel="noopener">Daftar SPMB daring</a></li><li><a href="https://www.smkciledugalmusaddadiyah.sch.id/p/portal-akademik.html" target="_blank" rel="noopener">Portal akademik</a></li><li><a href="https://nisn.data.kemendikdasmen.go.id/" target="_blank" rel="noopener">Cek NISN</a></li><li><a href="https://dapo.kemendikdasmen.go.id/" target="_blank" rel="noopener">Portal Dapodik</a></li><li><a href="admin.html" id="adm">Masuk petugas</a></li></ul></div>
+</div><div class="wrap ftb"><span>© <span id="yr"></span> SMKS Ciledug Al-Musaddadiyah. Berkomitmen untuk pendidikan berkualitas.</span><span>Yayasan Al-Musaddadiyah Garut</span></div></footer>
+<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt" aria-describedby="md" tabindex="-1"><div class="mh"><div><h2 id="mt"></h2><p id="md"></p></div><button class="x" onclick="closeM()" aria-label="Tutup">×</button></div><div id="mb"></div></div></div>
 
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbzLNLTCMlUygT1B2Vz9mWoDM6zYlafLdomTwPfy1zb7RRYjpnOTeGVXqfwpqAJqwSBl/exec';
@@ -238,25 +287,26 @@ const ic=n=>IC[n]?`<svg class="i" viewBox="0 0 24 24">${IC[n]}</svg>`:'';
 
 /* Katalog modul: [kunci, ikon, judul, deskripsi, aksi, kelas] */
 const SECTIONS={
-layanan:[['legal','doc','Legalisir','Ijazah, SKL, dan rapor. Ajukan lebih dulu, ambil saat siap.','Ajukan','main'],['track','find','Lacak pengajuan','Pantau status dengan nomor dan kode pelacakan.','Lacak'],['tamu','book','Buku tamu digital','Catat kunjungan Anda secara ringkas dan tertib.','Isi buku tamu']],
-informasi:[['statistik','chart','Sekolah dalam angka','Ringkasan data utama sekolah.','Lihat'],['prestasi','trophy','Prestasi & lomba','Capaian siswa dan sekolah.','Lihat'],['program','target','Program sekolah','Kegiatan sekolah dan perkembangannya.','Lihat'],['organisasi','users','Organisasi','OSIS, ekstrakurikuler, dan komunitas.','Lihat']],
-ekspresi:[['mading','news','Mading digital','Tulisan, opini, dan cerita dari siswa.','Baca'],['karya','spark','Karya siswa','Desain, fotografi, ilustrasi, dan video karya siswa.','Jelajahi']]};
-for(const [s,items] of Object.entries(SECTIONS))$('g-'+s).innerHTML=items.map(([k,i,t,d,a,c])=>`<button class="card ${c||''}" onclick="openM('${k}')">${s==='ekspresi'?`<span class="ic">${ic(i)}</span><div><h3>${t}</h3><p>${d}</p><em>${a} ${ic('go')}</em></div>`:`<span class="ic">${ic(i)}</span><h3>${t}</h3><p>${d}</p><em>${a}${c==='soon'?'':' '+ic('go')}</em>`}</button>`).join('');
+layanan:[['legal','doc','Legalisir','Legalisir ijazah, SKL, dan rapor. Ajukan lebih dulu, ambil saat dokumen siap.','Ajukan legalisir','main'],['track','find','Lacak pengajuan','Pantau status pengajuan dengan nomor tiket dan kode pelacakan.','Lacak status'],['tamu','book','Buku tamu digital','Catat kunjungan Anda ke sekolah secara singkat dan tertib.','Isi buku tamu']],
+informasi:[['statistik','chart','Sekolah dalam angka','Ringkasan data utama sekolah.','Lihat data'],['prestasi','trophy','Prestasi dan lomba','Capaian siswa dan sekolah di berbagai tingkat.','Lihat prestasi'],['program','target','Program sekolah','Kegiatan sekolah beserta tingkat keterlaksanaannya.','Lihat program'],['organisasi','users','Organisasi siswa','OSIS, ekstrakurikuler, dan komunitas siswa.','Lihat organisasi']],
+ekspresi:[['mading','news','Mading digital','Tulisan, opini, dan cerita dari siswa.','Baca tulisan'],['karya','spark','Karya siswa','Desain, fotografi, ilustrasi, dan video karya siswa.','Lihat karya']]};
+const GO=ic('go');
+for(const [s,items] of Object.entries(SECTIONS))$('g-'+s).innerHTML=items.map(([k,i,t,d,a,c])=>`<button type="button" class="card ${c||''}" onclick="openM('${k}')"><span class="ic">${ic(i)}</span><span class="tx"><span class="h">${t}</span><span class="d">${d}</span><span class="act">${a}</span></span><span class="go">${GO}</span></button>`).join('');
 
 /* Katalog layanan operasional v2 */
 const SERVICE_UI=[
-['surat_aktif','doc','Surat Keterangan Siswa Aktif','Untuk beasiswa, lomba, magang, dan keperluan administrasi.','1 hari kerja','Daring / Ambil'],
-['surat_alumni','graduation','Surat Keterangan Alumni','Keterangan resmi bahwa Anda pernah menempuh pendidikan di sekolah.','2 hari kerja','Daring / Ambil'],
-['surat_rekomendasi','star','Surat Rekomendasi','Rekomendasi untuk studi lanjutan, pekerjaan, atau program tertentu.','3 hari kerja','Daring / Ambil'],
-['surat_mutasi','swap','Surat Pindah / Mutasi','Pengurusan administrasi perpindahan peserta didik.','3 hari kerja','Ambil'],
-['surat_izin','calendar','Surat Izin / Dispensasi','Permohonan izin atau dispensasi kegiatan peserta didik.','1 hari kerja','Daring / Ambil'],
-['pengaduan','alert','Pengaduan','Sampaikan kendala layanan atau fasilitas agar dapat ditindaklanjuti.','Respons 1 hari kerja','Digital'],
-['aspirasi','spark','Aspirasi & Saran','Berikan gagasan dan masukan untuk kemajuan sekolah.','3 hari kerja','Digital'],
-['konsultasi','users','Konsultasi','Ajukan permintaan konsultasi dengan pihak sekolah.','2 hari kerja','Daring / Tatap muka'],
-['janji_temu','calendar','Janji Temu','Atur permintaan pertemuan dengan guru, staf, atau pimpinan.','1 hari kerja','Tatap muka']
+['surat_aktif','doc','Surat Keterangan Siswa Aktif','Untuk beasiswa, lomba, magang, dan keperluan administrasi lainnya.','1 hari kerja','Daring atau ambil di sekolah'],
+['surat_alumni','graduation','Surat Keterangan Alumni','Keterangan resmi bahwa Anda pernah menempuh pendidikan di sekolah ini.','2 hari kerja','Daring atau ambil di sekolah'],
+['surat_rekomendasi','star','Surat Rekomendasi','Rekomendasi untuk studi lanjutan, pekerjaan, atau program tertentu.','3 hari kerja','Daring atau ambil di sekolah'],
+['surat_mutasi','swap','Surat Pindah / Mutasi','Pengurusan administrasi perpindahan peserta didik.','3 hari kerja','Ambil di sekolah'],
+['surat_izin','calendar','Surat Izin / Dispensasi','Permohonan izin atau dispensasi untuk kegiatan peserta didik.','1 hari kerja','Daring atau ambil di sekolah'],
+['pengaduan','alert','Pengaduan','Sampaikan kendala layanan atau fasilitas agar segera ditindaklanjuti.','1 hari kerja','Daring'],
+['aspirasi','spark','Aspirasi dan Saran','Berikan gagasan dan masukan untuk kemajuan sekolah.','3 hari kerja','Daring'],
+['konsultasi','users','Konsultasi','Ajukan permintaan konsultasi dengan pihak sekolah.','2 hari kerja','Daring atau tatap muka'],
+['janji_temu','calendar','Janji Temu','Atur pertemuan dengan guru, staf, atau pimpinan sekolah.','1 hari kerja','Tatap muka']
 ];
 const SIC={graduation:'<path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/>',swap:'<path d="M7 7h13M17 3l4 4-4 4M17 17H4M7 13l-4 4 4 4"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',alert:'<path d="M12 3 2.5 20h19z"/><path d="M12 9v5M12 17v.5"/>',spark:IC.spark,users:IC.users,doc:IC.doc};
-$('g-layanan-surat').innerHTML=SERVICE_UI.map(([k,i,t,d,sla,met])=>`<button class="service-card" onclick="openM('service','${k}')"><span class="ic">${ic(i)||`<svg class="i" viewBox="0 0 24 24">${SIC[i]||''}</svg>`}</span><h3>${t}</h3><p>${d}</p><div class="service-meta"><span>${sla}</span><span>${met}</span></div><em>Ajukan ${ic('go')}</em></button>`).join('');
+$('g-layanan-surat').innerHTML=SERVICE_UI.map(([k,i,t,d,sla,met])=>`<button type="button" class="service-card" onclick="openM('service','${k}')"><span class="ic">${ic(i)||`<svg class="i" viewBox="0 0 24 24">${SIC[i]||''}</svg>`}</span><span class="tx"><span class="h">${t}</span><span class="d">${d}</span><span class="service-meta"><span>Target ${sla}</span><span>${met}</span></span><span class="act">Ajukan layanan</span></span><span class="go">${GO}</span></button>`).join('');
 
 /* Formulir */
 const METODE={surat_aktif:['Diambil di sekolah','Digital'],surat_alumni:['Diambil di sekolah','Digital'],surat_rekomendasi:['Diambil di sekolah','Digital'],surat_mutasi:['Diambil di sekolah'],surat_izin:['Digital','Diambil di sekolah'],pengaduan:['Digital'],aspirasi:['Digital'],konsultasi:['Digital','Tatap muka'],janji_temu:['Tatap muka']};
@@ -270,8 +320,8 @@ const serviceForm=(sid)=>{const x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];
 <label>Tanggal diperlukan <span>(opsional)</span><input name="tanggalDiperlukan" type="date"></label>
 <label class="full">Keperluan / kebutuhan<textarea name="keperluan" required maxlength="500" placeholder="Jelaskan kebutuhan Anda secara singkat dan jelas."></textarea></label>
 <label class="full">Catatan tambahan <span>(opsional)</span><textarea name="catatan" maxlength="500"></textarea></label>
-<div class="note full" style="margin:0"><b>${esc(x[2])}</b><br>Target layanan: <b>${esc(x[4])}</b>. Setelah dikirim, Anda akan memperoleh nomor tiket dan kode pelacakan.</div>
-<button class="btn p full" id="sb">Kirim pengajuan</button></form><div class="res" id="res" role="status"></div>`};
+<div class="note full" style="margin:0"><b>${esc(x[2])}</b><br>Target layanan: <b>${esc(x[4])}</b>. Setelah dikirim, Anda akan menerima nomor tiket dan kode pelacakan.</div>
+<div class="res full" id="res" role="status" aria-live="polite"></div><div class="fa full"><button class="btn p" id="sb">Kirim pengajuan</button></div></form>`};
 const legal=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan')" novalidate>
 <label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
 <label>NISN<input name="nis" required maxlength="10" minlength="10" pattern="[0-9]{10}" title="NISN terdiri dari 10 angka" inputmode="numeric" placeholder="10 angka" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></label>
@@ -282,7 +332,7 @@ const legal=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan
 <label>Jumlah rangkap<input name="jumlah" required type="number" min="1" max="20" value="1"></label>
 <label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
 <label class="full">Catatan <span>(opsional)</span><textarea name="catatan" maxlength="300"></textarea></label>
-<button class="btn p full" id="sb">Kirim pengajuan</button></form><div class="res" id="res" role="status"></div>`;
+<div class="res full" id="res" role="status" aria-live="polite"></div><div class="fa full"><button class="btn p" id="sb">Kirim pengajuan</button></div></form>`;
 const tamu=`<form onsubmit="submitForm(event,'submitTamu','Simpan kunjungan')" novalidate>
 <label class="full">Nama lengkap<input name="nama" required maxlength="100" autocomplete="name"></label>
 <label>Asal / instansi<input name="asal" required maxlength="100" placeholder="Orang tua, alumni, dinas…"></label>
@@ -291,11 +341,11 @@ const tamu=`<form onsubmit="submitForm(event,'submitTamu','Simpan kunjungan')" n
 <label>Nomor WhatsApp / telepon <span>(opsional)</span><input name="whatsapp" maxlength="30" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"></label>
 <label class="full">Email <span>(opsional, untuk menerima ucapan terima kasih)</span><input name="email" type="email" maxlength="120" inputmode="email" autocomplete="email" placeholder="nama@contoh.com"></label>
 <label class="full">Catatan <span>(opsional)</span><textarea name="catatan" maxlength="300"></textarea></label>
-<button class="btn p full" id="sb">Simpan kunjungan</button></form><div class="res" id="res" role="status"></div>`;
+<div class="res full" id="res" role="status" aria-live="polite"></div><div class="fa full"><button class="btn p" id="sb">Simpan kunjungan</button></div></form>`;
 const trackF=`<form onsubmit="track(event)" novalidate>
 <label>Nomor pengajuan<input name="nomor" required placeholder="LEG-261004-001" autocapitalize="characters" autocomplete="off"></label>
 <label>Kode pelacakan <span>(diberikan saat pengajuan)</span><input name="kode" required minlength="6" maxlength="12" placeholder="AB12CD34" autocapitalize="characters" autocomplete="one-time-code"></label>
-<button class="btn p full" id="tb">Lacak status</button></form><div class="res" id="res" role="status"></div>`;
+<div class="fa full"><button class="btn p" id="tb">Lacak status</button></div></form><div class="res" id="res" role="status" aria-live="polite"></div>`;
 
 
 const surat=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan')" novalidate>
@@ -307,21 +357,21 @@ const surat=`<form onsubmit="submitForm(event,'submitLegalisir','Kirim pengajuan
 <label>Jenis surat<select name="jenisDokumen" required><option value="">Pilih surat</option><option>Surat Keterangan Siswa Aktif</option><option>Surat Keterangan Alumni</option><option>Surat Rekomendasi</option><option>Surat Pindah / Mutasi</option><option>Surat Izin / Dispensasi</option><option>Surat lainnya</option></select></label>
 <label class="full">Rencana tanggal pengambilan<input name="tanggalAmbil" required type="date"></label>
 <label class="full">Keperluan surat<textarea name="catatan" required maxlength="300" placeholder="Contoh: persyaratan beasiswa, melamar kerja…"></textarea></label>
-<button class="btn p full" id="sb">Kirim pengajuan</button></form><div class="res" id="res" role="status"></div>`;
+<div class="res full" id="res" role="status" aria-live="polite"></div><div class="fa full"><button class="btn p" id="sb">Kirim pengajuan</button></div></form>`;
 const kMading=`<form onsubmit="submitForm(event,'submitEkspresi','Kirim tulisan')" novalidate><input type="hidden" name="modul" value="mading">
 <label class="full">Judul tulisan<input name="judul" required maxlength="150"></label>
 <label>Kategori<select name="kategori"><option>Opini</option><option>Cerita</option><option>Berita sekolah</option><option>Tips &amp; edukasi</option><option>Lainnya</option></select></label>
 <label>Nama penulis<input name="penulis" required maxlength="100" placeholder="Nama & kelas"></label>
 <label class="full">Isi tulisan<textarea name="isi" required maxlength="5000" style="min-height:160px"></textarea></label>
 <div class="note full" style="margin:0">Tulisan akan ditinjau petugas sekolah sebelum tampil di mading.</div>
-<button class="btn p full" id="sb">Kirim tulisan</button></form><div class="res" id="res" role="status"></div>`;
+<div class="res full" id="res" role="status" aria-live="polite"></div><div class="fa full"><button class="btn p" id="sb">Kirim tulisan</button></div></form>`;
 const kKarya=`<form onsubmit="submitForm(event,'submitEkspresi','Kirim karya')" novalidate><input type="hidden" name="modul" value="karya">
 <label class="full">Judul karya<input name="judul" required maxlength="150"></label>
 <label>Jenis<select name="jenis"><option>Desain</option><option>Fotografi</option><option>Ilustrasi</option><option>Video</option><option>Lainnya</option></select></label>
 <label>Nama pembuat<input name="pembuat" required maxlength="100" placeholder="Nama & kelas"></label>
 <label class="full">Tautan karya <span>(Google Drive / YouTube / Instagram)</span><input name="url" type="url" required maxlength="500" placeholder="https://…"></label>
 <div class="note full" style="margin:0">Pastikan tautan dapat dibuka publik. Karya ditinjau petugas sebelum tampil.</div>
-<button class="btn p full" id="sb">Kirim karya</button></form><div class="res" id="res" role="status"></div>`;
+<div class="res full" id="res" role="status" aria-live="polite"></div><div class="fa full"><button class="btn p" id="sb">Kirim karya</button></div></form>`;
 const cta=k=>k==='mading'||k==='karya'?`<button class="btn p" style="margin-top:18px" onclick="openM('kirim-${k}')">${k==='mading'?'Kirim tulisan Anda':'Kirim karya Anda'}</button>`:'';
 
 /* Penampil data (modul informasi & ekspresi) */
@@ -334,7 +384,7 @@ program:a=>`<ul class="lst">${a.map(x=>{const p=Math.max(0,Math.min(100,Number(x
 organisasi:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.nama)}</b><div class="m"><span>${esc(x.pembina?'Pembina: '+x.pembina:'')}</span>${x.jumlahAnggota?`<span class="tag">${esc(x.jumlahAnggota)} anggota</span>`:''}</div>${x.deskripsi?`<p>${esc(x.deskripsi)}</p>`:''}</li>`).join('')}</ul>`,
 mading:a=>`<div class="lst">${a.map(x=>`<details><summary>${esc(x.judul)}</summary><div class="m">${x.kategori?`<span class="tag">${esc(x.kategori)}</span>`:''}<span>${esc([x.penulis,x.tanggal].filter(Boolean).join(' – '))}</span></div><p>${esc(x.isi)}</p>${foto(x.fotoUrl)}</details>`).join('')}</div>`,
 karya:a=>`<ul class="lst">${a.map(x=>`<li><b>${esc(x.judul)}</b><div class="m">${x.jenis?`<span class="tag">${esc(x.jenis)}</span>`:''}<span>${esc([x.pembuat,x.tanggal].filter(Boolean).join(' – '))}</span></div>${foto(x.fotoUrl)}<div style="margin-top:8px">${lnk(x.url)}</div></li>`).join('')}</ul>`};
-const INFO={statistik:['Sekolah dalam angka','Ringkasan data sekolah yang sudah diverifikasi.'],prestasi:['Prestasi & lomba','Capaian siswa dan sekolah.'],program:['Program sekolah','Kegiatan sekolah dan tingkat keterlaksanaannya.'],organisasi:['Organisasi siswa','Organisasi dan ekstrakurikuler yang aktif.'],mading:['Mading digital','Tulisan siswa yang sudah dimoderasi.'],karya:['Karya siswa','Karya kreatif dari siswa.']};
+const INFO={statistik:['Sekolah dalam angka','Ringkasan data sekolah yang telah diverifikasi.'],prestasi:['Prestasi dan lomba','Capaian siswa dan sekolah.'],program:['Program sekolah','Kegiatan sekolah dan tingkat keterlaksanaannya.'],organisasi:['Organisasi siswa','Organisasi dan ekstrakurikuler yang aktif.'],mading:['Mading digital','Tulisan siswa yang telah ditinjau petugas sekolah.'],karya:['Karya siswa','Karya kreatif siswa.']};
 const cache={};let tok=0,lastFocus;
 const DRAFT_PREFIX='calm_service_draft_';
 function draftKey(sid){return DRAFT_PREFIX+sid}
@@ -345,7 +395,7 @@ function wireServiceDraft(f,sid){restoreServiceDraft(f,sid);f.addEventListener('
 
 function openM(k,pre,kode){lastFocus=document.activeElement;const t=++tok;
  if(k==='service'||SERVICE_UI.some(a=>a[0]===k)){const sid=k==='service'?(pre||'surat_aktif'):k,x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];$('mt').textContent=x[2];$('md').textContent=x[3];$('mb').innerHTML=serviceForm(sid);const f=document.querySelector('#mb form');if(f)wireServiceDraft(f,sid);const d=document.querySelector('[name=tanggalDiperlukan]');if(d){d.min=tglIni();d.max=tglMax()}$('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{if(!coarse())document.querySelector('#mb input:not([type=hidden])')?.focus()},50);return}
- const base={legal:['Pengajuan legalisir','Lengkapi data berikut agar dokumen dapat disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor tiket dan kode pelacakan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya membutuhkan satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau ceritamu untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatifmu untuk ditampilkan di sekolah.',kKarya]}[k];
+ const base={legal:['Pengajuan legalisir','Lengkapi data berikut agar dokumen dapat disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor tiket dan kode pelacakan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Pengisian hanya memerlukan satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau cerita Anda untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatif Anda untuk ditampilkan di sekolah.',kKarya]}[k];
  if(base){$('mt').textContent=base[0];$('md').textContent=base[1];$('mb').innerHTML=base[2];
   const d=document.querySelector('[name=tanggalAmbil]');if(d){d.min=tglIni();d.max=tglMax()}
   if(pre){const n=document.querySelector('[name=nomor]');if(n)n.value=pre;const c=document.querySelector('[name=kode]');if(c&&kode)c.value=kode}}
@@ -366,7 +416,7 @@ async function call(url,opt){const c=new AbortController(),t=setTimeout(()=>c.ab
  catch(e){throw Error(e.name==='AbortError'?'Server tidak merespons. Coba lagi sebentar lagi.':e instanceof SyntaxError?'Respons server tidak valid. Hubungi petugas sekolah.':'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')}finally{clearTimeout(t)}}
 
 /* Validasi formulir */
-const NAME_RE=/^[\p{L}][\p{L}\p{M} .,'’()\-]{1,99}$/u;
+const NAME_RE=/^[\p{L}][\p{L} .,'’-]{2,99}$/u;
 const normWA=v=>{let d=String(v||'').replace(/[\s().-]/g,'');if(d.startsWith('+62'))d='0'+d.slice(3);else if(d.startsWith('62'))d='0'+d.slice(2);return d};
 /* Tanggal mengikuti WIB (sama dengan server), bukan zona waktu perangkat. */
 const tglIni=()=>{try{const s=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s}catch(e){}return new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10)};
@@ -375,7 +425,7 @@ const coarse=()=>!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);
 const MAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function vForm(f){
  const g=n=>f[n]?f[n].value.trim():'',E=(a,b)=>[a,b];
- if(f.nama&&!NAME_RE.test(g('nama')))return E('Nama belum sesuai','Gunakan huruf (minimal 2 karakter). Angka tidak diperbolehkan.');
+ if(f.nama&&!NAME_RE.test(g('nama')))return E('Nama belum sesuai','Gunakan huruf (minimal 3 karakter). Angka tidak diperbolehkan.');
  if(f.nis&&!/^[0-9]{10}$/.test(g('nis')))return E('NISN belum sesuai','NISN harus tepat 10 angka (tanpa spasi atau huruf).');
  if(f.whatsapp&&(f.whatsapp.required||g('whatsapp'))){const raw=g('whatsapp'),w=normWA(raw);
   if(/^08[0-9]{8,11}$/.test(w))f.whatsapp.value=w;
@@ -397,7 +447,7 @@ async function submitForm(e,action,label){e.preventDefault();const f=e.target,b=
  try{const d=new URLSearchParams(new FormData(f));d.append('action',action);
   const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error((j.message||'Data belum dapat diproses. Periksa kembali isian Anda.')+apiHint(j));
   if(action==='submitTamu'){thanksTamu(f.nama.value.trim(),j);return}
-  show(action==='submitEkspresi'?'<h4>Terima kasih!</h4>Kiriman Anda sudah diterima dan akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan <b>nomor dan kode pelacakan</b> untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin nomor</button></div><div class="nomor"><span id="kc">${esc(j.kodeLacak||'-')}</span><button type="button" class="btn s" onclick="copyCode(this)">Salin kode</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
+  show(action==='submitEkspresi'?'<h4>Terima kasih, kiriman diterima</h4>Kiriman Anda akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan <b>nomor tiket dan kode pelacakan</b> berikut untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin nomor</button></div><div class="nomor"><span id="kc">${esc(j.kodeLacak||'-')}</span><button type="button" class="btn s" onclick="copyCode(this)">Salin kode</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
   if(action==='submitLayanan')clearServiceDraft(f.jenisLayanan.value);f.reset();if(f.jumlah)f.jumlah.value=1}
  catch(err){show('<h4>Data belum terkirim</h4>'+esc(err.message),'err')}finally{b.disabled=false;b.textContent=label}}
 function thanksTamu(nama,j){
@@ -413,7 +463,7 @@ async function track(e){e.preventDefault();const f=e.target,b=$('tb'),n=f.nomor.
   b.disabled=true;b.textContent='Mencari…';$('res').className='res';
   try{const j=await call(API_URL+'?action='+((/^LEG-/.test(n))?'track':'trackLayanan')+'&nomor='+encodeURIComponent(n)+'&kode='+encodeURIComponent(k));if(!j.ok)throw Error(j.message||'Nomor atau kode pelacakan tidak cocok.');
    const steps=/^LEG-/.test(n)?STEPS:['Diajukan','Diverifikasi','Diproses','Menunggu Pemohon','Siap Diambil','Selesai'],i=steps.indexOf(j.status),fix=['Perlu Perbaikan','Ditolak'].includes(j.status);
-   const body=fix?'<div class="note" style="background:#fff0e8;color:#8f2d0f">Pengajuan Anda perlu ditindaklanjuti. Hubungi petugas sekolah untuk informasi lebih lanjut.'+(j.catatan?'<br><br><b>Catatan petugas:</b> '+esc(j.catatan):'')+'</div>':`<ol class="steps">${steps.map((s,k)=>`<li class="${k<i?'done':k===i?'now':''}">${s}</li>`).join('')}</ol>`;
+   const body=fix?'<div class="note" style="background:#fff0e8;color:#8f2d0f">Pengajuan Anda perlu ditindaklanjuti. Hubungi petugas sekolah untuk informasi lebih lanjut.'+(j.catatan?'<br><br><b>Catatan petugas:</b> '+esc(j.catatan):'')+'</div>':`<ol class="steps">${steps.map((s,k)=>`<li class="${k<i?'done':k===i?'now':''}">${s}</li>`).join('')}</ol>${j.catatan?'<div class="note"><b>Catatan petugas:</b> '+esc(j.catatan)+'</div>':''}`;
    const label=/^LEG-/.test(n)?'Dokumen':'Layanan';const val=/^LEG-/.test(n)?(j.jenisDokumen||'-'):(j.jenisLayanan||'-');const target=/^LEG-/.test(n)?(j.tanggalAmbil||'-'):(j.targetSelesai||'-');
    show(`<div class="row"><div><small style="color:var(--mut)">Nomor tiket</small><br><b style="font-size:18px">${esc(j.nomor)}</b></div><span class="tag">${esc(j.status)}</span></div>${body}<dl class="kv"><dt>${label}</dt><dd>${esc(val)}</dd><dt>Target</dt><dd>${esc(target)}</dd><dt>Diperbarui</dt><dd>${esc(j.diperbarui||'-')}</dd></dl>${j.history&&j.history.length?`<div class="timeline">${j.history.map(h=>`<div class="timeline-item"><i class="timeline-dot"></i><div><b>${esc(h.statusBaru||'Diperbarui')}</b><small>${esc(h.waktu||'')}</small>${h.catatan?`<div>${esc(h.catatan)}</div>`:''}</div></div>`).join('')}</div>`:''}`,'trk')}
   catch(err){show('<h4>Data tidak ditemukan</h4>'+esc(err.message),'err')}finally{b.disabled=false;b.textContent='Lacak status'}}
@@ -442,11 +492,11 @@ function igHTML(D,demo){
   cards.push(gcard('Prestasi per tahun','Perkembangan jumlah prestasi dari tahun ke tahun',`<div class="cols">${y.map(([k,n])=>`<div class="col"><div class="cb"><i style="--h:${Math.max(8,n/mx*100).toFixed(1)}%"><em>${n}</em></i></div><span>${esc(k)}</span></div>`).join('')}</div>`))}
  if(G.length){const pr=G.map(x=>Math.max(0,Math.min(100,Number(x.progres)||0))),avg=Math.round(pr.reduce((a,b)=>a+b,0)/pr.length),d=(301.6*avg/100).toFixed(1);
   const dn=pr.filter(p=>p>=100).length,rn=pr.filter(p=>p>0&&p<100).length,nw=pr.length-dn-rn;
-  cards.push(gcard('Keterlaksanaan program','Rata-rata capaian seluruh program sekolah',`<div class="dnw"><svg viewBox="0 0 120 120" class="dn" role="img" aria-label="Rata-rata keterlaksanaan ${avg}%"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4da3ff"/><stop offset="1" stop-color="#0f4fd6"/></linearGradient></defs><circle cx="60" cy="60" r="48" fill="none" stroke="#eaf2ff" stroke-width="14"/><circle class="arc" cx="60" cy="60" r="48" fill="none" stroke="url(#dg)" stroke-width="14" stroke-linecap="round" transform="rotate(-90 60 60)" style="--d:${d}"/><text x="60" y="58" text-anchor="middle" font-size="26" font-weight="800" fill="#0b1f44">${avg}%</text><text x="60" y="76" text-anchor="middle" font-size="9.5" fill="#5b6b8a">terlaksana</text></svg><div class="lg"><div><i style="background:#0f4fd6"></i>Selesai: <b>${dn}</b></div><div><i style="background:#4da3ff"></i>Berjalan: <b>${rn}</b></div><div><i style="background:#cfe0ff"></i>Belum mulai: <b>${nw}</b></div></div></div>`))}
+  cards.push(gcard('Keterlaksanaan program','Rata-rata capaian seluruh program sekolah',`<div class="dnw"><svg viewBox="0 0 120 120" class="dn" role="img" aria-label="Rata-rata keterlaksanaan ${avg}%"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d6bbd"/><stop offset="1" stop-color="#0b3d91"/></linearGradient></defs><circle cx="60" cy="60" r="48" fill="none" stroke="#e6edf8" stroke-width="14"/><circle class="arc" cx="60" cy="60" r="48" fill="none" stroke="url(#dg)" stroke-width="14" stroke-linecap="round" transform="rotate(-90 60 60)" style="--d:${d}"/><text x="60" y="58" text-anchor="middle" font-size="26" font-weight="800" fill="#0a1b3d">${avg}%</text><text x="60" y="76" text-anchor="middle" font-size="9.5" fill="#5b6b8a">terlaksana</text></svg><div class="lg"><div><i style="background:#0b3d91"></i>Selesai: <b>${dn}</b></div><div><i style="background:#3d6bbd"></i>Berjalan: <b>${rn}</b></div><div><i style="background:#c9d7ee"></i>Belum mulai: <b>${nw}</b></div></div></div>`))}
  const om=O.filter(x=>num(x.jumlahAnggota)).sort((a,b)=>num(b.jumlahAnggota)-num(a.jumlahAnggota)).slice(0,6);
  if(om.length)cards.push(gcard('Anggota organisasi','Jumlah anggota di organisasi terbesar',hbars(om.map(x=>[x.nama,num(x.jumlahAnggota)]))));
  if(!tiles.length&&!cards.length)return '<div class="empty"><b>Infografis akan tampil otomatis</b>Data muncul setelah petugas menerbitkan prestasi, program, atau organisasi.</div>';
- return `<div id="ig-root">${tiles.length?`<div class="igb">${demo?'<p class="dm">Mode contoh: angka di bawah hanya data demonstrasi.</p>':''}<div class="tls">${tiles.map(t=>`<div class="tl"><b${/^\d+$/.test(String(t.n))?` data-n="${t.n}">0`:`>${esc(t.n)}`}</b><span>${esc(t.l)}</span></div>`).join('')}</div></div>`:''}${cards.length?`<div class="igg">${cards.join('')}</div>`:''}</div>`}
+ return `<div id="ig-root">${tiles.length?`<div class="igb">${demo?'<p class="dm">Mode contoh: angka berikut adalah data demonstrasi.</p>':''}<div class="tls">${tiles.map(t=>`<div class="tl"><b${/^\d+$/.test(String(t.n))?` data-n="${t.n}">0`:`>${esc(t.n)}`}</b><span>${esc(t.l)}</span></div>`).join('')}</div></div>`:''}${cards.length?`<div class="igg">${cards.join('')}</div>`:''}</div>`}
 function igReveal(el){el.classList.add('on');el.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n,t0=performance.now(),fmt=v=>v.toLocaleString('id-ID');
  if(reduced)return b.textContent=fmt(to);const f=t=>{const p=Math.min(1,(t-t0)/1100);b.textContent=fmt(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 async function loadIG(){const box=$('ig'),demo=/[?&]demo=1(&|$)/.test(location.search),ks=['statistik','prestasi','program','organisasi'];
@@ -460,7 +510,14 @@ async function loadIG(){const box=$('ig'),demo=/[?&]demo=1(&|$)/.test(location.s
  new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){o.disconnect();igReveal(el)}},{threshold:.05}).observe(el)}
 loadIG();
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+/* Modal mengikuti viewport visual (keyboard layar HP), menu mobile, fokus & penutupan */
+(()=>{const r=document.documentElement.style,vv=window.visualViewport,f=()=>{r.setProperty('--vvh',(vv?vv.height:innerHeight)+'px');r.setProperty('--vvt',(vv?vv.offsetTop:0)+'px')};if(vv){vv.addEventListener('resize',f);vv.addEventListener('scroll',f)}addEventListener('resize',f);f()})();
+{const o=openM;openM=function(){o.apply(this,arguments);$('mb').scrollTop=0;if(coarse())document.querySelector('.modal').focus({preventScroll:true})}}
+(()=>{const n=$('nav'),b=$('mn'),set=v=>{n.classList.toggle('open',v);b.setAttribute('aria-expanded',String(v));b.setAttribute('aria-label',v?'Tutup menu':'Buka menu')};b.onclick=()=>set(!n.classList.contains('open'));n.addEventListener('click',e=>{if(e.target.closest('a,button'))set(false)});document.addEventListener('click',e=>{if(!e.target.closest('.top'))set(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false)})})();
+$('ov').addEventListener('click',e=>{if(e.target===$('ov')&&!$('mb').querySelector('form'))closeM()});
+document.addEventListener('keydown',e=>{if(!$('ov').classList.contains('show'))return;if(e.key==='Escape')return closeM();if(e.key!=='Tab')return;
+ const l=[...$('ov').querySelectorAll('a[href],button:not([disabled]),input:not([type=hidden]):not([disabled]),select,textarea,summary')].filter(x=>x.getClientRects().length);if(!l.length)return;
+ const a=l[0],z=l[l.length-1];if(e.shiftKey&&(document.activeElement===a||document.activeElement===document.querySelector('.modal'))){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}});
 const qp=new URLSearchParams(location.search),q=qp.get('nomor'),kc=qp.get('kode');if(q){openM('track',q,kc);if(kc){const tf=document.querySelector('#mb form');if(tf)track({preventDefault(){},target:tf})}}
 </script>
 
