@@ -449,6 +449,13 @@ input:focus,select:focus,textarea:focus{border-color:#0b3d91;box-shadow:0 0 0 4p
  .links a:not(.btn):after{display:none}
  .links .btn{margin:16px 0 0}
 }
+/* v7: modal HP — dasar overlay selalu = dasar area terlihat; tombol aksi tidak terpotong */
+.ov{inset:0;top:0;right:0;bottom:0;left:0;height:auto}
+html.kb .ov{bottom:auto;top:var(--vvt);height:var(--vvh)}
+.modal{max-height:100%}
+@media(max-width:560px){.modal{max-height:calc(100% - 10px)}}
+.fa{flex:none}
+#mb{scroll-padding-bottom:110px}
 </style>
 </head>
 <body>
@@ -652,7 +659,11 @@ async function load(k,t){
  try{const j=await call(API_URL+'?action=list&modul='+k);if(!j.ok)throw Error(j.message||'Data belum tersedia.');cache[k]=j.items||[];draw(cache[k])}
  catch(e){if(t===tok)$('mb').innerHTML=`<div class="empty"><b>Data belum dapat dimuat</b>${esc(e.message)}<br><br><button class="btn s" onclick="openM('${k}')">Coba lagi</button></div>`}}
 
-function show(html,type){const r=$('res');r.className='res show '+(type||'');r.innerHTML=html;r.scrollIntoView({behavior:'smooth',block:'nearest'})}
+function show(html,type){const r=$('res');r.className='res show '+(type||'');r.innerHTML=html;revealRes(r)}
+/* Gulirkan hasil ke area terlihat (di atas bilah tombol); dicek ulang setelah animasi agar pasti sampai */
+function revealRes(r){const mb=$('mb'),fa=mb.querySelector('.fa'),go=beh=>{const m=mb.getBoundingClientRect(),b=r.getBoundingClientRect(),lim=(fa&&fa.getBoundingClientRect().top>b.top?fa.getBoundingClientRect().top:m.bottom)-10;
+ if(b.top<m.top+8||b.bottom>lim)mb.scrollTo({top:Math.max(0,mb.scrollTop+b.top-m.top-12),behavior:beh})};
+ requestAnimationFrame(()=>{go(typeof reduced!=='undefined'&&reduced?'auto':'smooth');setTimeout(()=>go('auto'),550)})}
 async function call(url,opt){const c=new AbortController(),t=setTimeout(()=>c.abort(),20000);
  try{return await(await fetch(url,{...opt,signal:c.signal})).json()}
  catch(e){throw Error(e.name==='AbortError'?'Server tidak merespons. Coba lagi sebentar lagi.':e instanceof SyntaxError?'Respons server tidak valid. Hubungi petugas sekolah.':'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')}finally{clearTimeout(t)}}
@@ -753,8 +764,17 @@ async function loadIG(){const box=$('ig'),demo=/[?&]demo=1(&|$)/.test(location.s
 loadIG();
 
 /* Modal mengikuti viewport visual (keyboard layar HP), menu mobile, fokus & penutupan */
-(()=>{const r=document.documentElement.style,vv=window.visualViewport,f=()=>{r.setProperty('--vvh',(vv?vv.height:innerHeight)+'px');r.setProperty('--vvt',(vv?vv.offsetTop:0)+'px')};if(vv){vv.addEventListener('resize',f);vv.addEventListener('scroll',f)}addEventListener('resize',f);f()})();
-{const o=openM;openM=function(){o.apply(this,arguments);$('mb').scrollTop=0;if(coarse())document.querySelector('.modal').focus({preventScroll:true})}}
+(()=>{const h=document.documentElement,r=h.style,vv=window.visualViewport,ov=$('ov');
+const f=()=>{if(!vv){h.classList.remove('kb');return}
+ const top=vv.offsetTop,vh=vv.height;r.setProperty('--vvh',vh+'px');r.setProperty('--vvt',top+'px');
+ /* keyboard layar menutupi bagian bawah layout viewport (tanpa zoom cubit) */
+ let kb=vv.scale<=1.01&&(innerHeight-(vh+top))>80;h.classList.toggle('kb',kb);
+ /* pengaman: bila dasar overlay melewati area terlihat, ikuti viewport visual */
+ if(!kb&&ov.classList.contains('show')&&ov.getBoundingClientRect().bottom>top+vh+2)h.classList.add('kb')};
+window.fitVV=f;if(vv){vv.addEventListener('resize',f);vv.addEventListener('scroll',f)}addEventListener('resize',f);addEventListener('orientationchange',()=>setTimeout(f,250));f();
+/* kolom yang difokuskan tetap terlihat di atas tombol aksi */
+document.addEventListener('focusin',e=>{const t=e.target;if(!coarse()||!t.closest||!t.closest('#mb')||!/^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName))return;setTimeout(()=>{f();t.scrollIntoView({block:'nearest'})},320)})})();
+{const o=openM;openM=function(){o.apply(this,arguments);$('mb').scrollTop=0;window.fitVV&&fitVV();if(coarse())document.querySelector('.modal').focus({preventScroll:true})}}
 (()=>{const n=$('nav'),b=$('mn'),set=v=>{n.classList.toggle('open',v);b.setAttribute('aria-expanded',String(v));b.setAttribute('aria-label',v?'Tutup menu':'Buka menu')};b.onclick=()=>set(!n.classList.contains('open'));n.addEventListener('click',e=>{if(e.target.closest('a,button'))set(false)});document.addEventListener('click',e=>{if(!e.target.closest('.top'))set(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false)})})();
 $('ov').addEventListener('click',e=>{if(e.target===$('ov')&&!$('mb').querySelector('form'))closeM()});
 document.addEventListener('keydown',e=>{if(!$('ov').classList.contains('show'))return;if(e.key==='Escape')return closeM();if(e.key!=='Tab')return;
