@@ -162,16 +162,25 @@ input:hover,select:hover,textarea:hover{border-color:#b9c8e4}input:focus,select:
 .modal{overscroll-behavior:contain;scrollbar-gutter:stable}
 #mb form{padding-bottom:8px}
 #mb form>button[type="submit"],#mb form>button#sb{
- position:sticky;bottom:0;z-index:3;align-self:stretch;
- box-shadow:0 -8px 18px -14px #0a1b3d66;margin-top:8px;min-height:48px
+ position:sticky;bottom:0;z-index:3;align-self:stretch;margin-top:8px;min-height:48px;
+ /* Halo putih lewat box-shadow (bukan pseudo-elemen): warna tombol tetap terlihat, konten yang digulir tidak tembus di belakangnya */
+ box-shadow:0 0 0 10px #fff,0 22px 0 10px #fff,0 -12px 14px 6px #fff
 }
-#mb form>button[type="submit"]::before,#mb form>button#sb::before{content:"";position:absolute;inset:-10px -2px -8px;background:#fff;z-index:-1;border-top:1px solid var(--line);border-radius:8px}
-#mb form>button:disabled{opacity:.72}
+#mb form>button:disabled{opacity:1;filter:saturate(.55) brightness(1.12)}
 .res{overflow-wrap:anywhere}
 @media(max-width:560px){
  .modal{overscroll-behavior:contain}
  #mb form>button[type="submit"],#mb form>button#sb{bottom:env(safe-area-inset-bottom,0px);min-height:50px}
 }
+/* Ucapan terima kasih buku tamu */
+.thx{text-align:center;padding:12px 4px 4px}
+.thx-ic{width:56px;height:56px;margin:4px auto 16px;display:grid;place-items:center;border-radius:50%;background:#e3f7ee;color:#0b7a50}
+.thx-ic svg.i{width:28px;height:28px}
+.thx h3{margin:0 0 10px;font-size:20px;line-height:1.3;letter-spacing:-.015em;color:var(--ink);outline:0}
+.thx p{margin:0 auto 10px;max-width:440px;color:var(--mut);font-size:14px}
+.thx .thx-m{color:#0b7a50;font-weight:600}
+.thx-a{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+@media(max-width:560px){.thx-a .btn{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -279,7 +288,8 @@ const tamu=`<form onsubmit="submitForm(event,'submitTamu','Simpan kunjungan')" n
 <label>Asal / instansi<input name="asal" required maxlength="100" placeholder="Orang tua, alumni, dinas…"></label>
 <label>Keperluan<select name="keperluan" required><option value="">Pilih keperluan</option><option>Bertemu guru / staf</option><option>Urusan administrasi</option><option>Kunjungan dinas</option><option>Kerja sama</option><option>Lainnya</option></select></label>
 <label>Ingin bertemu <span>(opsional)</span><input name="bertemu" maxlength="100"></label>
-<label>Nomor WhatsApp <span>(opsional)</span><input name="whatsapp" maxlength="30" inputmode="tel" autocomplete="tel"></label>
+<label>Nomor WhatsApp / telepon <span>(opsional)</span><input name="whatsapp" maxlength="30" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"></label>
+<label class="full">Email <span>(opsional, untuk menerima ucapan terima kasih)</span><input name="email" type="email" maxlength="120" inputmode="email" autocomplete="email" placeholder="nama@contoh.com"></label>
 <label class="full">Catatan <span>(opsional)</span><textarea name="catatan" maxlength="300"></textarea></label>
 <button class="btn p full" id="sb">Simpan kunjungan</button></form><div class="res" id="res" role="status"></div>`;
 const trackF=`<form onsubmit="track(event)" novalidate>
@@ -334,13 +344,13 @@ function clearServiceDraft(sid){try{sessionStorage.removeItem(draftKey(sid))}cat
 function wireServiceDraft(f,sid){restoreServiceDraft(f,sid);f.addEventListener('input',()=>saveServiceDraft(f,sid));f.addEventListener('change',()=>saveServiceDraft(f,sid))}
 
 function openM(k,pre,kode){lastFocus=document.activeElement;const t=++tok;
- if(k==='service'||SERVICE_UI.some(a=>a[0]===k)){const sid=k==='service'?(pre||'surat_aktif'):k,x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];$('mt').textContent=x[2];$('md').textContent=x[3];$('mb').innerHTML=serviceForm(sid);const f=document.querySelector('#mb form');if(f)wireServiceDraft(f,sid);const d=document.querySelector('[name=tanggalDiperlukan]');if(d)d.min=tglIni();$('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>document.querySelector('#mb input:not([type=hidden])')?.focus(),50);return}
+ if(k==='service'||SERVICE_UI.some(a=>a[0]===k)){const sid=k==='service'?(pre||'surat_aktif'):k,x=SERVICE_UI.find(a=>a[0]===sid)||SERVICE_UI[0];$('mt').textContent=x[2];$('md').textContent=x[3];$('mb').innerHTML=serviceForm(sid);const f=document.querySelector('#mb form');if(f)wireServiceDraft(f,sid);const d=document.querySelector('[name=tanggalDiperlukan]');if(d){d.min=tglIni();d.max=tglMax()}$('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{if(!coarse())document.querySelector('#mb input:not([type=hidden])')?.focus()},50);return}
  const base={legal:['Pengajuan legalisir','Lengkapi data berikut agar dokumen dapat disiapkan sebelum Anda datang.',legal],track:['Lacak pengajuan','Masukkan nomor tiket dan kode pelacakan untuk melihat status terbaru.',trackF],tamu:['Buku tamu digital','Catat kunjungan Anda. Hanya membutuhkan satu menit.',tamu],surat:['Pengajuan surat','Ajukan surat keterangan, lalu pantau statusnya dengan nomor pengajuan.',surat],'kirim-mading':['Kirim tulisan','Bagikan opini atau ceritamu untuk mading sekolah.',kMading],'kirim-karya':['Kirim karya','Bagikan karya kreatifmu untuk ditampilkan di sekolah.',kKarya]}[k];
  if(base){$('mt').textContent=base[0];$('md').textContent=base[1];$('mb').innerHTML=base[2];
-  const d=document.querySelector('[name=tanggalAmbil]');if(d)d.min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+  const d=document.querySelector('[name=tanggalAmbil]');if(d){d.min=tglIni();d.max=tglMax()}
   if(pre){const n=document.querySelector('[name=nomor]');if(n)n.value=pre;const c=document.querySelector('[name=kode]');if(c&&kode)c.value=kode}}
  else{$('mt').textContent=INFO[k][0];$('md').textContent=INFO[k][1];load(k,t)}
- $('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{const i=document.querySelector('#mb input:not([type=hidden]),#mb textarea,#mb select,#mb button');i&&i.focus()},50)}
+ $('ov').classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{if(coarse())return;const i=document.querySelector('#mb input:not([type=hidden]),#mb textarea,#mb select,#mb button');i&&i.focus()},50)}
 function closeM(){tok++;$('ov').classList.remove('show');document.body.style.overflow='';lastFocus&&lastFocus.focus&&lastFocus.focus()}
 
 async function load(k,t){
@@ -356,18 +366,27 @@ async function call(url,opt){const c=new AbortController(),t=setTimeout(()=>c.ab
  catch(e){throw Error(e.name==='AbortError'?'Server tidak merespons. Coba lagi sebentar lagi.':e instanceof SyntaxError?'Respons server tidak valid. Hubungi petugas sekolah.':'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.')}finally{clearTimeout(t)}}
 
 /* Validasi formulir */
-const NAME_RE=/^[\p{L}][\p{L} .,'’-]{2,99}$/u;
+const NAME_RE=/^[\p{L}][\p{L}\p{M} .,'’()\-]{1,99}$/u;
 const normWA=v=>{let d=String(v||'').replace(/[\s().-]/g,'');if(d.startsWith('+62'))d='0'+d.slice(3);else if(d.startsWith('62'))d='0'+d.slice(2);return d};
-const tglIni=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+/* Tanggal mengikuti WIB (sama dengan server), bukan zona waktu perangkat. */
+const tglIni=()=>{try{const s=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s}catch(e){}return new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+const tglMax=()=>{const [y,m,d]=tglIni().split('-').map(Number);return new Date(Date.UTC(y+1,m-1,d)).toISOString().slice(0,10)};
+const coarse=()=>!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);
+const MAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function vForm(f){
  const g=n=>f[n]?f[n].value.trim():'',E=(a,b)=>[a,b];
- if(f.nama&&!NAME_RE.test(g('nama')))return E('Nama belum sesuai','Gunakan huruf saja (minimal 3 karakter), tanpa angka atau simbol.');
+ if(f.nama&&!NAME_RE.test(g('nama')))return E('Nama belum sesuai','Gunakan huruf (minimal 2 karakter). Angka tidak diperbolehkan.');
  if(f.nis&&!/^[0-9]{10}$/.test(g('nis')))return E('NISN belum sesuai','NISN harus tepat 10 angka (tanpa spasi atau huruf).');
- if(f.whatsapp&&(f.whatsapp.required||g('whatsapp'))){const w=normWA(g('whatsapp'));if(!/^08[0-9]{8,11}$/.test(w))return E('Nomor WhatsApp belum sesuai','Gunakan nomor Indonesia berawalan 08 atau +62, 10–13 angka. Contoh: 081234567890.');f.whatsapp.value=w}
+ if(f.whatsapp&&(f.whatsapp.required||g('whatsapp'))){const raw=g('whatsapp'),w=normWA(raw);
+  if(/^08[0-9]{8,11}$/.test(w))f.whatsapp.value=w;
+  else if(f.asal&&/^\+?[0-9 ()-]{6,30}$/.test(raw)&&raw.replace(/\D/g,'').length>=6&&raw.replace(/\D/g,'').length<=15){/* buku tamu: telepon rumah/kantor diterima apa adanya */}
+  else return E('Nomor WhatsApp belum sesuai','Gunakan nomor Indonesia berawalan 08 atau +62, 10–13 angka. Contoh: 081234567890.')}
+ if(f.email&&g('email')&&!MAIL_RE.test(g('email')))return E('Email belum sesuai','Periksa penulisan email, contoh: nama@contoh.com.');
  if(f.jurusan&&g('jurusan').length<2)return E('Kelas/jurusan belum sesuai','Isi minimal 2 karakter.');
  if(f.asal&&g('asal').length<2)return E('Asal/instansi belum sesuai','Isi minimal 2 karakter.');
  if(f.tahunLulus){const y=+g('tahunLulus'),c=new Date().getFullYear();if(!Number.isInteger(y)||y<2000||y>c+1)return E('Tahun lulus belum sesuai','Isi 4 digit tahun antara 2000 dan '+(c+1)+'.')}
- if(f.tanggalAmbil){const t=g('tanggalAmbil'),d=new Date(),mx=new Date(d.getFullYear()+1,d.getMonth(),d.getDate()),mxs=mx.toISOString().slice(0,10);if(t<tglIni()||t>mxs)return E('Tanggal pengambilan belum sesuai','Pilih tanggal mulai hari ini, maksimal 1 tahun ke depan.')}
+ if(f.tanggalAmbil){const t=g('tanggalAmbil');if(t<tglIni()||t>tglMax())return E('Tanggal pengambilan belum sesuai','Pilih tanggal mulai hari ini, maksimal 1 tahun ke depan.')}
+ if(f.tanggalDiperlukan&&g('tanggalDiperlukan')){const t=g('tanggalDiperlukan');if(t<tglIni()||t>tglMax())return E('Tanggal diperlukan belum sesuai','Pilih tanggal mulai hari ini, maksimal 1 tahun ke depan.')}
  if(f.judul&&g('judul').length<3)return E('Judul terlalu pendek','Isi minimal 3 karakter.');
  if(f.isi&&g('isi').length<20)return E('Isi tulisan terlalu pendek','Tulis minimal 20 karakter.');
  return null}
@@ -377,13 +396,18 @@ async function submitForm(e,action,label){e.preventDefault();const f=e.target,b=
  b.disabled=true;b.textContent='Mengirim…';$('res').className='res';
  try{const d=new URLSearchParams(new FormData(f));d.append('action',action);
   const j=await call(API_URL,{method:'POST',body:d});if(!j.ok)throw Error((j.message||'Data belum dapat diproses. Periksa kembali isian Anda.')+apiHint(j));
-  show(action==='submitTamu'?'<h4>Kunjungan Anda tercatat</h4>Terima kasih sudah berkunjung ke sekolah kami.':action==='submitEkspresi'?'<h4>Terima kasih!</h4>Kiriman Anda sudah diterima dan akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan <b>nomor dan kode pelacakan</b> untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin nomor</button></div><div class="nomor"><span id="kc">${esc(j.kodeLacak||'-')}</span><button type="button" class="btn s" onclick="copyCode(this)">Salin kode</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
+  if(action==='submitTamu'){thanksTamu(f.nama.value.trim(),j);return}
+  show(action==='submitEkspresi'?'<h4>Terima kasih!</h4>Kiriman Anda sudah diterima dan akan tampil setelah ditinjau petugas sekolah.':`<h4>Pengajuan berhasil dikirim</h4>Simpan <b>nomor dan kode pelacakan</b> untuk memantau status.<div class="nomor"><span id="nm">${esc(j.nomor)}</span><button type="button" class="btn s" onclick="copyNo(this)">Salin nomor</button></div><div class="nomor"><span id="kc">${esc(j.kodeLacak||'-')}</span><button type="button" class="btn s" onclick="copyCode(this)">Salin kode</button></div><small>Status saat ini: <b>${esc(j.status)}</b></small>`);
   if(action==='submitLayanan')clearServiceDraft(f.jenisLayanan.value);f.reset();if(f.jumlah)f.jumlah.value=1}
  catch(err){show('<h4>Data belum terkirim</h4>'+esc(err.message),'err')}finally{b.disabled=false;b.textContent=label}}
+function thanksTamu(nama,j){
+ $('mt').textContent='Terima kasih sudah berkunjung';$('md').textContent='Kunjungan Anda sudah tercatat di buku tamu digital.';
+ $('mb').innerHTML=`<div class="thx" role="status"><span class="thx-ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><h3 tabindex="-1">Terima kasih, ${esc(nama)}!</h3><p>Kunjungan Anda sudah tercatat dan akan dilihat petugas sekolah. Kami senang menyambut Anda di SMK Ciledug Al-Musaddadiyah.</p>${j&&j.thanked?'<p class="thx-m">Ucapan terima kasih juga sudah kami kirim ke email Anda.</p>':''}<div class="thx-a"><button class="btn p" type="button" onclick="closeM()">Selesai</button><button class="btn" type="button" onclick="openM('tamu')">Isi untuk tamu lain</button></div></div>`;
+ const h=$('mb').querySelector('h3');if(h&&!coarse())h.focus()}
 function copyCode(b){const t=$('kc').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>b.textContent='Tersalin').catch(()=>b.textContent='Salin manual');else b.textContent='Salin manual'}
 function copyNo(b){const t=$('nm').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>b.textContent='Tersalin').catch(()=>{const r=document.createRange();r.selectNodeContents($('nm'));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent='Pilih & salin'})}
 
-async function track(e){e.preventDefault();const f=e.target,b=$('tb'),n=f.nomor.value.trim().toUpperCase(),k=f.kode.value.trim().toUpperCase();
+async function track(e){e.preventDefault();const f=e.target,b=$('tb'),n=f.nomor.value.trim().toUpperCase().replace(/[\u2010-\u2015\u2212]/g,'-').replace(/\s+/g,''),k=f.kode.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
   if(!/^[A-Z0-9]+(?:-[A-Z0-9]+)*-\d{6}-\d{3,}$/.test(n))return show('<h4>Format nomor tiket belum sesuai</h4>Contoh: SUR-AKTIF-261005-001.','err');
   if(!TRACK_CODE_RE.test(k))return show('<h4>Kode pelacakan belum sesuai</h4>Masukkan kode yang diberikan saat pengajuan.','err');
   b.disabled=true;b.textContent='Mencari…';$('res').className='res';
