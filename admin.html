@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1d6bff">
 <meta name="description" content="CALM School Hub — Panel Admin">
-<title>CALM School Hub · Panel Admin · v2.5.5</title>
+<title>CALM School Hub · Panel Admin · v2.5.6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -171,6 +171,8 @@ label{font-weight:600}
 .chip{font-weight:500}
 .row,.recent-item,.mini,.metric,.dash-card{border-radius:var(--r2)}
 button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
+.bdg{display:inline-grid;place-items:center;min-width:18px;height:18px;margin-left:7px;padding:0 5px;border-radius:99px;background:#d92d20;color:#fff;font-size:11px;font-weight:700;line-height:1;vertical-align:1px}
+.tag.new{background:#fde8e8;color:#b42318}
 .tag.prio-urgent{background:#fde8e8;color:#b42318}.tag.prio-high{background:#fff0e8;color:var(--warn)}.tag.late-tag{background:#fff4f1;color:#b42318;border:1px solid #f6cfc4}
 </style>
 </head>
@@ -214,7 +216,7 @@ button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
 </div>
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbzLNLTCMlUygT1B2Vz9mWoDM6zYlafLdomTwPfy1zb7RRYjpnOTeGVXqfwpqAJqwSBl/exec';
-const FRONTEND_VERSION='2.5.5';
+const FRONTEND_VERSION='2.5.6';
 const apiHint=j=>j&&j.code==='ACTION_NOT_FOUND'?' [Panel memanggil …'+API_URL.slice(-34)+' — samakan dengan URL /exec deployment terbaru]':'';
 const root=document;
 const STATUS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai','Perlu Perbaikan'];
@@ -243,7 +245,8 @@ async function api(action,extra={},opts={}){
   throw e
  }finally{clearTimeout(t)}
 }
-function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;root.appendChild(e);setTimeout(()=>e.remove(),2600)}
+/* PERBAIKAN: sebelumnya root.appendChild() pada document → HierarchyRequestError (toast tak pernah tampil & baris sesudahnya ikut gagal). */
+function toast(m){document.querySelectorAll('.toast').forEach(x=>x.remove());const e=document.createElement('div');e.className='toast';e.setAttribute('role','status');e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
 
 /* sesi */
 $('peek').onclick=()=>{const p=$('pw'),btn=$('peek'),icon=$('peekIcon'),on=p.type==='password';p.type=on?'text':'password';btn.setAttribute('aria-label',on?'Sembunyikan password':'Tampilkan password');btn.title=on?'Sembunyikan password':'Tampilkan password';icon.innerHTML=on?'<path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A9.9 9.9 0 0 1 12 5c6.5 0 10 7 10 7a18.2 18.2 0 0 1-3.1 3.8"/><path d="M6.1 6.1C3.5 7.8 2 12 2 12s3.5 7 10 7c1.1 0 2.2-.2 3.1-.5"/>':'<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/>'};
@@ -274,12 +277,13 @@ async function start(){
  render();
  await loadDashboard();
  render();
+ if(role==='SUPER_ADMIN')startTamuPoll();
 }
-function logout(msg){if(token)api('adminLogout').catch(()=>{});token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
+function logout(msg){if(token)api('adminLogout').catch(()=>{});stopTamuPoll();token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
 $('lo').onclick=()=>logout();$('rf').onclick=async()=>{if(tab==='dashboard'){await loadDashboard();render();}else{await loadTab(true,true);toast('Data diperbarui')}};
 
 /* tab & data */
-root.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;tab=b.dataset.t;filter='Semua';q='';day='';svcFilter='Semua';prioFilter='Semua';lateOnly=false;unassignedOnly=false;mineOnly=false;
+root.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;tab=b.dataset.t;if(tab==='tamu')tamuSeenAtOpen=seenGet();filter='Semua';q='';day='';svcFilter='Semua';prioFilter='Semua';lateOnly=false;unassignedOnly=false;mineOnly=false;
  root.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));if(tab==='dashboard'){render();return}if(data[tab]){render();return}loadTab()});
 async function loadDashboard(){try{dash=await api('adminDashboard');return true}catch(e){dash=null;return false}}
 async function loadSpecific(t){try{data[t]=(await api('adminList',{modul:t})).items||[];return true}catch(e){return false}}
@@ -334,25 +338,53 @@ function openPetugasDetail(row){if(role!=='SUPER_ADMIN'){toast('Hanya Super Admi
 
 function rLayanan(){
  const all=data.layanan||[],qq=q.toLowerCase();
- const list=all.filter(x=>(!mineOnly||role!=='ADMIN_PETUGAS'||String(x.petugas||'').trim()===String(me.nama||'').trim())&&(svcFilter==='Semua'||x.jenisLayanan===svcFilter)&& (prioFilter==='Semua'||(x.prioritas||'Normal')===prioFilter) && (!lateOnly||isLate(x)) && (!unassignedOnly||(!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status))) && (!qq||[x.nomor,x.nama,x.jenisLayanan,x.status,x.identitas,x.petugas].join(' ').toLowerCase().includes(qq)));
+ const list=all.filter(x=>(!mineOnly||role!=='ADMIN_PETUGAS'||String(x.petugas||'').trim()===String((dash&&dash.petugas)||me.nama||'').trim())&&(svcFilter==='Semua'||x.jenisLayanan===svcFilter)&& (prioFilter==='Semua'||(x.prioritas||'Normal')===prioFilter) && (!lateOnly||isLate(x)) && (!unassignedOnly||(!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status))) && (!qq||[x.nomor,x.nama,x.jenisLayanan,x.status,x.identitas,x.petugas].join(' ').toLowerCase().includes(qq)));
+ const shown=list.filter(x=>filter==='Semua'||x.status===filter);
  const statuses=['Semua','Diajukan','Diverifikasi','Diproses','Menunggu Pemohon','Siap Diambil','Selesai','Perlu Perbaikan','Ditolak'];
  const services=[...new Set(all.map(x=>x.jenisLayanan).filter(Boolean))].sort();
  const countStatus=s=>s==='Semua'?all.length:all.filter(x=>x.status===s).length;
  keepFocus(()=>{$('ct').innerHTML=`<div class="svc-tools"><input id="qs" type="search" placeholder="Cari tiket, nama, identitas, layanan, petugas…" value="${esc(q)}"><select id="sf"><option>Semua</option>${services.map(x=>`<option${x===svcFilter?' selected':''}>${esc(x)}</option>`).join('')}</select><select id="pf"><option>Semua</option><option${prioFilter==='Normal'?' selected':''}>Normal</option><option${prioFilter==='Tinggi'?' selected':''}>Tinggi</option><option${prioFilter==='Mendesak'?' selected':''}>Mendesak</option></select>${role==='ADMIN_PETUGAS'&&me.petugasId?`<button class="btn s ${mineOnly?'p':''}" data-mine-filter="1">${mineOnly?'✓ Tugas saya':'Tugas saya'}</button>`:''}<button class="btn s ${lateOnly?'p':''}" data-late-filter="1">${lateOnly?'✓ Terlambat':'Terlambat'}</button></div>
  <div class="chips">${statuses.map(s=>`<button class="chip" data-f="${esc(s)}" aria-pressed="${s===filter}">${esc(s)}<b>${countStatus(s)}</b></button>`).join('')}</div>
- <div class="attention"><span class="chip">Menampilkan<b>${list.length} dari ${all.length}</b></span><span class="chip">Prioritas mendesak<b>${all.filter(x=>x.prioritas==='Mendesak'&&x.status!=='Selesai').length}</b></span><span class="chip">Tanpa petugas<b>${all.filter(x=>!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status)).length}</b></span><span class="chip">Auto-assign<b>aktif</b></span></div>
- <div class="list">${list.length?list.filter(x=>filter==='Semua'||x.status===filter).map(x=>`<button class="row" data-lrow="${esc(x._row)}"><div><b>${esc(x.nomor)}</b><small>${esc(x.nama)} · ${esc(x.identitas)}</small></div><div><b style="font-size:13px">${esc(x.jenisLayanan)}</b><small>${esc(x.petugas||'Belum ditugaskan')}</small></div><div><small>Target</small><b style="font-size:13px">${esc(x.targetSelesai||'-')}</b></div><span><span class="tag ${tagCls(x.status)}">${esc(x.status||'Diajukan')}</span>${x.prioritas&&x.prioritas!=='Normal'?`<small class="tag ${x.prioritas==='Mendesak'?'prio-urgent':'prio-high'}" style="display:inline-block;margin-top:5px">${esc(x.prioritas)}</small>`:''}${isLate(x)?'<small class="tag late-tag" style="display:inline-block;margin-top:5px">Terlambat</small>':''}</span></button>`).join(''):'<div class="empty"><b>Tidak ada pengajuan yang cocok</b>Ubah filter atau kata pencarian untuk melihat antrean lainnya.</div>'}</div>`})}
+ <div class="attention"><span class="chip">Menampilkan<b>${shown.length} dari ${all.length}</b></span><span class="chip">Prioritas mendesak<b>${all.filter(x=>x.prioritas==='Mendesak'&&x.status!=='Selesai').length}</b></span><span class="chip">Tanpa petugas<b>${all.filter(x=>!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status)).length}</b></span><span class="chip">Auto-assign<b>aktif</b></span></div>
+ <div class="list">${shown.length?shown.map(x=>`<button class="row" data-lrow="${esc(x._row)}"><div><b>${esc(x.nomor)}</b><small>${esc(x.nama)} · ${esc(x.identitas)}</small></div><div><b style="font-size:13px">${esc(x.jenisLayanan)}</b><small>${esc(x.petugas||'Belum ditugaskan')}</small></div><div><small>Target</small><b style="font-size:13px">${esc(x.targetSelesai||'-')}</b></div><span><span class="tag ${tagCls(x.status)}">${esc(x.status||'Diajukan')}</span>${x.prioritas&&x.prioritas!=='Normal'?`<small class="tag ${x.prioritas==='Mendesak'?'prio-urgent':'prio-high'}" style="display:inline-block;margin-top:5px">${esc(x.prioritas)}</small>`:''}${isLate(x)?'<small class="tag late-tag" style="display:inline-block;margin-top:5px">Terlambat</small>':''}</span></button>`).join(''):'<div class="empty"><b>Tidak ada pengajuan yang cocok</b>Ubah filter atau kata pencarian untuk melihat antrean lainnya.</div>'}</div>`})}
 function isLate(x){if(['Selesai','Ditolak'].includes(x.status)||!x.targetSelesai)return false;const p=String(x.targetSelesai).split('/');if(p.length===3){const d=new Date(+p[2],+p[1]-1,+p[0]);const t0=new Date();t0.setHours(0,0,0,0);return d<t0}return false}
 function rLegal(){const all=data.legalisir||[];const cnt=s=>all.filter(x=>(x.status||'Diajukan')===s).length;
  const qq=q.toLowerCase(),list=all.filter(x=>(filter==='Semua'||(x.status||'Diajukan')===filter)&&(!qq||[x.nomor,x.nama,x.nis].join(' ').toLowerCase().includes(qq)));
  keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari nomor, nama, atau NIS" value="${esc(q)}"></div>
  <div class="chips">${['Semua',...STATUS].map(s=>`<button class="chip" data-f="${s}" aria-pressed="${s===filter}">${s}<b>${s==='Semua'?all.length:cnt(s)}</b></button>`).join('')}</div>
  <div class="list">${list.length?list.map(x=>`<button class="row" data-n="${esc(x.nomor)}"><div><b>${esc(x.nama)}</b><small>${esc(x.nomor)}</small></div><div><b>${esc(x.jenisDokumen)}</b><small>${esc(x.jumlah)} rangkap</small></div><div><small>Ambil</small><b style="font-size:14px">${esc(x.tanggalAmbil||'-')}</b></div><span class="tag ${tagCls(x.status)}">${esc(x.status||'Diajukan')}</span></button>`).join(''):'<div class="empty"><b>Tidak ada pengajuan</b>Data akan muncul di sini saat ada pengajuan yang cocok.</div>'}</div>`})}
-function rTamu(){const all=data.tamu||[],qq=q.toLowerCase(),dd=day?day.split('-').reverse().join('/'):'';
- const list=all.filter(x=>(!dd||String(x.waktu).startsWith(dd))&&(!qq||[x.nama,x.asal,x.keperluan,x.bertemu].join(' ').toLowerCase().includes(qq)));
+const isMob=n=>/^(\+?62|0)8/.test(String(n||'').replace(/[\s().-]/g,''));
+function waThanks(x){return 'https://wa.me/'+wa(x.whatsapp)+'?text='+encodeURIComponent(`Halo ${x.nama}, terima kasih sudah berkunjung ke SMK Ciledug Al-Musaddadiyah Garut. Kunjungan Anda sudah tercatat di buku tamu digital kami. Kami senang menyambut Anda dan semoga urusan Anda berjalan lancar.`)}
+function rTamu(){const all=data.tamu||[],qq=q.toLowerCase(),dd=day?day.split('-').reverse().join('/'):'',seen=tamuSeenAtOpen;
+ const list=all.filter(x=>(!dd||String(x.waktu).startsWith(dd))&&(!qq||[x.nama,x.asal,x.keperluan,x.bertemu,x.email].join(' ').toLowerCase().includes(qq)));
+ const fresh=seen?all.filter(x=>x.ts>seen).length:0;
  keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari nama, asal, atau keperluan" value="${esc(q)}"><input id="dy" type="date" value="${esc(day)}" aria-label="Filter tanggal"></div>
- <div class="chips"><span class="chip">Menampilkan<b>${list.length} dari ${all.length}</b></span></div>
- <div class="list">${list.length?list.map(x=>`<div class="row tm"><div><b>${esc(x.nama)}</b><small>${esc(x.asal)}</small></div><div><b style="font-size:14px">${esc(x.keperluan)}</b><small>${x.bertemu?'Bertemu: '+esc(x.bertemu):'-'}</small></div><div><small>${esc(x.waktu)}</small>${x.whatsapp?`<br><a href="https://wa.me/${wa(x.whatsapp)}" target="_blank" rel="noopener" style="color:var(--blue-d);font-weight:700;font-size:13px">${esc(x.whatsapp)}</a>`:''}</div>${x.catatan?`<p>${esc(x.catatan)}</p>`:''}</div>`).join(''):'<div class="empty"><b>Belum ada kunjungan</b>Tamu yang mengisi buku tamu akan muncul di sini.</div>'}</div>`})}
+ <div class="chips"><span class="chip">Menampilkan<b>${list.length} dari ${all.length}</b></span>${fresh?`<span class="chip">Tamu baru<b>${fresh}</b></span>`:''}</div>
+ <div class="list">${list.length?list.map(x=>`<div class="row tm"><div><b>${esc(x.nama)}</b><small>${esc(x.asal)}</small>${seen&&x.ts>seen?'<span class="tag new" style="display:inline-block;margin-top:4px">Baru</span>':''}</div><div><b style="font-size:14px">${esc(x.keperluan)}</b><small>${x.bertemu?'Bertemu: '+esc(x.bertemu):'-'}</small></div><div><small>${esc(x.waktu)}</small>${x.whatsapp?`<br><a href="https://wa.me/${wa(x.whatsapp)}" target="_blank" rel="noopener" style="color:var(--blue-d);font-weight:700;font-size:13px">${esc(x.whatsapp)}</a>`:''}${x.email?`<br><small>${esc(x.email)}</small>`:''}${isMob(x.whatsapp)?`<br><a class="thx-l" href="${waThanks(x)}" target="_blank" rel="noopener">Kirim ucapan terima kasih</a>`:''}</div>${x.catatan?`<p>${esc(x.catatan)}</p>`:''}</div>`).join(''):'<div class="empty"><b>Belum ada kunjungan</b>Tamu yang mengisi buku tamu akan muncul di sini.</div>'}</div>`});
+ markTamuSeen(all)}
+
+/* Notifikasi buku tamu (Super Admin): lencana di tab + pemberitahuan saat ada tamu baru. Pemeriksaan tiap 60 dtk, jeda saat tab peramban tidak aktif. */
+const SEEN_KEY='calm_tamu_seen',BASE_TITLE=document.title;let tamuPoll=null,tamuLatest=0,tamuNew=0,tamuSeenAtOpen=0;
+const seenGet=()=>{try{return Number(localStorage.getItem(SEEN_KEY))||0}catch(e){return 0}};
+const seenSet=v=>{try{localStorage.setItem(SEEN_KEY,String(v))}catch(e){}};
+function paintTamuBadge(){const b=root.querySelector('.tabs [data-t=tamu]');if(b)b.innerHTML='Buku tamu'+(tamuNew?`<span class="bdg" aria-label="${tamuNew} tamu baru">${tamuNew>99?'99+':tamuNew}</span>`:'');document.title=(tamuNew?'('+tamuNew+') ':'')+BASE_TITLE}
+function markTamuSeen(all){const mx=(all||[]).reduce((a,x)=>Math.max(a,x.ts||0),0);if(mx>seenGet())seenSet(mx);if(tamuNew){tamuNew=0;paintTamuBadge()}}
+async function pollTamu(){
+ if(role!=='SUPER_ADMIN'||!token||document.hidden)return;
+ try{
+  const since=seenGet(),j=await api('adminTamuSummary',{since:String(since)},{timeout:10000});
+  tamuLatest=j.terakhirMs||0;
+  if(!since){seenSet(tamuLatest||Date.now());tamuNew=0;paintTamuBadge();return}   /* pertama kali: jadikan data yang ada sebagai acuan, jangan membanjiri lencana */
+  const prev=tamuNew;
+  if(tab==='tamu'){tamuNew=0;if((j.baru||0)>0){await loadTab(true,true)}}
+  else tamuNew=j.baru||0;
+  paintTamuBadge();
+  if(tamuNew>prev)toast(tamuNew-prev===1?'Ada 1 tamu baru di buku tamu':'Ada '+(tamuNew-prev)+' tamu baru di buku tamu');
+ }catch(e){/* pemeriksaan latar belakang: diam saat gagal */}
+}
+function startTamuPoll(){stopTamuPoll();pollTamu();tamuPoll=setInterval(pollTamu,60000)}
+function stopTamuPoll(){if(tamuPoll){clearInterval(tamuPoll);tamuPoll=null}tamuNew=0;try{paintTamuBadge()}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&tamuPoll)pollTamu()});
 
 $('ct').addEventListener('input',e=>{if(e.target.id==='qs'){q=e.target.value;render()}if(e.target.id==='dy'){day=e.target.value;render()}});
 $('ct').addEventListener('change',e=>{if(e.target.id==='sf'){svcFilter=e.target.value;render()}if(e.target.id==='pf'){prioFilter=e.target.value;render()}});
@@ -426,7 +458,8 @@ $('mx').onclick=closeM;$('ov').onclick=e=>{if(e.target===$('ov'))closeM()};docum
 // Tombol "Kembali ke situs" / "Situs utama": kembali ke halaman sebelumnya, atau ke root situs
 function goSite(){try{if(document.referrer&&new URL(document.referrer).origin===location.origin){location.href=document.referrer;return}}catch(e){}location.href='./'}
 $('bk1').onclick=$('bk2').onclick=goSite;
-// Standalone admin portal: login is shown immediately.
+// Pulihkan sesi bila token masih tersimpan; bila kedaluwarsa, start() mengembalikan ke layar masuk.
+if(token)start();
 </script>
 </body>
 </html>
