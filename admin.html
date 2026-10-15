@@ -304,7 +304,7 @@ button.row:hover,.recent-item:hover{border-color:#a9bee5;box-shadow:0 8px 22px r
 @media(max-width:560px){.service-picker-controls{display:grid;grid-template-columns:minmax(0,1fr)}#pl-add{width:100%}}
 
 
-/* v2.7.7 — responsive refinement: prevent overflow and keep service control compact */
+/* v2.7.8 — responsive refinement: prevent overflow and keep service control compact */
 *,*::before,*::after{min-width:0}
 img,svg,video,canvas{max-width:100%}
 .wrap,.top .wrap,.fm,.fm>label,.service-picker-field,.service-picker{min-width:0;max-width:100%}
@@ -346,6 +346,25 @@ img,svg,video,canvas{max-width:100%}
  .modal{width:min(640px,calc(100vw - 32px));max-height:min(90dvh,900px)}
  .service-picker-controls{grid-template-columns:minmax(0,1fr) 46px;flex-wrap:nowrap}
 }
+
+
+/* v2.7.8 — dialog konfirmasi elegan, tanpa native browser/GitHub prompt */
+.confirm-layer{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(9,22,48,.58);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:confirmFade .16s ease-out}
+.confirm-card{width:min(430px,100%);background:linear-gradient(180deg,#fff 0%,#fbfcff 100%);border:1px solid rgba(226,232,240,.95);border-radius:24px;padding:28px;box-shadow:0 28px 90px rgba(5,18,45,.3);animation:confirmUp .2s ease-out}
+.confirm-symbol{width:54px;height:54px;display:grid;place-items:center;border-radius:17px;background:#fff4e5;color:#a85b08;border:1px solid #f5dfbd;margin-bottom:18px}
+.confirm-symbol svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.confirm-card h2{margin:0;color:#14213d;font-size:20px;line-height:1.3;letter-spacing:-.025em}
+.confirm-card p{margin:9px 0 24px;color:#66758d;font-size:14px;line-height:1.7}
+.confirm-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.confirm-actions button{min-height:43px;padding:10px 16px;border-radius:11px;font:inherit;font-size:13.5px;font-weight:600;line-height:1.2;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+.confirm-cancel{background:#fff;border:1px solid #dce4f0;color:#34445e}
+.confirm-cancel:hover{background:#f4f7fb;border-color:#b9c7dc}
+.confirm-danger{background:linear-gradient(135deg,#b42318,#8f1d16);border:1px solid #a52118;color:#fff;box-shadow:0 5px 13px rgba(180,35,24,.17)}
+.confirm-danger:hover{background:#8f1d16;transform:translateY(-1px)}
+@keyframes confirmFade{from{opacity:0}to{opacity:1}}
+@keyframes confirmUp{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:480px){.confirm-layer{padding:14px;align-items:center}.confirm-card{padding:23px 20px;border-radius:21px}.confirm-actions{display:grid;grid-template-columns:1fr}.confirm-actions button{width:100%}}
+@media(prefers-reduced-motion:reduce){.confirm-layer,.confirm-card{animation:none}}
 
 </style>
 </head>
@@ -451,7 +470,33 @@ async function start(){
  render();
  if(role==='SUPER_ADMIN')startTamuPoll();
 }
-function logout(msg){if(modalDirty&&!confirm('Formulir memiliki perubahan yang belum disimpan. Keluar dan buang perubahan tersebut?'))return;modalDirty=false;if(token)api('adminLogout').catch(()=>{});stopTamuPoll();token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM(true);$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
+function confirmDiscardChanges(message,title='Perubahan belum disimpan'){
+ return new Promise(resolve=>{
+  const layer=document.createElement('div');layer.className='confirm-layer';layer.setAttribute('role','presentation');
+  layer.innerHTML=`<section class="confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+   <div class="confirm-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 21 20H3L12 3.5Z"/><path d="M12 9v4.5"/><path d="M12 17h.01"/></svg></div>
+   <h2 id="confirmTitle">${esc(title)}</h2><p id="confirmMessage">${esc(message)}</p>
+   <div class="confirm-actions"><button type="button" class="confirm-cancel">Kembali ke formulir</button><button type="button" class="confirm-danger">Ya, buang perubahan</button></div>
+  </section>`;
+  document.body.appendChild(layer);
+  const cancel=layer.querySelector('.confirm-cancel'),discard=layer.querySelector('.confirm-danger');
+  let finished=false;
+  const finish=value=>{if(finished)return;finished=true;document.removeEventListener('keydown',onKey);layer.remove();resolve(value)};
+  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();finish(false)}};
+  cancel.onclick=()=>finish(false);discard.onclick=()=>finish(true);
+  layer.addEventListener('click',e=>{if(e.target===layer)finish(false)});
+  document.addEventListener('keydown',onKey);
+  cancel.focus();
+ });
+}
+async function logout(msg){
+ if(modalDirty){
+  const ok=await confirmDiscardChanges('Formulir memiliki perubahan yang belum disimpan. Jika keluar sekarang, perubahan tersebut akan dibuang.','Keluar tanpa menyimpan?');
+  if(!ok)return;
+  clearModalDraft();
+ }
+ modalDirty=false;if(token)api('adminLogout').catch(()=>{});stopTamuPoll();token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM(true);$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}
+}
 $('lo').onclick=()=>logout();$('rf').onclick=async()=>{if(tab==='dashboard'){await loadDashboard();render();}else{await loadTab(true,true);toast('Data diperbarui')}};
 
 /* tab & data */
@@ -699,9 +744,9 @@ $('mb').addEventListener('change',e=>{
     modalDirty=true;saveModalDraft();
   }
 });
-function closeM(force){
+async function closeM(force){
   if(modalDirty&&!force){
-    const ok=confirm('Perubahan formulir belum disimpan. Tutup formulir dan buang perubahan?');
+    const ok=await confirmDiscardChanges('Perubahan formulir belum disimpan. Jika formulir ditutup, perubahan tersebut akan dibuang.','Tutup formulir?');
     if(!ok)return;
     clearModalDraft();
   } else if(force) clearModalDraft();
