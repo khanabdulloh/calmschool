@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1d6bff">
 <meta name="description" content="CALM School Hub — Panel Admin">
-<title>CALM School Hub · Panel Admin · v2.6.0</title>
+<title>CALM School Hub · Panel Admin · v2.5.7</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -182,102 +182,6 @@ button.row:hover,.recent-item:hover{border-color:#b9d0f5;box-shadow:var(--sh)}
 @media(pointer:coarse){input,select,textarea{font-size:16px}.btn.s{min-height:40px}.x{width:44px;height:44px}}
 .wrap{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
 @media(max-width:560px){.wrap{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}}
-
-
-/* ===== CALM Admin UI audit v2.6.0 — visual polish, accessibility, responsive ===== */
-:root{
- --ink:#14213d;--mut:#66758d;--line:#e2e8f0;--bg:#f6f8fc;
- --blue:#245eea;--blue-d:#1746b8;--sky:#edf3ff;--azure:#6c9cff;
- --ok:#16845b;--warn:#b45309;--sh:0 8px 28px rgba(15,35,75,.06);
-}
-html{scroll-behavior:smooth}
-body,.adm{background:var(--bg);color:var(--ink)}
-.top{background:rgba(255,255,255,.92);border-bottom:1px solid rgba(226,232,240,.9);backdrop-filter:blur(16px) saturate(1.4)}
-.wrap{max-width:1180px}
-.brand{gap:11px}
-.brand b{font-size:14px;letter-spacing:-.015em}
-.brand small{font-size:11px;letter-spacing:.02em}
-.mark{background:linear-gradient(145deg,#3977ff,#1b4cc7);border-radius:12px;box-shadow:0 5px 14px rgba(36,94,234,.18)}
-.btn{border-color:#dce4f0;border-radius:11px;min-height:42px;font-weight:650;transition:background .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease}
-.btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(20,40,80,.08)}
-.btn.p,.btn.p:hover{background:linear-gradient(135deg,#2d6af0,#1f51cf);border-color:#245eea;box-shadow:0 5px 14px rgba(36,94,234,.18);color:#fff}
-.btn.wa{background:#16845b;border-color:#16845b}
-.btn:disabled{transform:none;box-shadow:none}
-input,select,textarea{border-color:#dce4f0;background:#fff;border-radius:11px}
-input:hover,select:hover,textarea:hover{border-color:#a9bee5}
-input:focus,select:focus,textarea:focus{border-color:#3977ff;box-shadow:0 0 0 3px rgba(57,119,255,.13)}
-.tabs{gap:5px;border-bottom:1px solid #e0e7f1;margin:20px 0 18px;scrollbar-width:thin}
-.tabs button{padding:11px 15px;color:#66758d;border-radius:10px 10px 0 0}
-.tabs button[aria-selected=true]{color:#1746b8;box-shadow:inset 0 -3px 0 #245eea;font-weight:750}
-.dash{gap:16px;padding-top:4px}
-.dash-hero{min-height:158px;padding:30px 32px;border:1px solid #244b94;border-radius:22px;background:radial-gradient(420px 210px at 100% 0%,rgba(115,165,255,.25),transparent 72%),linear-gradient(120deg,#10264f 0%,#173d83 62%,#245eea 100%);box-shadow:0 12px 28px rgba(23,61,131,.12)}
-.dash-hero:after{width:330px;height:330px;right:-110px;top:-205px;border:1px solid #ffffff1c;background:#ffffff08}
-.dash-hero h2{font-size:clamp(23px,2.6vw,30px);letter-spacing:-.04em}
-.dash-hero p{max-width:640px;line-height:1.65;color:#dbe7ff}
-.dash-grid{gap:14px}
-.metric,.dash-card{border:1px solid #e4eaf3;box-shadow:0 3px 12px rgba(15,35,75,.025);transition:border-color .16s ease,box-shadow .16s ease}
-.metric{padding:20px;border-radius:17px}
-.metric:hover,.dash-card:hover{border-color:#d1def4;box-shadow:var(--sh)}
-.metric small{font-size:12px;color:#66758d}
-.metric b{font-size:32px;letter-spacing:-.05em;color:#14213d}
-.metric span{line-height:1.5}
-.dash-two{gap:14px}
-.dash-card{padding:22px;border-radius:18px}
-.dash-card h3{font-size:15px;letter-spacing:-.01em}
-.dash-card p{line-height:1.55}
-.flow{gap:14px}
-.flowbar{height:8px;background:#edf2fa}
-.flowbar i{background:linear-gradient(90deg,#75a5ff,#245eea)}
-.mini{background:#f8faff;border-color:#e5ebf5}
-.quick button{border-color:#e0e7f1;border-radius:12px;transition:.16s}
-.quick button:hover{background:#f4f7ff;border-color:#a9bee5;transform:translateY(-1px)}
-.row,.recent-item{border-color:#e3e9f2;box-shadow:0 2px 8px rgba(15,35,75,.025)}
-.row{padding:16px 18px;border-radius:15px}
-.row b{letter-spacing:-.01em}
-button.row:hover,.recent-item:hover{border-color:#a9bee5;box-shadow:0 8px 22px rgba(31,81,207,.08)}
-.tag{display:inline-flex;align-items:center;min-height:25px;padding:4px 10px;border-radius:8px;font-size:11.5px;letter-spacing:.01em}
-.tag.ok{background:#e8f7ef;color:#14754f}
-.tag.wn{background:#fff4e8;color:#9a4b0b}
-.chip{border-color:#e0e7f1;background:#fff;border-radius:10px}
-.chip[aria-pressed=true]{background:#245eea;border-color:#245eea}
-.attention .chip{background:#fff}
-.empty{border-color:#d6e0ef;background:#fff;border-radius:16px;padding:34px 18px}
-.hd{margin:24px 0 16px}
-.hd h2{font-size:24px;letter-spacing:-.035em}
-.hd p{font-size:13px}
-.svc-tools,.bar,.toolbar{gap:9px}
-.modal{border:1px solid rgba(226,232,240,.9);border-radius:22px;box-shadow:0 28px 80px rgba(10,25,55,.24)}
-.mh{align-items:flex-start;margin-bottom:14px}
-.mh h2{letter-spacing:-.03em}
-.x{display:grid;place-items:center}
-#mb .acts{gap:9px}
-.toast{max-width:min(92vw,560px);text-align:center;box-shadow:0 10px 30px rgba(10,25,55,.2)}
-.login-shell{border-color:#e4eaf3;border-radius:26px;box-shadow:0 28px 80px rgba(17,40,82,.13)}
-.login-visual{background:radial-gradient(500px 260px at 0% 100%,#245eea55,transparent 75%),linear-gradient(145deg,#102347,#173d83 68%,#245eea)}
-.login-visual h2{letter-spacing:-.045em}
-.lc{padding:46px}
-.lc h1{letter-spacing:-.04em}
-.login-meta{font-size:11.5px}
-:where(button,a,input,select,textarea):focus-visible{outline:3px solid rgba(36,94,234,.35);outline-offset:2px}
-@media(max-width:820px){
- .wrap{padding-left:18px;padding-right:18px}
- .dash-card{padding:18px}
- .metric{padding:16px}
-}
-@media(max-width:560px){
- .wrap{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
- .dash-hero{padding:20px;border-radius:18px}
- .dash-grid{gap:9px}
- .metric{padding:13px}
- .metric b{font-size:25px}
- .dash-card{padding:15px}
- .tabs button{padding:10px 12px}
- .row{padding:13px}
- .lc{padding:25px 20px}
-}
-@media(hover:none){.btn:hover,.quick button:hover{transform:none;box-shadow:none}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-
 </style>
 </head>
 <body>
@@ -320,7 +224,7 @@ button.row:hover,.recent-item:hover{border-color:#a9bee5;box-shadow:0 8px 22px r
 </div>
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbzLNLTCMlUygT1B2Vz9mWoDM6zYlafLdomTwPfy1zb7RRYjpnOTeGVXqfwpqAJqwSBl/exec';
-const FRONTEND_VERSION='2.6.0';
+const FRONTEND_VERSION='2.5.7';
 const apiHint=j=>j&&j.code==='ACTION_NOT_FOUND'?' [Panel memanggil …'+API_URL.slice(-34)+' — samakan dengan URL /exec deployment terbaru]':'';
 const root=document;
 const STATUS=['Diajukan','Diverifikasi','Diproses','Siap Diambil','Selesai','Perlu Perbaikan'];
@@ -430,24 +334,32 @@ function rPetugas(){
  keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari nama, jabatan, layanan, atau ID petugas…" value="${esc(q)}">${role==='SUPER_ADMIN'?'<button class="btn p" data-add-petugas="1">+ Tambah petugas</button>':''}</div>
  <div class="attention"><span class="chip">Total<b>${all.length}</b></span><span class="chip">Aktif<b>${all.filter(x=>x.status==='Aktif').length}</b></span><span class="chip">Nonaktif<b>${all.filter(x=>x.status!=='Aktif').length}</b></span></div>
  <div class="list">${list.length?list.map(x=>`<button class="row" data-prow="${esc(x._row)}"><div><b>${esc(x.nama)}</b><small>${esc(x.jabatan||'Petugas layanan')} · ${esc(x.id)}</small></div><div><b style="font-size:13px">${esc(x.layanan||'Semua layanan')}</b><small>${esc(x.whatsapp||x.email||'Kontak belum diisi')}</small></div><span class="tag ${x.status==='Aktif'?'ok':'wn'}">${esc(x.status||'Aktif')}</span></button>`).join(''):'<div class="empty"><b>Belum ada petugas</b>Tambahkan operator atau petugas layanan pertama.</div>'}</div>`})}
-async function openPetugasDetail(row){if(role!=='SUPER_ADMIN'){toast('Hanya Super Admin yang dapat mengelola data petugas.');return}
- if(!data.layanan) await loadSpecific('layanan');
+async function openPetugasDetail(row){
+ if(role!=='SUPER_ADMIN'){toast('Hanya Super Admin yang dapat mengelola data petugas.');return}
  const x=(data.petugas||[]).find(r=>String(r._row)===String(row));const isNew=!x;
  $('mt').textContent=isNew?'Tambah petugas':'Kelola petugas';$('ms').textContent=isNew?'Data petugas dipakai untuk pembagian pekerjaan layanan.':(x.id+' · '+x.nama);
  const v=k=>x?x[k]||'':'';
- const serviceOptions=[...new Set([...(data.layanan||[]).map(a=>String(a.jenisLayanan||'').trim()),...String(v('layanan')).split(',').map(a=>a.trim())].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
- const selectedServices=String(v('layanan')).split(',').map(a=>a.trim()).filter(Boolean);
- $('mb').innerHTML=`<div class="fm"><label>Nama petugas<input id="pn" maxlength="100" value="${esc(v('nama'))}" placeholder="Nama lengkap"></label><label>Jabatan <span>(opsional)</span><input id="pj" maxlength="100" value="${esc(v('jabatan'))}" placeholder="Contoh: Operator Tata Usaha"></label><div class="full"><label for="pl-services">Layanan yang ditangani <span>(pilih satu atau lebih)</span></label><details id="pl-services" style="border:1px solid var(--line,#d8e0ea);border-radius:10px;padding:10px 12px;background:var(--surface,#fff)"><summary style="cursor:pointer;font-weight:600">Pilih layanan (<span id="pl-count">${selectedServices.length}</span>)</summary><div id="pl-options" style="display:grid;gap:9px;margin-top:12px;max-height:220px;overflow:auto">${serviceOptions.map((name,i)=>`<label style="display:flex;align-items:center;gap:9px;font-weight:400"><input type="checkbox" class="pl-option" value="${esc(name)}"${selectedServices.includes(name)?' checked':''}>${esc(name)}</label>`).join('')||'<small>Belum ada daftar layanan. Layanan yang sudah tersimpan tetap dipertahankan.</small>'}</div></details><input id="pl" type="hidden" value="${esc(v('layanan'))}"><small style="display:block;margin-top:6px;color:var(--muted,#64748b)">Pilihan diambil dari jenis layanan pada pengajuan yang tersedia.</small></div><label>WhatsApp <span>(opsional)</span><input id="pwA" maxlength="30" value="${esc(v('whatsapp'))}" placeholder="08xxxxxxxxxx"></label><label>Email <span>(opsional)</span><input id="pe" type="email" maxlength="120" value="${esc(v('email'))}"></label><label>Status<select id="ps"><option${v('status')!=='Nonaktif'?' selected':''}>Aktif</option><option${v('status')==='Nonaktif'?' selected':''}>Nonaktif</option></select></label><div class="acts"><button class="btn p" id="psv">${isNew?'Tambah petugas':'Simpan perubahan'}</button>${x&&x.status==='Aktif'?'<button class="btn dg" id="pde">Nonaktifkan</button>':''}</div></div>`;
+ // Muat ulang daftar pengajuan untuk membentuk pilihan dari jenis layanan yang benar-benar tercatat.
+ // Katalog master layanan tidak tersedia di kontrak API adminList yang ada pada file ini.
+ const loaded=await loadSpecific('layanan');
+ const requestServices=(data.layanan||[]).map(a=>String(a.jenisLayanan||'').trim()).filter(Boolean);
+ const savedServices=String(v('layanan')).split(',').map(a=>a.trim()).filter(Boolean);
+ const serviceOptions=[...new Set([...requestServices,...savedServices])].sort((a,b)=>a.localeCompare(b,'id'));
+ const selectedServices=new Set(savedServices);
+ const serviceNote=loaded
+   ? 'Pilihan berasal dari jenis layanan yang pernah diajukan, ditambah layanan yang sudah tersimpan pada petugas.'
+   : 'Daftar pengajuan gagal dimuat. Pilihan lama dipertahankan; coba muat ulang sebelum menambah layanan baru.';
+ $('mb').innerHTML=`<div class="fm"><label>Nama petugas<input id="pn" maxlength="100" value="${esc(v('nama'))}" placeholder="Nama lengkap"></label><label>Jabatan <span>(opsional)</span><input id="pj" maxlength="100" value="${esc(v('jabatan'))}" placeholder="Contoh: Operator Tata Usaha"></label><div class="full"><label>Layanan yang ditangani <span>(opsional, dapat memilih lebih dari satu)</span></label><details id="pl-picker" style="border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:#fff"><summary style="cursor:pointer;font-weight:650">Pilih layanan (<span id="pl-count">${savedServices.length}</span>)</summary><div id="pl-options" style="display:grid;gap:9px;margin-top:12px;max-height:220px;overflow:auto">${serviceOptions.map(name=>`<label style="display:flex;align-items:center;gap:9px;font-weight:500"><input type="checkbox" class="pl-option" value="${esc(name)}" style="width:auto;margin:0"${selectedServices.has(name)?' checked':''}>${esc(name)}</label>`).join('')||'<small>Belum ada jenis layanan dari pengajuan dan belum ada layanan tersimpan.</small>'}</div></details><input id="pl" type="hidden" value="${esc(v('layanan'))}"><small id="pl-note" style="display:block;margin-top:6px;color:var(--mut)">${esc(serviceNote)}</small></div><label>WhatsApp <span>(opsional)</span><input id="pwA" maxlength="30" value="${esc(v('whatsapp'))}" placeholder="08xxxxxxxxxx"></label><label>Email <span>(opsional)</span><input id="pe" type="email" maxlength="120" value="${esc(v('email'))}"></label><label>Status<select id="ps"><option${v('status')!=='Nonaktif'?' selected':''}>Aktif</option><option${v('status')==='Nonaktif'?' selected':''}>Nonaktif</option></select></label><div class="acts"><button class="btn p" id="psv">${isNew?'Tambah petugas':'Simpan perubahan'}</button>${x&&x.status==='Aktif'?'<button class="btn dg" id="pde">Nonaktifkan</button>':''}</div></div>`;
  const syncServices=()=>{const chosen=[...$('mb').querySelectorAll('.pl-option:checked')].map(el=>el.value);$('pl').value=chosen.join(', ');$('pl-count').textContent=chosen.length};
  $('mb').querySelectorAll('.pl-option').forEach(el=>el.addEventListener('change',syncServices));
- $('psv').onclick=async()=>{const b=$('psv'),o={nama:$('pn').value.trim(),jabatan:$('pj').value.trim(),layanan:$('pl').value.trim(),whatsapp:$('pwA').value.trim(),email:$('pe').value.trim(),status:$('ps').value,user:'Admin'};if(!o.nama){toast('Nama petugas wajib diisi.');return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSavePetugas',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM();await loadSpecific('petugas');if(tab==='petugas')render();toast(isNew?'Petugas ditambahkan':'Petugas diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Tambah petugas':'Simpan perubahan'}};
+ $('psv').onclick=async()=>{const b=$('psv'),o={nama:$('pn').value.trim(),jabatan:$('pj').value.trim(),layanan:$('pl').value.trim(),whatsapp:$('pwA').value.trim(),email:$('pe').value.trim(),status:$('ps').value,user:'Admin'};if(!o.nama){toast('Nama petugas wajib diisi.');$('pn').focus();return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSavePetugas',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM();await loadSpecific('petugas');if(tab==='petugas')render();toast(isNew?'Petugas ditambahkan':'Petugas diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Tambah petugas':'Simpan perubahan'}};
  if(x&&x.status==='Aktif')$('pde').onclick=async()=>{const b=$('pde');if(!b.dataset.c){b.dataset.c='1';b.textContent='Klik lagi untuk menonaktifkan';setTimeout(()=>{if(b.isConnected){delete b.dataset.c;b.textContent='Nonaktifkan'}},3500);return}b.disabled=true;try{await api('adminDeletePetugas',{row:x._row,sig:x._sig,user:'Admin'});closeM();await loadSpecific('petugas');if(tab==='petugas')render();toast('Petugas dinonaktifkan')}catch(e){toast(e.message);b.disabled=false}};
  $('ov').classList.add('show')
 }
 
 function rLayanan(){
  const all=data.layanan||[],qq=q.toLowerCase();
- const assignedToMe=String((dash&&dash.petugas)||me.nama||'').trim(); const list=all.filter(x=>(role!=='ADMIN_PETUGAS'||String(x.petugas||'').trim()===assignedToMe)&&(!mineOnly||role!=='ADMIN_PETUGAS'||String(x.petugas||'').trim()===assignedToMe)&&(svcFilter==='Semua'||x.jenisLayanan===svcFilter)&& (prioFilter==='Semua'||(x.prioritas||'Normal')===prioFilter) && (!lateOnly||isLate(x)) && (!unassignedOnly||(!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status))) && (!qq||[x.nomor,x.nama,x.jenisLayanan,x.status,x.identitas,x.petugas].join(' ').toLowerCase().includes(qq)));
+ const list=all.filter(x=>(!mineOnly||role!=='ADMIN_PETUGAS'||String(x.petugas||'').trim()===String((dash&&dash.petugas)||me.nama||'').trim())&&(svcFilter==='Semua'||x.jenisLayanan===svcFilter)&& (prioFilter==='Semua'||(x.prioritas||'Normal')===prioFilter) && (!lateOnly||isLate(x)) && (!unassignedOnly||(!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status))) && (!qq||[x.nomor,x.nama,x.jenisLayanan,x.status,x.identitas,x.petugas].join(' ').toLowerCase().includes(qq)));
  const shown=list.filter(x=>filter==='Semua'||x.status===filter);
  const statuses=['Semua','Diajukan','Diverifikasi','Diproses','Menunggu Pemohon','Siap Diambil','Selesai','Perlu Perbaikan','Ditolak'];
  const services=[...new Set(all.map(x=>x.jenisLayanan).filter(Boolean))].sort();
@@ -456,16 +368,7 @@ function rLayanan(){
  <div class="chips">${statuses.map(s=>`<button class="chip" data-f="${esc(s)}" aria-pressed="${s===filter}">${esc(s)}<b>${countStatus(s)}</b></button>`).join('')}</div>
  <div class="attention"><span class="chip">Menampilkan<b>${shown.length} dari ${all.length}</b></span><span class="chip">Prioritas mendesak<b>${all.filter(x=>x.prioritas==='Mendesak'&&x.status!=='Selesai').length}</b></span><span class="chip">Tanpa petugas<b>${all.filter(x=>!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status)).length}</b></span><span class="chip">Auto-assign<b>aktif</b></span></div>
  <div class="list">${shown.length?shown.map(x=>`<button class="row" data-lrow="${esc(x._row)}"><div><b>${esc(x.nomor)}</b><small>${esc(x.nama)} · ${esc(x.identitas)}</small></div><div><b style="font-size:13px">${esc(x.jenisLayanan)}</b><small>${esc(x.petugas||'Belum ditugaskan')}</small></div><div><small>Target</small><b style="font-size:13px">${esc(x.targetSelesai||'-')}</b></div><span><span class="tag ${tagCls(x.status)}">${esc(x.status||'Diajukan')}</span>${x.prioritas&&x.prioritas!=='Normal'?`<small class="tag ${x.prioritas==='Mendesak'?'prio-urgent':'prio-high'}" style="display:inline-block;margin-top:5px">${esc(x.prioritas)}</small>`:''}${isLate(x)?'<small class="tag late-tag" style="display:inline-block;margin-top:5px">Terlambat</small>':''}</span></button>`).join(''):'<div class="empty"><b>Tidak ada pengajuan yang cocok</b>Ubah filter atau kata pencarian untuk melihat antrean lainnya.</div>'}</div>`})}
-function isLate(x){
- if(['Selesai','Ditolak'].includes(x.status)||!x.targetSelesai)return false;
- const raw=String(x.targetSelesai).trim();let d=null;
- let m=raw.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
- if(m)d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));
- else {m=raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:T.*)?$/);if(m)d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));}
- if(!d||Number.isNaN(d.getTime()))return false;
- const today=new Date();today.setHours(0,0,0,0);d.setHours(0,0,0,0);
- return d<today
-}
+function isLate(x){if(['Selesai','Ditolak'].includes(x.status)||!x.targetSelesai)return false;const p=String(x.targetSelesai).split('/');if(p.length===3){const d=new Date(+p[2],+p[1]-1,+p[0]);const t0=new Date();t0.setHours(0,0,0,0);return d<t0}return false}
 function rLegal(){const all=data.legalisir||[];const cnt=s=>all.filter(x=>(x.status||'Diajukan')===s).length;
  const qq=q.toLowerCase(),list=all.filter(x=>(filter==='Semua'||(x.status||'Diajukan')===filter)&&(!qq||[x.nomor,x.nama,x.nis].join(' ').toLowerCase().includes(qq)));
  keepFocus(()=>{$('ct').innerHTML=`<div class="bar"><input id="qs" type="search" placeholder="Cari nomor, nama, atau NIS" value="${esc(q)}"></div>
@@ -537,10 +440,6 @@ function openEdit(row){if(role!=='SUPER_ADMIN'){toast('Hanya Super Admin yang da
  <div class="acts"><button class="btn p" id="sv" type="button">Simpan</button>${x?'<button class="btn dg" id="dl" type="button">Hapus</button>':''}</div></div>`;
  $('sv').onclick=async()=>{const b=$('sv'),o={};m.f.forEach(f=>{o[f[0]]=$('f_'+f[0]).value.trim()});o.tampil=$('f_tampil').checked?'ya':'tidak';
   const miss=m.f.find(f=>f[3]&&!o[f[0]]);if(miss){toast(miss[1]+' wajib diisi.');$('f_'+miss[0]).focus();return}
-  const invalidUrl=m.f.find(f=>f[2]==='u'&&o[f[0]]&&!/^https?:\/\//i.test(o[f[0]]));
-  if(invalidUrl){toast(invalidUrl[1]+' harus menggunakan URL http:// atau https://.');$('f_'+invalidUrl[0]).focus();return}
-  const invalidNumber=m.f.find(f=>['n','p','y'].includes(f[2])&&o[f[0]]!==''&&(!Number.isFinite(Number(o[f[0]]))||(f[2]==='p'&&(Number(o[f[0]])<0||Number(o[f[0]])>100))||(f[2]==='n'&&Number(o[f[0]])<0)||(f[2]==='y'&&(Number(o[f[0]])<1900||Number(o[f[0]])>2100))));
-  if(invalidNumber){toast('Periksa kembali nilai pada '+invalidNumber[1]+'.');$('f_'+invalidNumber[0]).focus();return}
   b.disabled=true;b.textContent='Menyimpan…';
   try{await api('adminSaveData',{modul:tab,row:x?x._row:'',sig:x?x._sig:'',data:JSON.stringify(o)});closeM();toast('Tersimpan');loadTab(true)}
   catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Simpan'}};
