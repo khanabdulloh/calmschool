@@ -303,6 +303,50 @@ button.row:hover,.recent-item:hover{border-color:#a9bee5;box-shadow:0 8px 22px r
 .service-chip-remove{border:0;background:transparent;color:inherit;font-size:17px;line-height:1;cursor:pointer;padding:0 1px}
 @media(max-width:560px){.service-picker-controls{display:grid;grid-template-columns:minmax(0,1fr)}#pl-add{width:100%}}
 
+
+/* v2.7.7 — responsive refinement: prevent overflow and keep service control compact */
+*,*::before,*::after{min-width:0}
+img,svg,video,canvas{max-width:100%}
+.wrap,.top .wrap,.fm,.fm>label,.service-picker-field,.service-picker{min-width:0;max-width:100%}
+.fm>label{display:block;overflow-wrap:anywhere}
+.fm input,.fm select,.fm textarea{width:100%;min-width:0;max-width:100%}
+.service-picker{width:100%;min-width:0;overflow:hidden;border-radius:12px}
+.service-picker-controls{display:grid;grid-template-columns:minmax(0,1fr) 46px;align-items:stretch;gap:8px;padding:10px;background:#f8faff}
+.service-picker-controls select{width:100%;min-width:0;max-width:100%;height:auto;min-height:46px;padding:10px 32px 10px 11px;font-size:14px;white-space:normal}
+#pl-add.service-add-icon{display:inline-flex;align-items:center;justify-content:center;width:46px;min-width:46px;height:46px;min-height:46px;padding:0;border-radius:11px;font-size:27px;font-weight:500;line-height:1;box-shadow:none}
+#pl-add.service-add-icon:hover{transform:none}
+.service-selected{min-width:0;overflow-wrap:anywhere;gap:7px;padding:10px}
+.service-chip{max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:normal}
+.service-chip-remove{flex:0 0 20px;width:20px;height:20px;min-height:20px}
+.service-count{padding:0 10px 10px;white-space:normal;overflow-wrap:anywhere}
+.service-help{overflow-wrap:anywhere}
+#mb .acts{display:flex;flex-wrap:wrap;gap:8px}
+#mb .acts .btn{flex:1 1 150px;min-width:0}
+@media(max-width:720px){
+ .ov{padding:0;align-items:flex-end}
+ .modal{width:100%;max-width:100%;max-height:calc(var(--vvh,100dvh) - 4px);margin:0;padding:18px 14px calc(16px + env(safe-area-inset-bottom,0px));border-radius:20px 20px 0 0;overflow-x:hidden}
+ .mh{gap:10px}
+ .mh>div{min-width:0;overflow-wrap:anywhere}
+ .mh h2{font-size:18px;line-height:1.3}
+ .mh p{line-height:1.45;overflow-wrap:anywhere}
+ #mb{min-width:0;max-width:100%}
+ .fm{gap:12px}
+ .service-picker-controls{grid-template-columns:minmax(0,1fr) 44px;gap:7px;padding:8px}
+ #pl-add.service-add-icon{width:44px;min-width:44px;height:44px;min-height:44px}
+ #mb .acts{padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:380px){
+ .modal{padding-left:11px;padding-right:11px}
+ .service-picker-controls{grid-template-columns:minmax(0,1fr) 42px;gap:6px;padding:7px}
+ .service-picker-controls select{padding-left:9px;padding-right:25px;font-size:13px}
+ #pl-add.service-add-icon{width:42px;min-width:42px;height:42px;min-height:42px;font-size:25px}
+ .service-chip{font-size:11px;padding:5px 7px}
+}
+@media(min-width:721px){
+ .modal{width:min(640px,calc(100vw - 32px));max-height:min(90dvh,900px)}
+ .service-picker-controls{grid-template-columns:minmax(0,1fr) 46px;flex-wrap:nowrap}
+}
+
 </style>
 </head>
 <body>
@@ -407,7 +451,7 @@ async function start(){
  render();
  if(role==='SUPER_ADMIN')startTamuPoll();
 }
-function logout(msg){if(token)api('adminLogout').catch(()=>{});stopTamuPoll();token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM();$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
+function logout(msg){if(modalDirty&&!confirm('Formulir memiliki perubahan yang belum disimpan. Keluar dan buang perubahan tersebut?'))return;modalDirty=false;if(token)api('adminLogout').catch(()=>{});stopTamuPoll();token=null;data={};try{sessionStorage.removeItem('calm_adm');sessionStorage.removeItem('calm_adm_role');sessionStorage.removeItem('calm_adm_name')}catch(e){}closeM(true);$('app').hidden=true;$('login').hidden=false;const er=$('le');if(msg){er.textContent=msg;er.hidden=false}}
 $('lo').onclick=()=>logout();$('rf').onclick=async()=>{if(tab==='dashboard'){await loadDashboard();render();}else{await loadTab(true,true);toast('Data diperbarui')}};
 
 /* tab & data */
@@ -445,9 +489,9 @@ function openAccountDetail(row){
  $('mt').textContent=isNew?'Tambah akun Admin / Petugas':'Edit akun Admin / Petugas';$('ms').textContent=isNew?'Buat akses operasional baru.':'Perbarui identitas atau status akun.';
  const staff=(data.petugas||[]).filter(p=>p.status==='Aktif');
  $('mb').innerHTML=`<div class="fm"><label>Username<input id="an" value="${esc(x?.username||'')}" maxlength="50" ${isNew?'':'readonly'} placeholder="contoh: operator.tu"></label><label>Nama pengguna<input id="anm" value="${esc(x?.nama||'')}" maxlength="100"></label><label>Petugas terkait <span>(opsional)</span><select id="apt"><option value="">— Tidak ditautkan —</option>${staff.map(p=>`<option value="${esc(p.id)}"${p.id===x?.petugasId?' selected':''}>${esc(p.nama)} · ${esc(p.id)}</option>`).join('')}</select></label><label>Status<select id="ast"><option${x?.status!=='Nonaktif'?' selected':''}>Aktif</option><option${x?.status==='Nonaktif'?' selected':''}>Nonaktif</option></select></label><label>Password ${isNew?'':'baru '}<span>${isNew?'(minimal 8 karakter)':'(kosongkan jika tidak diganti)'}</span><input id="apw" type="password" minlength="8" maxlength="200" autocomplete="new-password"></label><div class="acts"><button class="btn p" id="asv">${isNew?'Buat akun':'Simpan perubahan'}</button>${!isNew&&x.status==='Aktif'?'<button class="btn" id="ade">Nonaktifkan</button>':''}</div></div>`;
- $('asv').onclick=async()=>{const b=$('asv'),o={username:$('an').value.trim().toLowerCase(),nama:$('anm').value.trim(),petugasId:$('apt').value,status:$('ast').value,password:$('apw').value};if(!o.username||!o.nama||(isNew&&!o.password)){toast('Lengkapi data akun.');return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSaveAccount',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM();await loadSpecific('akun');if(tab==='akun')render();toast(isNew?'Akun dibuat':'Akun diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Buat akun':'Simpan perubahan'}};
- if($('ade'))$('ade').onclick=async()=>{const b=$('ade');b.disabled=true;try{await api('adminDeleteAccount',{row:x._row,sig:x._sig});closeM();await loadSpecific('akun');render();toast('Akun dinonaktifkan')}catch(e){toast(e.message)}finally{b.disabled=false}};
- $('ov').classList.add('show');
+ $('asv').onclick=async()=>{const b=$('asv'),o={username:$('an').value.trim().toLowerCase(),nama:$('anm').value.trim(),petugasId:$('apt').value,status:$('ast').value,password:$('apw').value};if(!o.username||!o.nama||(isNew&&!o.password)){toast('Lengkapi data akun.');return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSaveAccount',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM(true);await loadSpecific('akun');if(tab==='akun')render();toast(isNew?'Akun dibuat':'Akun diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Buat akun':'Simpan perubahan'}};
+ if($('ade'))$('ade').onclick=async()=>{const b=$('ade');b.disabled=true;try{await api('adminDeleteAccount',{row:x._row,sig:x._sig});closeM(true);await loadSpecific('akun');render();toast('Akun dinonaktifkan')}catch(e){toast(e.message)}finally{b.disabled=false}};
+ beginModalDraft();$('ov').classList.add('show');
 }
 
 function rPetugas(){
@@ -463,14 +507,14 @@ async function openPetugasDetail(row){if(role!=='SUPER_ADMIN'){toast('Hanya Supe
  const masterServiceOptions=['Surat Keterangan Siswa Aktif','Surat Keterangan Alumni','Surat Rekomendasi','Surat Pindah / Mutasi','Surat Izin / Dispensasi','Pengaduan','Aspirasi & Saran','Konsultasi','Janji Temu'];
  const serviceOptions=[...new Set([...masterServiceOptions,...(data.layanan||[]).map(a=>String(a.jenisLayanan||'').trim()),...String(v('layanan')).split(',').map(a=>a.trim())].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
  const selectedServices=String(v('layanan')).split(',').map(a=>a.trim()).filter(Boolean);
- $('mb').innerHTML=`<div class="fm"><label>Nama petugas<input id="pn" maxlength="100" value="${esc(v('nama'))}" placeholder="Nama lengkap"></label><label>Jabatan <span>(opsional)</span><input id="pj" maxlength="100" value="${esc(v('jabatan'))}" placeholder="Contoh: Operator Tata Usaha"></label><div class="full service-picker-field"><label for="pl-choice">Layanan yang ditangani <span>— pilih layanan lalu tambahkan</span></label><div class="service-picker" id="pl-services"><div class="service-picker-controls"><select id="pl-choice" aria-label="Pilih nama layanan"><option value="">— Pilih nama layanan —</option>${serviceOptions.map(name=>`<option value="${esc(name)}">${esc(name)}</option>`).join('')}</select><button type="button" class="btn p" id="pl-add">+ Tambahkan</button></div><div class="service-selected" id="pl-selected">${selectedServices.length?selectedServices.map(name=>`<span class="service-chip">${esc(name)}<button type="button" class="service-chip-remove" data-remove-service="${esc(name)}" aria-label="Hapus ${esc(name)}">×</button></span>`).join(''):'<span class="service-placeholder">Belum ada layanan dipilih</span>'}</div><div class="service-count"><b id="pl-count">${selectedServices.length}</b> layanan dipilih</div></div><input id="pl" type="hidden" value="${esc(v('layanan'))}"><small class="service-help">Pilih nama layanan dari daftar, lalu tekan Tambahkan. Layanan lama tetap dipertahankan.</small></div><label>WhatsApp <span>(opsional)</span><input id="pwA" maxlength="30" value="${esc(v('whatsapp'))}" placeholder="08xxxxxxxxxx"></label><label>Email <span>(opsional)</span><input id="pe" type="email" maxlength="120" value="${esc(v('email'))}"></label><label>Status<select id="ps"><option${v('status')!=='Nonaktif'?' selected':''}>Aktif</option><option${v('status')==='Nonaktif'?' selected':''}>Nonaktif</option></select></label><div class="acts"><button class="btn p" id="psv">${isNew?'Tambah petugas':'Simpan perubahan'}</button>${x&&x.status==='Aktif'?'<button class="btn dg" id="pde">Nonaktifkan</button>':''}</div></div>`;
+ $('mb').innerHTML=`<div class="fm"><label>Nama petugas<input id="pn" maxlength="100" value="${esc(v('nama'))}" placeholder="Nama lengkap"></label><label>Jabatan <span>(opsional)</span><input id="pj" maxlength="100" value="${esc(v('jabatan'))}" placeholder="Contoh: Operator Tata Usaha"></label><div class="full service-picker-field"><label for="pl-choice">Layanan yang ditangani <span>— pilih layanan lalu tambahkan</span></label><div class="service-picker" id="pl-services"><div class="service-picker-controls"><select id="pl-choice" aria-label="Pilih nama layanan"><option value="">— Pilih nama layanan —</option>${serviceOptions.map(name=>`<option value="${esc(name)}">${esc(name)}</option>`).join('')}</select><button type="button" class="btn p service-add-icon" id="pl-add" aria-label="Tambahkan layanan" title="Tambahkan layanan">+</button></div><div class="service-selected" id="pl-selected">${selectedServices.length?selectedServices.map(name=>`<span class="service-chip">${esc(name)}<button type="button" class="service-chip-remove" data-remove-service="${esc(name)}" aria-label="Hapus ${esc(name)}">×</button></span>`).join(''):'<span class="service-placeholder">Belum ada layanan dipilih</span>'}</div><div class="service-count"><b id="pl-count">${selectedServices.length}</b> layanan dipilih</div></div><input id="pl" type="hidden" value="${esc(v('layanan'))}"><small class="service-help">Pilih layanan lalu tekan +. Layanan lama tetap dipertahankan.</small></div><label>WhatsApp <span>(opsional)</span><input id="pwA" maxlength="30" value="${esc(v('whatsapp'))}" placeholder="08xxxxxxxxxx"></label><label>Email <span>(opsional)</span><input id="pe" type="email" maxlength="120" value="${esc(v('email'))}"></label><label>Status<select id="ps"><option${v('status')!=='Nonaktif'?' selected':''}>Aktif</option><option${v('status')==='Nonaktif'?' selected':''}>Nonaktif</option></select></label><div class="acts"><button class="btn p" id="psv">${isNew?'Tambah petugas':'Simpan perubahan'}</button>${x&&x.status==='Aktif'?'<button class="btn dg" id="pde">Nonaktifkan</button>':''}</div></div>`;
  let chosenServices=[...selectedServices];
  const syncServices=()=>{$('pl').value=chosenServices.join(', ');$('pl-count').textContent=chosenServices.length;$('pl-selected').innerHTML=chosenServices.length?chosenServices.map(name=>`<span class="service-chip">${esc(name)}<button type="button" class="service-chip-remove" data-remove-service="${esc(name)}" aria-label="Hapus ${esc(name)}">×</button></span>`).join(''):'<span class="service-placeholder">Belum ada layanan dipilih</span>';};
- $('pl-add').addEventListener('click',()=>{const name=$('pl-choice').value;if(!name){toast('Pilih nama layanan terlebih dahulu.');return}if(!chosenServices.includes(name)){chosenServices.push(name);syncServices()}$('pl-choice').value=''});
- $('pl-selected').addEventListener('click',e=>{const b=e.target.closest('[data-remove-service]');if(!b)return;chosenServices=chosenServices.filter(name=>name!==b.dataset.removeService);syncServices()});
- $('psv').onclick=async()=>{const b=$('psv'),o={nama:$('pn').value.trim(),jabatan:$('pj').value.trim(),layanan:$('pl').value.trim(),whatsapp:$('pwA').value.trim(),email:$('pe').value.trim(),status:$('ps').value,user:'Admin'};if(!o.nama){toast('Nama petugas wajib diisi.');return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSavePetugas',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM();await loadSpecific('petugas');if(tab==='petugas')render();toast(isNew?'Petugas ditambahkan':'Petugas diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Tambah petugas':'Simpan perubahan'}};
- if(x&&x.status==='Aktif')$('pde').onclick=async()=>{const b=$('pde');if(!b.dataset.c){b.dataset.c='1';b.textContent='Klik lagi untuk menonaktifkan';setTimeout(()=>{if(b.isConnected){delete b.dataset.c;b.textContent='Nonaktifkan'}},3500);return}b.disabled=true;try{await api('adminDeletePetugas',{row:x._row,sig:x._sig,user:'Admin'});closeM();await loadSpecific('petugas');if(tab==='petugas')render();toast('Petugas dinonaktifkan')}catch(e){toast(e.message);b.disabled=false}};
- $('ov').classList.add('show')
+ $('pl-add').addEventListener('click',()=>{const name=$('pl-choice').value;if(!name){toast('Pilih nama layanan terlebih dahulu.');return}if(!chosenServices.includes(name)){chosenServices.push(name);syncServices();modalDirty=true;saveModalDraft()}$('pl-choice').value=''});
+ $('pl-selected').addEventListener('click',e=>{const b=e.target.closest('[data-remove-service]');if(!b)return;chosenServices=chosenServices.filter(name=>name!==b.dataset.removeService);syncServices();modalDirty=true;saveModalDraft()});
+ $('psv').onclick=async()=>{const b=$('psv'),o={nama:$('pn').value.trim(),jabatan:$('pj').value.trim(),layanan:$('pl').value.trim(),whatsapp:$('pwA').value.trim(),email:$('pe').value.trim(),status:$('ps').value,user:'Admin'};if(!o.nama){toast('Nama petugas wajib diisi.');return}b.disabled=true;b.textContent='Menyimpan…';try{await api('adminSavePetugas',{row:isNew?'':x._row,sig:isNew?'':x._sig,data:JSON.stringify(o)});closeM(true);await loadSpecific('petugas');if(tab==='petugas')render();toast(isNew?'Petugas ditambahkan':'Petugas diperbarui')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent=isNew?'Tambah petugas':'Simpan perubahan'}};
+ if(x&&x.status==='Aktif')$('pde').onclick=async()=>{const b=$('pde');if(!b.dataset.c){b.dataset.c='1';b.textContent='Klik lagi untuk menonaktifkan';setTimeout(()=>{if(b.isConnected){delete b.dataset.c;b.textContent='Nonaktifkan'}},3500);return}b.disabled=true;try{await api('adminDeletePetugas',{row:x._row,sig:x._sig,user:'Admin'});closeM(true);await loadSpecific('petugas');if(tab==='petugas')render();toast('Petugas dinonaktifkan')}catch(e){toast(e.message);b.disabled=false}};
+ beginModalDraft();$('ov').classList.add('show')
 }
 
 function rLayanan(){
@@ -570,15 +614,15 @@ function openEdit(row){if(role!=='SUPER_ADMIN'){toast('Hanya Super Admin yang da
   const invalidNumber=m.f.find(f=>['n','p','y'].includes(f[2])&&o[f[0]]!==''&&(!Number.isFinite(Number(o[f[0]]))||(f[2]==='p'&&(Number(o[f[0]])<0||Number(o[f[0]])>100))||(f[2]==='n'&&Number(o[f[0]])<0)||(f[2]==='y'&&(Number(o[f[0]])<1900||Number(o[f[0]])>2100))));
   if(invalidNumber){toast('Periksa kembali nilai pada '+invalidNumber[1]+'.');$('f_'+invalidNumber[0]).focus();return}
   b.disabled=true;b.textContent='Menyimpan…';
-  try{await api('adminSaveData',{modul:tab,row:x?x._row:'',sig:x?x._sig:'',data:JSON.stringify(o)});closeM();toast('Tersimpan');loadTab(true)}
+  try{await api('adminSaveData',{modul:tab,row:x?x._row:'',sig:x?x._sig:'',data:JSON.stringify(o)});closeM(true);toast('Tersimpan');loadTab(true)}
   catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Simpan'}};
  if(x)$('dl').onclick=async()=>{const b=$('dl');
   if(!b.dataset.c){b.dataset.c='1';b.textContent='Klik lagi untuk menghapus';setTimeout(()=>{if(b.isConnected){delete b.dataset.c;b.textContent='Hapus'}},4000);return}
-  b.disabled=true;try{await api('adminDeleteData',{modul:tab,row:x._row,sig:x._sig});closeM();toast('Data dihapus');loadTab(true)}catch(e){toast(e.message);b.disabled=false}};
- $('ov').classList.add('show')}
+  b.disabled=true;try{await api('adminDeleteData',{modul:tab,row:x._row,sig:x._sig});closeM(true);toast('Data dihapus');loadTab(true)}catch(e){toast(e.message);b.disabled=false}};
+ beginModalDraft();$('ov').classList.add('show')}
 
 /* detail layanan terpadu */
-function openLayananDetail(row){const x=(data.layanan||[]).find(r=>String(r._row)===String(row));if(!x)return;$('mt').textContent=x.jenisLayanan;$('ms').textContent=x.nomor+' · '+x.nama;const flow={'Diajukan':['Diverifikasi','Perlu Perbaikan','Ditolak'],'Diverifikasi':['Diproses','Perlu Perbaikan','Ditolak'],'Diproses':['Menunggu Pemohon','Siap Diambil','Perlu Perbaikan','Ditolak'],'Menunggu Pemohon':['Diproses','Perlu Perbaikan','Ditolak'],'Siap Diambil':['Selesai','Menunggu Pemohon'],'Perlu Perbaikan':['Diverifikasi','Diproses','Ditolak'],'Selesai':[],'Ditolak':[]};const sts=[x.status,...(flow[x.status]||[])];$('mb').innerHTML=`<dl class="kv">${[['Nomor tiket',x.nomor],['Pemohon',x.nama],['Identitas',x.identitas],['Kelas / jurusan',x.kelasJurusan||'-'],['WhatsApp',x.whatsapp],['Keperluan',x.keperluan],['Target selesai',x.targetSelesai||'-'],['Terakhir diperbarui',x.diperbarui||'-']].map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl><div class="fm"><label>Status<select id="lst">${sts.map(s=>`<option${s===x.status?' selected':''}>${s}</option>`).join('')}</select></label><div class="note full">Alur status: ${esc(x.status)} → ${(flow[x.status]||[]).join(', ')||'status akhir'}. Catatan wajib untuk <b>Menunggu Pemohon</b>, <b>Perlu Perbaikan</b>, dan <b>Ditolak</b>.</div>${role==='SUPER_ADMIN'?`<label>Petugas <span>(pilih petugas aktif)</span><select id="lpt"><option value="">— Belum ditugaskan —</option>${(data.petugas||[]).filter(p=>p.status==='Aktif').map(p=>`<option value="${esc(p.nama)}"${p.nama===x.petugas?' selected':''}>${esc(p.nama)}${p.jabatan?' · '+esc(p.jabatan):''}</option>`).join('')}${x.petugas&&!(data.petugas||[]).some(p=>p.status==='Aktif'&&p.nama===x.petugas)?`<option value="${esc(x.petugas)}" selected>${esc(x.petugas)} (tidak aktif)</option>`:''}</select></label>`:`<div class="note full"><b>Petugas:</b> ${esc(x.petugas||'Belum ditugaskan')}</div>`}<label>Prioritas<select id="lpr"><option${x.prioritas==='Normal'?' selected':''}>Normal</option><option${x.prioritas==='Tinggi'?' selected':''}>Tinggi</option><option${x.prioritas==='Mendesak'?' selected':''}>Mendesak</option></select></label><label>Catatan untuk pemohon <span>(terlihat pada pelacakan)</span><textarea id="lcp" maxlength="500">${esc(x.catatanPublik||'')}</textarea></label><label>Catatan internal <span>(hanya untuk petugas)</span><textarea id="lin" maxlength="500">${esc(x.internalNote||'')}</textarea></label><div class="acts"><button class="btn p" id="lsv">Simpan perubahan</button>${role==='SUPER_ADMIN'&&!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status)?'<button class="btn" id="laa">Auto tugaskan</button>':''}${x.email?'<button class="btn" id="lem">Kirim email status</button>':''}</div></div>`;if(x.email)$('lem').onclick=async()=>{const b=$('lem');b.disabled=true;b.textContent='Mengirim…';try{await api('adminSendNotification',{row:x._row,sig:x._sig,user:'Admin'});toast('Email status berhasil dikirim')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Kirim email status'}};if($('laa'))$('laa').onclick=async()=>{const b=$('laa');b.disabled=true;b.textContent='Menentukan…';try{const j=await api('adminAutoAssignLayanan',{row:x._row,sig:x._sig,user:'Admin'});toast(j.message);closeM();await loadSpecific('layanan');await loadDashboard();render()}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Auto tugaskan'}};$('lsv').onclick=async()=>{const b=$('lsv');b.disabled=true;b.textContent='Menyimpan…';try{await api('adminUpdateLayanan',{row:x._row,sig:x._sig,status:$('lst').value,petugas:role==='SUPER_ADMIN'?$('lpt').value.trim():x.petugas,prioritas:$('lpr').value,catatanPublik:$('lcp').value.trim(),internalNote:$('lin').value.trim(),user:'Admin'});closeM();toast('Perubahan layanan disimpan');loadSpecific('layanan').then(()=>{if(tab==='layanan')render()})}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Simpan perubahan'}};$('ov').classList.add('show')}
+function openLayananDetail(row){const x=(data.layanan||[]).find(r=>String(r._row)===String(row));if(!x)return;$('mt').textContent=x.jenisLayanan;$('ms').textContent=x.nomor+' · '+x.nama;const flow={'Diajukan':['Diverifikasi','Perlu Perbaikan','Ditolak'],'Diverifikasi':['Diproses','Perlu Perbaikan','Ditolak'],'Diproses':['Menunggu Pemohon','Siap Diambil','Perlu Perbaikan','Ditolak'],'Menunggu Pemohon':['Diproses','Perlu Perbaikan','Ditolak'],'Siap Diambil':['Selesai','Menunggu Pemohon'],'Perlu Perbaikan':['Diverifikasi','Diproses','Ditolak'],'Selesai':[],'Ditolak':[]};const sts=[x.status,...(flow[x.status]||[])];$('mb').innerHTML=`<dl class="kv">${[['Nomor tiket',x.nomor],['Pemohon',x.nama],['Identitas',x.identitas],['Kelas / jurusan',x.kelasJurusan||'-'],['WhatsApp',x.whatsapp],['Keperluan',x.keperluan],['Target selesai',x.targetSelesai||'-'],['Terakhir diperbarui',x.diperbarui||'-']].map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl><div class="fm"><label>Status<select id="lst">${sts.map(s=>`<option${s===x.status?' selected':''}>${s}</option>`).join('')}</select></label><div class="note full">Alur status: ${esc(x.status)} → ${(flow[x.status]||[]).join(', ')||'status akhir'}. Catatan wajib untuk <b>Menunggu Pemohon</b>, <b>Perlu Perbaikan</b>, dan <b>Ditolak</b>.</div>${role==='SUPER_ADMIN'?`<label>Petugas <span>(pilih petugas aktif)</span><select id="lpt"><option value="">— Belum ditugaskan —</option>${(data.petugas||[]).filter(p=>p.status==='Aktif').map(p=>`<option value="${esc(p.nama)}"${p.nama===x.petugas?' selected':''}>${esc(p.nama)}${p.jabatan?' · '+esc(p.jabatan):''}</option>`).join('')}${x.petugas&&!(data.petugas||[]).some(p=>p.status==='Aktif'&&p.nama===x.petugas)?`<option value="${esc(x.petugas)}" selected>${esc(x.petugas)} (tidak aktif)</option>`:''}</select></label>`:`<div class="note full"><b>Petugas:</b> ${esc(x.petugas||'Belum ditugaskan')}</div>`}<label>Prioritas<select id="lpr"><option${x.prioritas==='Normal'?' selected':''}>Normal</option><option${x.prioritas==='Tinggi'?' selected':''}>Tinggi</option><option${x.prioritas==='Mendesak'?' selected':''}>Mendesak</option></select></label><label>Catatan untuk pemohon <span>(terlihat pada pelacakan)</span><textarea id="lcp" maxlength="500">${esc(x.catatanPublik||'')}</textarea></label><label>Catatan internal <span>(hanya untuk petugas)</span><textarea id="lin" maxlength="500">${esc(x.internalNote||'')}</textarea></label><div class="acts"><button class="btn p" id="lsv">Simpan perubahan</button>${role==='SUPER_ADMIN'&&!String(x.petugas||'').trim()&&!['Selesai','Ditolak'].includes(x.status)?'<button class="btn" id="laa">Auto tugaskan</button>':''}${x.email?'<button class="btn" id="lem">Kirim email status</button>':''}</div></div>`;if(x.email)$('lem').onclick=async()=>{const b=$('lem');b.disabled=true;b.textContent='Mengirim…';try{await api('adminSendNotification',{row:x._row,sig:x._sig,user:'Admin'});toast('Email status berhasil dikirim')}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Kirim email status'}};if($('laa'))$('laa').onclick=async()=>{const b=$('laa');b.disabled=true;b.textContent='Menentukan…';try{const j=await api('adminAutoAssignLayanan',{row:x._row,sig:x._sig,user:'Admin'});toast(j.message);closeM(true);await loadSpecific('layanan');await loadDashboard();render()}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Auto tugaskan'}};$('lsv').onclick=async()=>{const b=$('lsv');b.disabled=true;b.textContent='Menyimpan…';try{await api('adminUpdateLayanan',{row:x._row,sig:x._sig,status:$('lst').value,petugas:role==='SUPER_ADMIN'?$('lpt').value.trim():x.petugas,prioritas:$('lpr').value,catatanPublik:$('lcp').value.trim(),internalNote:$('lin').value.trim(),user:'Admin'});closeM(true);toast('Perubahan layanan disimpan');loadSpecific('layanan').then(()=>{if(tab==='layanan')render()})}catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Simpan perubahan'}};beginModalDraft();$('ov').classList.add('show')}
 
 /* detail legalisir */
 const wa=n=>{let d=String(n||'').replace(/\D/g,'');if(d.startsWith('0'))d='62'+d.slice(1);else if(d.startsWith('8'))d='62'+d;return d};
@@ -595,11 +639,84 @@ function openDetail(nomor){const x=data.legalisir.find(r=>r.nomor===nomor);if(!x
  const upd=()=>$('wl').href=waLink(x,$('st').value,$('cn').value.trim());upd();$('st').onchange=upd;$('cn').oninput=upd;
  $('sv').onclick=async()=>{const b=$('sv');b.disabled=true;b.textContent='Menyimpan…';
   try{const st=$('st').value,cn=$('cn').value.trim();await api('adminUpdateLegalisir',{nomor:x.nomor,status:st,catatanAdmin:cn,sig:x._sig});
-   x.status=st;x.catatanAdmin=cn;x._sig='';x.diperbarui=(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes())})();render();closeM();loadTab(true,true);toast('Perubahan disimpan')}
+   x.status=st;x.catatanAdmin=cn;x._sig='';x.diperbarui=(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes())})();render();closeM(true);loadTab(true,true);toast('Perubahan disimpan')}
   catch(e){toast(e.message)}finally{b.disabled=false;b.textContent='Simpan perubahan'}};
- $('ov').classList.add('show');void 0}
-function closeM(){$('ov').classList.remove('show');void 0}
-$('mx').onclick=closeM;$('ov').onclick=e=>{if(e.target===$('ov'))closeM()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+ beginModalDraft();$('ov').classList.add('show');void 0}
+let modalDirty=false,activeDraftKey='';
+const DRAFT_PREFIX='calm_admin_form_draft_v1:';
+function draftFields(){
+  return [...$('mb').querySelectorAll('input,select,textarea')]
+    .filter(el=>!el.disabled&&!el.readOnly&&el.type!=='password'&&el.type!=='button'&&el.type!=='submit'&&el.type!=='hidden');
+}
+function makeDraftKey(){
+  const identity=draftFields().map(el=>[el.id||el.name||el.tagName,el.type==='password'?'':(el.type==='checkbox'||el.type==='radio'?'':String(el.value||''))]);
+  return DRAFT_PREFIX+[role,me.nama||'',tab,$('mt').textContent,$('ms').textContent,JSON.stringify(identity)].join('|');
+}
+function saveModalDraft(){
+  if(!activeDraftKey)return;
+  const fields=draftFields(),values={};
+  fields.forEach((el,i)=>{
+    const id=el.id||el.name||('field_'+i);
+    values[id]=el.type==='checkbox'?{type:'checkbox',checked:el.checked}:el.type==='radio'?{type:'radio',checked:el.checked,value:el.value}:{type:'value',value:el.value};
+  });
+  try{localStorage.setItem(activeDraftKey,JSON.stringify({savedAt:Date.now(),values}));}catch(e){}
+}
+function beginModalDraft(){
+  modalDirty=false;
+  activeDraftKey=makeDraftKey();
+  let draft=null;
+  try{draft=JSON.parse(localStorage.getItem(activeDraftKey)||'null');}catch(e){}
+  if(!draft||!draft.values)return;
+  let restored=0;
+  draftFields().forEach((el,i)=>{
+    const id=el.id||el.name||('field_'+i),v=draft.values[id];
+    if(!v)return;
+    if(v.type==='checkbox')el.checked=!!v.checked;
+    else if(v.type==='radio'){if(v.checked)el.checked=true;}
+    else if(v.type==='value')el.value=v.value;
+    restored++;
+  });
+  if(restored){
+    modalDirty=true;
+    const note=document.createElement('div');
+    note.className='attention';
+    note.setAttribute('role','status');
+    note.textContent='Draf formulir sebelumnya dipulihkan otomatis. Periksa kembali lalu simpan.';
+    $('mb').prepend(note);
+  }
+}
+function clearModalDraft(){
+  try{if(activeDraftKey)localStorage.removeItem(activeDraftKey);}catch(e){}
+  activeDraftKey='';
+}
+$('mb').addEventListener('input',e=>{
+  if(e.target.matches('input,select,textarea') && !e.target.readOnly && !e.target.disabled && e.target.type!=='password'){
+    modalDirty=true;saveModalDraft();
+  }
+});
+$('mb').addEventListener('change',e=>{
+  if(e.target.matches('input,select,textarea') && !e.target.readOnly && !e.target.disabled && e.target.type!=='password'){
+    modalDirty=true;saveModalDraft();
+  }
+});
+function closeM(force){
+  if(modalDirty&&!force){
+    const ok=confirm('Perubahan formulir belum disimpan. Tutup formulir dan buang perubahan?');
+    if(!ok)return;
+    clearModalDraft();
+  } else if(force) clearModalDraft();
+  modalDirty=false;
+  $('ov').classList.remove('show');
+}
+/* Klik luar dan Escape tidak menutup dialog; penutupan lewat X akan meminta konfirmasi jika ada perubahan. */
+$('mx').onclick=()=>closeM(false);
+$('ov').onclick=e=>{if(e.target===$('ov')){e.preventDefault();e.stopPropagation();}};
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && $('ov').classList.contains('show')){
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
 
 
 
